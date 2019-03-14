@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\00.Domain\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\03.Persistence\Persistence\Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
