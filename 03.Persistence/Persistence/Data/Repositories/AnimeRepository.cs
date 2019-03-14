@@ -1,0 +1,15 @@
+﻿using Domain.Models;
+using Persistence.Data.Repositories.Interfaces;
+using System.Linq;
+
+namespace Persistence.Data.Repositories
+{
+    public class AnimeRepository : BaseRepository<Anime>, IAnimeRepository
+    {
+        public AnimeRepository(AlmanimeContext context) : base(context) { }
+
+        public Anime GetByKitsuID(int kitsuID) => GetAll().SingleOrDefault(a => a.KitsuID == kitsuID);
+
+        public Anime GetBySlug(string slug) => GetAll().SingleOrDefault(a => a.Slug == slug);
+    }
+}
