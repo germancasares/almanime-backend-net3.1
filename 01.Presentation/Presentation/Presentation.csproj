@@ -11,6 +11,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\04.Infrastructure\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\06.Migrations\Migrations.Data\Migrations.Data.csproj" />
+    <ProjectReference Include="..\..\06.Migrations\Migrations.Security\Migrations.Security.csproj" />
   </ItemGroup>
 
 </Project>
