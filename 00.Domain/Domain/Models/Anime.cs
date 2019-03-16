@@ -22,7 +22,7 @@ namespace Domain.Models
         public string Synopsis { get; set; }
         public int? Episodes { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
 }
