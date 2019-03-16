@@ -5,13 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\02.Application\Application\Application.csproj" />
-    <ProjectReference Include="..\..\03.Persistence\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\00.Domain\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

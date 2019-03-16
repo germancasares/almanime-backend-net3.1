@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.Functions", "07.Function
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08.CLI", "08.CLI", "{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Crosscutting", "Infrastructure.Crosscutting\Infrastructure.Crosscutting.csproj", "{12F5B7C2-AA8A-485E-8786-E5F760D14202}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12F5B7C2-AA8A-485E-8786-E5F760D14202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12F5B7C2-AA8A-485E-8786-E5F760D14202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12F5B7C2-AA8A-485E-8786-E5F760D14202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12F5B7C2-AA8A-485E-8786-E5F760D14202}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{FA1AF926-DCD6-4E08-89DA-A08E012D1092} = {04654A6C-0426-47A8-82E0-75CE71B22D89}
 		{0056D2C0-6BEF-4997-AB22-DA1D4A66678E} = {11002619-AA92-4928-AF29-EA4804CA7DA7}
 		{7BADE377-5D60-499E-9542-3DF5E30A075E} = {ADE8B587-FF4A-4715-A942-AE83A2CF06F2}
+		{12F5B7C2-AA8A-485E-8786-E5F760D14202} = {4B0E92B1-FF69-4777-9CA1-845892F3B085}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0D3EAB5-5211-4E09-BE51-8B568A483EE1}
