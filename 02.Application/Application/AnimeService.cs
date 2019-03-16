@@ -1,8 +1,13 @@
 ﻿using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
+using Domain.Enums;
 using Domain.Models;
+using Infrastructure.Helpers;
 using Persistence.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Services
 {
@@ -19,6 +24,7 @@ namespace Application.Services
 
         public Anime GetByKitsuID(int kitsuID) => _unitOfWork.Animes.GetByKitsuID(kitsuID);
         public Anime GetBySlug(string slug) => _unitOfWork.Animes.GetBySlug(slug);
+        public IEnumerable<Anime> GetSeason(int year, int month) => _unitOfWork.Animes.GetSeason(year, EnumHelper.GetSeason(month));
 
         public Anime Create(AnimeDTO animeDTO)
         {

@@ -94,14 +94,6 @@ namespace Functions
             // EndDate
             var endDateCorrect = DateTime.TryParseExact(anime.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDate);
 
-            // Season
-            var season = startDate.GetSeason();
-            if (!season.HasValue)
-            {
-                Log.LogError($"[AnimeUpdater~MapAnime(Season)] Anime {anime.Slug} - StartDate {anime.StartDate}");
-                return null;
-            }
-
             return new AnimeDTO
             {
                 KitsuID = int.Parse(kitsuID),
@@ -112,7 +104,7 @@ namespace Functions
                 Status = status.Value,
                 StartDate = startDate,
                 EndDate = endDateCorrect ? endDate : (DateTime?)null,
-                Season = season.Value
+                Season = EnumHelper.GetSeason(startDate.Month)
             };
         }
 

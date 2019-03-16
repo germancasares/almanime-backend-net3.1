@@ -1,4 +1,6 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
+using System.Linq;
 
 namespace Persistence.Data.Repositories.Interfaces
 {
@@ -6,5 +8,6 @@ namespace Persistence.Data.Repositories.Interfaces
     {
         Anime GetByKitsuID(int kitsuID);
         Anime GetBySlug(string slug);
+        IQueryable<Anime> GetSeason(int year, Season season);
     }
 }

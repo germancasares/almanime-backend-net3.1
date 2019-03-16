@@ -12,9 +12,9 @@ namespace Infrastructure.Helpers
             return isEnum ? type : (T?)null;
         }
 
-        public static Season? GetSeason(this DateTime date)
+        public static Season GetSeason(int month)
         {
-            switch (date.Month)
+            switch (month)
             {
                 case int n when n == 12 || n <= 2:
                     return Season.Winter;
@@ -24,9 +24,8 @@ namespace Infrastructure.Helpers
                     return Season.Summer;
                 case int n when n >= 9 && n <= 11:
                     return Season.Fall;
+                default: throw new ArgumentException("Month out of valid range.");
             }
-
-            return null;
         }
     }
 }

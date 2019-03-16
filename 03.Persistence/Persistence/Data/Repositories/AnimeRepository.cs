@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using Persistence.Data.Repositories.Interfaces;
 using System.Linq;
 
@@ -11,5 +12,7 @@ namespace Persistence.Data.Repositories
         public Anime GetByKitsuID(int kitsuID) => GetAll().SingleOrDefault(a => a.KitsuID == kitsuID);
 
         public Anime GetBySlug(string slug) => GetAll().SingleOrDefault(a => a.Slug == slug);
+
+        public IQueryable<Anime> GetSeason(int year, Season season) => GetAll().Where(a => a.StartDate.Year == year && a.Season == season);
     }
 }
