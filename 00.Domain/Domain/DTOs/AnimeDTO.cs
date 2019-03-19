@@ -11,11 +11,12 @@ namespace Domain.DTOs
         public string Name { get; set; }
         public Season Season { get; set; }
         public Status Status { get; set; }
-
-        public string Synopsis { get; set; }
-        public int? Episodes { get; set; }
-
         public DateTime StartDate { get; set; }
+
         public DateTime? EndDate { get; set; }
+        public int? Episodes { get; set; }
+        public string Synopsis { get; set; }
+        public string CoverImageUrl { get; set; }
+        public string PosterImageUrl { get; set; }
     }
 }
