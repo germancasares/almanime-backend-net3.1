@@ -21,8 +21,7 @@ namespace AlmBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .AddMvc();
 
             services
                 .AddContext()
@@ -43,8 +42,7 @@ namespace AlmBackend
                         },
                         Description = "Backend for the Almanime project."
                     });
-                })
-                ;
+                });
 
             //    .AddIdentity()
             //    .AddAuthentication(Configuration)
