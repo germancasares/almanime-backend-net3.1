@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "03.Persisten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "04.Infrastructure\Infrastructure\Infrastructure.csproj", "{C2513A5A-8332-4AF9-9936-01BCD2DF28BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Crosscutting", "04.Infrastructure\Infrastructure.Crosscutting\Infrastructure.Crosscutting.csproj", "{12F5B7C2-AA8A-485E-8786-E5F760D14202}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "05.UnitTest\UnitTest\UnitTest.csproj", "{F8777B7A-A960-4A46-A63D-47E6F5DE90AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations.Data", "06.Migrations\Migrations.Data\Migrations.Data.csproj", "{ACA05DFB-2E51-4BED-A680-E7FD0287B4C1}"
@@ -41,8 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.Functions", "07.Function
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08.CLI", "08.CLI", "{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Crosscutting", "Infrastructure.Crosscutting\Infrastructure.Crosscutting.csproj", "{12F5B7C2-AA8A-485E-8786-E5F760D14202}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
