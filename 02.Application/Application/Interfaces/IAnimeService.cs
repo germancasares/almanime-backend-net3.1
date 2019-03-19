@@ -1,5 +1,7 @@
 ﻿using Domain.DTOs;
+using Domain.Enums;
 using Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Application.Services.Interfaces
@@ -11,6 +13,6 @@ namespace Application.Services.Interfaces
 
         Anime Create(AnimeDTO animeDTO);
         void Update(AnimeDTO animeDTO);
-        IEnumerable<Anime> GetSeason(int year, int month);
+        IEnumerable<Anime> GetSeason(int year, Season season);
     }
 }
