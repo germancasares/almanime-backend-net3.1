@@ -104,7 +104,9 @@ namespace Functions
                 Status = status.Value,
                 StartDate = startDate,
                 EndDate = endDateCorrect ? endDate : (DateTime?)null,
-                Season = EnumHelper.GetSeason(startDate.Month)
+                Season = EnumHelper.GetSeason(startDate.Month),
+                CoverImageUrl = anime.CoverImage?.Original,
+                PosterImageUrl = anime.PosterImage?.Original
             };
         }
 
