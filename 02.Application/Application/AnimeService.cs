@@ -21,6 +21,7 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+        public Anime GetByID(Guid guid) => _unitOfWork.Animes.GetByID(guid);
         public Anime GetByKitsuID(int kitsuID) => _unitOfWork.Animes.GetByKitsuID(kitsuID);
         public Anime GetBySlug(string slug) => _unitOfWork.Animes.GetBySlug(slug);
         public IEnumerable<Anime> GetSeason(int year, Season season) => _unitOfWork.Animes.GetSeason(year, season);

@@ -8,6 +8,7 @@ namespace Application.Services.Interfaces
 {
     public interface IAnimeService
     {
+        Anime GetByID(Guid guid);
         Anime GetByKitsuID(int kitsuID);
         Anime GetBySlug(string slug);
 
