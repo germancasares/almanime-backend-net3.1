@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
+using Domain.VMs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Data;
@@ -39,6 +40,7 @@ namespace Infrastructure.Crosscutting
 
                 // Anime
                 config.CreateMap<AnimeDTO, Anime>();
+                config.CreateMap<Anime, AnimeVM>();
             });
 
             return services;
