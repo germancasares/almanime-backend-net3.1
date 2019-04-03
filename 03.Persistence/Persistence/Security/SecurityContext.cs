@@ -1,16 +1,10 @@
-﻿//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-//namespace Persistence.Security.Core
-//{
-//    public class SecurityContext : IdentityDbContext
-//    {
-//        public SecurityContext()
-//        {
-//        }
-
-//        public SecurityContext(DbContextOptions<SecurityContext> options) : base(options)
-//        {
-//        }
-//    }
-//}
+namespace Persistence.Security.Core
+{
+    public class SecurityContext : IdentityDbContext
+    {
+        public SecurityContext(DbContextOptions<SecurityContext> options) : base(options) { }
+    }
+}
