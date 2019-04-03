@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Crosscutting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -25,8 +24,11 @@ namespace AlmBackend
 
             services
                 .AddContext()
+                .AddIdentity()
+                .AddAuthentication(Configuration)
                 .AddServices()
                 .AddRepositories()
+                .AddValidators()
                 .AddMapper()
                 .AddSwaggerGen(c =>
                 {
@@ -43,9 +45,7 @@ namespace AlmBackend
                         Description = "Backend for the Almanime project."
                     });
                 });
-
-            //    .AddIdentity()
-            //    .AddAuthentication(Configuration)
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +59,8 @@ namespace AlmBackend
             {
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
