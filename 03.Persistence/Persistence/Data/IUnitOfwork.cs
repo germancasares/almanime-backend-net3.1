@@ -8,5 +8,6 @@ namespace Persistence.Data
         void Save();
 
         IAnimeRepository Animes { get; }
+        IUserRepository Users { get; }
     }
 }

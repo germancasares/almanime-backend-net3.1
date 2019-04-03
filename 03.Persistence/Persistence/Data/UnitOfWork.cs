@@ -9,14 +9,17 @@ namespace Persistence.Data
 
         public UnitOfWork(
             AlmanimeContext context,
-            IAnimeRepository animes
+            IAnimeRepository animes,
+            IUserRepository users
             )
         {
             _context = context;
             Animes = animes;
+            Users = users;
         }
 
         public IAnimeRepository Animes { get; }
+        public IUserRepository Users { get; }
 
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
