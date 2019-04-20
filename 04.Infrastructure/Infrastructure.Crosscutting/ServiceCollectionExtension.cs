@@ -20,6 +20,7 @@ using Application.Interfaces;
 using Domain.DTOs.Account;
 using Presentation.Validators;
 using FluentValidation;
+using Domain.Configurations;
 
 namespace Infrastructure.Crosscutting
 {
@@ -99,7 +100,7 @@ namespace Infrastructure.Crosscutting
             return services;
         }
 
-        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddAuthentication(this IServiceCollection services, TokenConfiguration tokenConfiguration)
         {
             services.AddAuthentication(options =>
             {
@@ -110,13 +111,13 @@ namespace Infrastructure.Crosscutting
                 jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("Security")["JwtKey"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfiguration.Secret)),
 
                     ValidateIssuer = true,
-                    ValidIssuer = config.GetSection("Security")["JwtIssuer"],
+                    ValidIssuer = tokenConfiguration.Issuer,
 
                     ValidateAudience = true,
-                    ValidAudience = config.GetSection("Security")["JwtAudience"],
+                    ValidAudience = tokenConfiguration.Audience,
 
                     ValidateLifetime = true, //validate the expiration and not before values in the token
 
@@ -131,6 +132,17 @@ namespace Infrastructure.Crosscutting
         {
             services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
             services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddOptions();
+
+            var tokenConfiguration = new TokenConfiguration();
+            config.Bind("Token", tokenConfiguration);
+            services.AddSingleton(tokenConfiguration);
 
             return services;
         }
