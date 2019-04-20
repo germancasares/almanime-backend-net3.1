@@ -40,7 +40,9 @@ namespace Infrastructure.Crosscutting
 
                 // Anime
                 config.CreateMap<AnimeDTO, Anime>();
-                config.CreateMap<Anime, AnimeVM>();
+                config.CreateMap<Anime, AnimeVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
+                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
             });
 
             return services;
