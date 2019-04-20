@@ -69,7 +69,7 @@ namespace Presentation.Controllers
 
             var requestedSeason = _animeService
                 .GetSeason(year, seasonEnum.Value)
-                .OrderByDescending(a => string.IsNullOrWhiteSpace(a.CoverImageUrl))
+                .OrderBy(a => string.IsNullOrWhiteSpace(a.CoverImageUrl))
                 .ThenBy(a => a.Name)
                 .ToList();
 
