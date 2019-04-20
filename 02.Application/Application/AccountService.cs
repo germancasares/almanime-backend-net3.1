@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Domain.Configurations;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -17,22 +17,21 @@ namespace Application
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
-
+        private readonly TokenConfiguration _tokenConfiguration;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public AccountService(
             IMapper mapper,
             IUserService userService,
-            IConfiguration configuration,
+            TokenConfiguration tokenConfiguration,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager
             )
         {
             _mapper = mapper;
             _userService = userService;
-            _configuration = configuration;
+            _tokenConfiguration = tokenConfiguration;
 
             _userManager = userManager;
             _signInManager = signInManager;
@@ -82,14 +81,14 @@ namespace Application
                 new Claim(JwtRegisteredClaimNames.Iat, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}")
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Security")["JwtKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfiguration.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration.GetSection("Security")["JwtExpireDays"]));
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_tokenConfiguration.AccessExpirationDays));
             var notBefore = DateTime.Now;
 
             return new JwtSecurityToken(
-                _configuration.GetSection("Security")["JwtIssuer"],
-                _configuration.GetSection("Security")["JwtAudience"],
+                _tokenConfiguration.Issuer,
+                _tokenConfiguration.Audience,
                 claims,
                 notBefore,
                 expires,
