@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Presentation.API.V1
 {
@@ -45,7 +46,7 @@ namespace Presentation.API.V1
 
             if (errors.Count() != 0) return BadRequest(errors);
 
-            return Ok(token);
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
         [HttpPost("Login")]
@@ -57,7 +58,7 @@ namespace Presentation.API.V1
 
             if (token == null) return Unauthorized();
 
-            return Ok(token);
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }
