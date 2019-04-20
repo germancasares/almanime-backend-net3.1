@@ -1,4 +1,5 @@
-﻿using Infrastructure.Crosscutting;
+﻿using FluentValidation.AspNetCore;
+using Infrastructure.Crosscutting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,11 @@ namespace AlmBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddMvc()
+                .AddFluentValidation();
+                //.AddMvc(opt => {
+                //    opt.Filters.Add(typeof(ValidatorActionFilter));
+                //});
 
             services
                 .AddContext()
@@ -59,6 +64,10 @@ namespace AlmBackend
             {
                 app.UseHsts();
             }
+
+            //app.UseCors("AllowAll");
+
+            app.UseCors(builder => builder.WithOrigins(Configuration["FrontedUrl"]).AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
 
