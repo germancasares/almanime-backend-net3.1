@@ -55,11 +55,11 @@ namespace Functions
             while (!string.IsNullOrWhiteSpace(url))
             {
                 var (next, animesInPage) = await ProcessPage(url);
-                animes.AddRange(animesInPage);
+                animes.AddRange(animesInPage.Where(c => c.Value.Subtype == "TV"));
                 url = next;
             }
 
-            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a.Status != Status.Tba && a.Season == seasonEnum).ToList();
+            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != Status.Tba && a.Season == seasonEnum).ToList();
 
             animesDTOs.ForEach(a => CreateOrUpdateAnime(a));
 
@@ -76,6 +76,8 @@ namespace Functions
 
         private static AnimeDTO MapAnime(string kitsuID, AnimeAttributesModel anime)
         {
+            if (anime.Slug == "delete") return null;
+
             // Status
             var status = EnumHelper.GetEnumFromString<Status>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
             if (!status.HasValue)

@@ -5,6 +5,6 @@ namespace Functions.Models
     public class Meta
     {
         [JsonProperty("count")]
-        public string Count { get; set; }
+        public int Count { get; set; }
     }
 }
