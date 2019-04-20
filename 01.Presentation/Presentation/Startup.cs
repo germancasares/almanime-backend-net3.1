@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+using Domain.Configurations;
+using FluentValidation.AspNetCore;
 using Infrastructure.Crosscutting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,9 +29,10 @@ namespace AlmBackend
                 //});
 
             services
+                .AddConfiguration(Configuration)
                 .AddContext()
                 .AddIdentity()
-                .AddAuthentication(Configuration)
+                .AddAuthentication(services.BuildServiceProvider().GetService<TokenConfiguration>())
                 .AddServices()
                 .AddRepositories()
                 .AddValidators()
