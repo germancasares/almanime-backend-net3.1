@@ -37,6 +37,20 @@ namespace Presentation.API.V1
             _accountService = accountService;
         }
 
+        [HttpHead("Username/{username}")]
+        public async Task<IActionResult> CheckUserNameAvailability(string username)
+        {
+            if (await _accountService.ExistsUsername(username)) return Ok();
+            return NotFound();
+        }
+
+        [HttpHead("Email/{email}")]
+        public async Task<IActionResult> CheckEmailAvailability(string email)
+        {
+            if (await _accountService.ExistsEmail(email)) return Ok();
+            return NotFound();
+        }
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
