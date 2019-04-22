@@ -43,7 +43,7 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<Anime, AnimeVM>(anime));
         }
 
-        [HttpGet("Slug={Slug}")]
+        [HttpGet("Slug={slug}")]
         public IActionResult GetBySlug(string slug)
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/animes/Slug={slug}", slug);
@@ -58,7 +58,6 @@ namespace Presentation.Controllers
         [HttpGet("Year={year}&Season={season}")]
         public IActionResult GetSeason(
             int year,
-
             string season)
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/animes?Year={year}&Season={season}", year, season);
