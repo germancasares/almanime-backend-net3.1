@@ -73,6 +73,7 @@ namespace Application
         {
             var claims = new List<Claim>
             {
+                new Claim("username", identity.UserName),
                 new Claim(JwtRegisteredClaimNames.Sub, identity.Id),
                 new Claim(JwtRegisteredClaimNames.Email, identity.Email),
                 // Jwt ID
