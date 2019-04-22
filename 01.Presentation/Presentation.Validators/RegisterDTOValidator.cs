@@ -8,7 +8,7 @@ namespace Presentation.Validators
         public RegisterDTOValidator()
         {
             RuleFor(r => r.Email).NotEmpty().EmailAddress();
-            RuleFor(r => r.UserName).NotEmpty();
+            RuleFor(r => r.Username).NotEmpty();
             RuleFor(r => r.Password).NotEmpty();
         }
     }
