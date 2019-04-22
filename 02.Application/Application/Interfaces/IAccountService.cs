@@ -8,6 +8,8 @@ namespace Application.Interfaces
 {
     public interface IAccountService
     {
+        Task<bool> ExistsUsername(string username);
+        Task<bool> ExistsEmail(string email);
         Task<(JwtSecurityToken token, IEnumerable<IdentityError> errors)> CreateAccount(RegisterDTO registerDTO);
         Task<JwtSecurityToken> Login(LoginDTO loginDTO);
     }

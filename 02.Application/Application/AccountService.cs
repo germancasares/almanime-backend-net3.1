@@ -37,6 +37,10 @@ namespace Application
             _signInManager = signInManager;
         }
 
+        public async Task<bool> ExistsUsername(string username) => await _userManager.FindByNameAsync(username) != null;
+
+        public async Task<bool> ExistsEmail(string email) => await _userManager.FindByEmailAsync(email) != null;
+
         public async Task<(JwtSecurityToken token, IEnumerable<IdentityError> errors)> CreateAccount(RegisterDTO registerDTO)
         {
             var user = _mapper.Map<RegisterDTO, IdentityUser>(registerDTO);
