@@ -1,28 +1,19 @@
-﻿using Infrastructure.Crosscutting;
+﻿using Functions;
+using Infrastructure.Crosscutting;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 
+[assembly: FunctionsStartup(typeof(Startup))]
 namespace Functions
 {
-    public class DependencyInjection
+    public class Startup : FunctionsStartup
     {
-        private static ServiceProvider services;
-        public static ServiceProvider Services
+        public override void Configure(IFunctionsHostBuilder builder)
         {
-            get
-            {
-                if (services == null)
-                    services = CreateServiceProvider();
-
-                return services;
-            }
-        }
-
-        private static ServiceProvider CreateServiceProvider()
-        {
-            var services = new ServiceCollection();
+            var services = builder.Services;
 
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -38,8 +29,6 @@ namespace Functions
                 .AddServices()
                 .AddRepositories()
                 .AddMapper();
-
-            return services.BuildServiceProvider();
         }
     }
 }
