@@ -77,10 +77,8 @@ namespace Infrastructure.Crosscutting
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options => {
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
-
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Password.RequiredUniqueChars = 0;
 
                 options.User.RequireUniqueEmail = true;
             });
