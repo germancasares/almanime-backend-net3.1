@@ -51,6 +51,8 @@ namespace AlmBackend
                         },
                         Description = "Backend for the Almanime project."
                     });
+
+                    c.DescribeAllEnumsAsStrings();
                 });
  
         }
