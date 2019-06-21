@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\02.Application\Application\Application.csproj" />
     <ProjectReference Include="..\..\03.Persistence\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\01.Presentation\Presentation.Validators\Presentation.Validators.csproj" />
   </ItemGroup>
 
   <ItemGroup>

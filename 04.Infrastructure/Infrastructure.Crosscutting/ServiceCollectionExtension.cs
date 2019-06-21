@@ -4,11 +4,23 @@ using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
 using Domain.VMs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Persistence.Data;
 using Persistence.Data.Repositories;
 using Persistence.Data.Repositories.Interfaces;
+using Persistence.Security.Core;
+using System;
+using System.Text;
+using Application;
+using Application.Interfaces;
+using Domain.DTOs.Account;
+using Presentation.Validators;
+using FluentValidation;
+using Domain.Configurations;
 
 namespace Infrastructure.Crosscutting
 {
@@ -19,6 +31,8 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAnimeService, AnimeService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }
@@ -26,6 +40,7 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -43,61 +58,91 @@ namespace Infrastructure.Crosscutting
                 config.CreateMap<Anime, AnimeVM>()
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
+
+                // Accounts
+                config.CreateMap<RegisterDTO, IdentityUser>();
+
+                // Users
+                config.CreateMap<UserDTO, User>();
             });
 
             return services;
         }
 
-        //public static IServiceCollection AddIdentity(this IServiceCollection services)
-        //{
-        //    services
-        //        .AddIdentity<IdentityUser, IdentityRole>()
-        //        .AddEntityFrameworkStores<SecurityContext>()
-        //        .AddDefaultTokenProviders();
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            services
+                .AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<SecurityContext>()
+                .AddDefaultTokenProviders();
 
-        //    services.Configure<IdentityOptions>(options =>
-        //    {
-        //        options.User.RequireUniqueEmail = true;
+            services.Configure<IdentityOptions>(options => {
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Password.RequiredUniqueChars = 0;
 
-        //        options.Password.RequireDigit = true;
-        //        options.Password.RequiredLength = 6;
+                options.User.RequireUniqueEmail = true;
+            });
 
-        //        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-        //    });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-        //    services.AddDbContext<SecurityContext>(options =>
-        //        options.UseSqlServer("Name=SecurityConnection", b => b.MigrationsAssembly("Migrations.Security")));
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
 
-        //    return services;
-        //}
+            services.AddDbContext<SecurityContext>(options => options.UseSqlServer("Name=SecurityConnection", b => b.MigrationsAssembly("Migrations.Security")));
 
-        //public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration config)
-        //{
-        //    services.AddAuthentication(options =>
-        //    {
-        //        options.DefaultAuthenticateScheme = "JwtBearer";
-        //        options.DefaultChallengeScheme = "JwtBearer";
-        //    }).AddJwtBearer("JwtBearer", jwtBearerOptions =>
-        //    {
-        //        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey =
-        //                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("Security")["JwtKey"])),
+            return services;
+        }
 
-        //            ValidateIssuer = true,
-        //            ValidIssuer = config.GetSection("Security")["JwtIssuer"],
+        public static IServiceCollection AddAuthentication(this IServiceCollection services, TokenConfiguration tokenConfiguration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            }).AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfiguration.Secret)),
 
-        //            ValidateAudience = true,
-        //            ValidAudience = config.GetSection("Security")["JwtAudience"],
+                    ValidateIssuer = true,
+                    ValidIssuer = tokenConfiguration.Issuer,
 
-        //            ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ValidateAudience = true,
+                    ValidAudience = tokenConfiguration.Audience,
 
-        //            ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
-        //        };
-        //    });
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
 
-        //    return services;
-        //}
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
+            services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddOptions();
+
+            var tokenConfiguration = new TokenConfiguration();
+            config.Bind("Token", tokenConfiguration);
+            services.AddSingleton(tokenConfiguration);
+
+            return services;
+        }
     }
 }

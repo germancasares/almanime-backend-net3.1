@@ -19,6 +19,8 @@ namespace Persistence.Data
         #region DBSets
 
         public DbSet<Anime> Animes { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
         #endregion
     }

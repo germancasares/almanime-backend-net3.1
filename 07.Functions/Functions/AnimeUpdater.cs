@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -21,21 +20,21 @@ using System.Threading.Tasks;
 
 namespace Functions
 {
-    public static class AnimeUpdater
+    public class AnimeUpdater
     {
         private const int AnimesInPage = 20;
         private const string KitsuAPI = "https://kitsu.io/api/edge";
         private static readonly HttpClient Client = new HttpClient();
         private static ILogger Log;
-        private static IAnimeService AnimeService;
+        private static IAnimeService _animeService;
 
-        static AnimeUpdater()
+        public AnimeUpdater(IAnimeService animeService)
         {
-            AnimeService = DependencyInjection.Services.GetService<IAnimeService>();
+            _animeService = animeService;
         }
 
         [FunctionName("AnimeUpdater")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "PUT", Route = "AnimeUpdater/{year}/{season}")]
             HttpRequest req,
             int year,
@@ -114,13 +113,13 @@ namespace Functions
 
         private static void CreateOrUpdateAnime(AnimeDTO anime)
         {
-            if (AnimeService.GetByKitsuID(anime.KitsuID) == null)
+            if (_animeService.GetByKitsuID(anime.KitsuID) == null)
             {
-                AnimeService.Create(anime);
+                _animeService.Create(anime);
             }
             else
             {
-                AnimeService.Update(anime);
+                _animeService.Update(anime);
             }
         }
     }

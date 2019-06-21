@@ -1,7 +1,8 @@
-﻿using Infrastructure.Crosscutting;
+using Domain.Configurations;
+using FluentValidation.AspNetCore;
+using Infrastructure.Crosscutting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -21,12 +22,20 @@ namespace AlmBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddMvc()
+                .AddFluentValidation();
+                //.AddMvc(opt => {
+                //    opt.Filters.Add(typeof(ValidatorActionFilter));
+                //});
 
             services
+                .AddConfiguration(Configuration)
                 .AddContext()
+                .AddIdentity()
+                .AddAuthentication(services.BuildServiceProvider().GetService<TokenConfiguration>())
                 .AddServices()
                 .AddRepositories()
+                .AddValidators()
                 .AddMapper()
                 .AddSwaggerGen(c =>
                 {
@@ -42,10 +51,10 @@ namespace AlmBackend
                         },
                         Description = "Backend for the Almanime project."
                     });
-                });
 
-            //    .AddIdentity()
-            //    .AddAuthentication(Configuration)
+                    c.DescribeAllEnumsAsStrings();
+                });
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +68,12 @@ namespace AlmBackend
             {
                 app.UseHsts();
             }
+
+            //app.UseCors("AllowAll");
+
+            app.UseCors(builder => builder.WithOrigins(Configuration["FrontedUrl"]).AllowAnyMethod().AllowAnyHeader());
+
+            app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
