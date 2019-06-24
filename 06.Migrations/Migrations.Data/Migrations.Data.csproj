@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190621031732_Membership.cs" />
+    <Compile Remove="Migrations\20190621031732_Membership.Designer.cs" />
+    <Compile Remove="Migrations\20190621061657_FansubFounder.cs" />
+    <Compile Remove="Migrations\20190621061657_FansubFounder.Designer.cs" />
+    <Compile Remove="Migrations\20190621062306_FansubFounder.cs" />
+    <Compile Remove="Migrations\20190621062306_FansubFounder.Designer.cs" />
+    <Compile Remove="Migrations\20190621070942_FansubFounder.cs" />
+    <Compile Remove="Migrations\20190621070942_FansubFounder.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />

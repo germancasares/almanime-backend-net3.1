@@ -45,7 +45,7 @@ namespace Functions
 
             if (year < 2000 || year > DateTime.Now.Year + 2) throw new ArgumentException("Year must be [2000, CurrentYear+2]");
 
-            var seasonEnum = EnumHelper.GetEnumFromString<Season>(season);
+            var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
             if (!seasonEnum.HasValue) throw new ArgumentException("Season must be {Winter, Spring, Summer, Fall}");
 
             var url = $"{KitsuAPI}/anime?filter[seasonYear]={year}&filter[season]={season.ToString().ToLower()}&page[limit]={AnimesInPage}";
@@ -58,7 +58,7 @@ namespace Functions
                 url = next;
             }
 
-            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != Status.Tba && a.Season == seasonEnum).ToList();
+            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != EStatus.Tba && a.Season == seasonEnum).ToList();
 
             animesDTOs.ForEach(a => CreateOrUpdateAnime(a));
 
@@ -78,7 +78,7 @@ namespace Functions
             if (anime.Slug == "delete") return null;
 
             // Status
-            var status = EnumHelper.GetEnumFromString<Status>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
+            var status = EnumHelper.GetEnumFromString<EStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
             if (!status.HasValue)
             {
                 Log.LogError($"[AnimeUpdater~MapAnime(Status)] Anime {anime.Slug} - Status {anime.Status}");

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums.Anime
 {
-    public enum Status
+    public enum EStatus
     {
         Tba,
         Unreleased,

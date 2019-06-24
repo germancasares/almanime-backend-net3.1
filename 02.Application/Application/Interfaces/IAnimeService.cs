@@ -14,6 +14,6 @@ namespace Application.Services.Interfaces
 
         Anime Create(AnimeDTO animeDTO);
         void Update(AnimeDTO animeDTO);
-        IEnumerable<Anime> GetSeason(int year, Season season);
+        IEnumerable<Anime> GetSeason(int year, ESeason season);
     }
 }

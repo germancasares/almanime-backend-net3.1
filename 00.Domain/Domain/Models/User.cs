@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Models
 {
@@ -7,5 +8,7 @@ namespace Domain.Models
         public string AvatarUrl { get; set; }
         public string NickName { get; set; }
         public Guid IdentityID { get; set; }
+
+        public virtual List<Membership> Memberships { get; set; }
     }
 }

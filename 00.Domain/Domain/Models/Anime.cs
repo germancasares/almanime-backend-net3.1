@@ -15,9 +15,9 @@ namespace Domain.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public Season Season { get; set; }
+        public ESeason Season { get; set; }
         [Required]
-        public Status Status { get; set; }
+        public EStatus Status { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
 
