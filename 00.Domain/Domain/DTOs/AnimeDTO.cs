@@ -9,8 +9,8 @@ namespace Domain.DTOs
         public int KitsuID { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
-        public Season Season { get; set; }
-        public Status Status { get; set; }
+        public ESeason Season { get; set; }
+        public EStatus Status { get; set; }
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }

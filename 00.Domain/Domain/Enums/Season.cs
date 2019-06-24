@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-    public enum Season
+    public enum ESeason
     {
         Winter,
         Spring,
