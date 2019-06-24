@@ -8,6 +8,6 @@ namespace Persistence.Data.Repositories.Interfaces
     {
         Anime GetByKitsuID(int kitsuID);
         Anime GetBySlug(string slug);
-        IQueryable<Anime> GetSeason(int year, Season season);
+        IQueryable<Anime> GetSeason(int year, ESeason season);
     }
 }
