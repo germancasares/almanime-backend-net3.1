@@ -33,6 +33,7 @@ namespace Infrastructure.Crosscutting
             services.AddScoped<IAnimeService, AnimeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IFansubService, FansubService>();
 
             return services;
         }
@@ -41,6 +42,8 @@ namespace Infrastructure.Crosscutting
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFansubRepository, FansubRepository>();
+            services.AddScoped<IMembershipRepository, MembershipRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -64,7 +67,7 @@ namespace Infrastructure.Crosscutting
 
                 // Users
                 config.CreateMap<UserDTO, User>();
-            });
+            }, AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }
