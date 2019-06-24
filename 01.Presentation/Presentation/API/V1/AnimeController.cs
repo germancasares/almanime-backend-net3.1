@@ -62,7 +62,7 @@ namespace Presentation.Controllers
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/animes?Year={year}&Season={season}", year, season);
 
-            var seasonEnum = EnumHelper.GetEnumFromString<Season>(season);
+            var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
 
             if (!seasonEnum.HasValue) return BadRequest("Season not valid.");
 
