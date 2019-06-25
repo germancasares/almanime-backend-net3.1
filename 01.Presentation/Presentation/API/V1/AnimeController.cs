@@ -40,7 +40,7 @@ namespace Presentation.Controllers
 
             if (anime == null) return NotFound();
  
-            return Ok(_mapper.Map<Anime, AnimeVM>(anime));
+            return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
         [HttpGet("Slug={slug}")]
@@ -52,7 +52,7 @@ namespace Presentation.Controllers
 
             if (anime == null) return NotFound();
 
-            return Ok(_mapper.Map<Anime, AnimeVM>(anime));
+            return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
         [HttpGet("Year={year}&Season={season}")]
@@ -72,7 +72,7 @@ namespace Presentation.Controllers
                 .ThenBy(a => a.Name)
                 .ToList();
 
-            return Ok(_mapper.Map<List<Anime>, List<AnimeVM>>(requestedSeason));
+            return Ok(_mapper.Map<List<AnimeVM>>(requestedSeason));
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
+using Domain.VMs;
+using Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,18 +30,34 @@ namespace Presentation.API.V1
             _mapper = mapper;
         }
 
+        [HttpGet("{ID}")]
+        public IActionResult Get(Guid ID)
+        {
+            var fansub = _fansubService.GetByID(ID);
+
+            if (fansub == null) return NotFound();
+
+            return Ok(_mapper.Map<FansubVM>(fansub));
+        }
+
+        [Authorize]
         [HttpPost("")]
         public IActionResult Create([FromBody] FansubDTO fansubDTO)
         {
-            var fansub = _fansubService.Create(fansubDTO);
+            var identityID = User.Claims.GetIdentityID();
+
+            var fansub = _fansubService.Create(fansubDTO, identityID);
 
             return Ok(fansub);
         }
 
+        [Authorize]
         [HttpDelete("{fansubID}")]
         public void Delete(Guid fansubID)
         {
-            _fansubService.Delete(fansubID, new Guid("7E542F5F-BF09-453D-8D29-D81D6117FD8F"));
+            var identityID = User.Claims.GetIdentityID();
+
+            _fansubService.Delete(fansubID, identityID);
         }
     }
 }
