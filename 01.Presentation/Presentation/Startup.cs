@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AlmBackend
 {
@@ -50,6 +52,16 @@ namespace AlmBackend
                             Url = "https://www.linkedin.com/in/germancasares/"
                         },
                         Description = "Backend for the Almanime project."
+                    });
+                    c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                    {
+                        In = "header",
+                        Description = "Please Enter Authentication Token",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                        { "Bearer", Enumerable.Empty<string>() },
                     });
 
                     c.DescribeAllEnumsAsStrings();
