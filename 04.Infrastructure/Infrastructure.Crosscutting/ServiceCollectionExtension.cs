@@ -21,12 +21,14 @@ using Domain.DTOs.Account;
 using Presentation.Validators;
 using FluentValidation;
 using Domain.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Infrastructure.Crosscutting
 {
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddContext(this IServiceCollection services) => services.AddDbContext<AlmanimeContext>(options => options.UseSqlServer("Name=AlmanimeConnection", b => b.MigrationsAssembly("Migrations.Data")));
+        public static IServiceCollection AddContext(this IServiceCollection services, string connectionString) => services.AddDbContext<AlmanimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
@@ -67,6 +69,10 @@ namespace Infrastructure.Crosscutting
 
                 // Users
                 config.CreateMap<UserDTO, User>();
+
+                // Fansubs
+                config.CreateMap<FansubDTO, Fansub>();
+                config.CreateMap<Fansub, FansubVM>();
             }, AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
@@ -105,10 +111,12 @@ namespace Infrastructure.Crosscutting
         {
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", jwtBearerOptions =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwtBearerOptions =>
             {
+                jwtBearerOptions.SaveToken = true;
                 jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
