@@ -6,6 +6,5 @@ namespace Domain.DTOs
     {
         public string Acronym { get; set; }
         public string FullName { get; set; }
-        public Guid Founder { get; set; }
     }
 }
