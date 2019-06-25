@@ -6,7 +6,8 @@ namespace Application.Interfaces
 {
     public interface IFansubService
     {
-        Fansub Create(FansubDTO fansubDTO);
-        void Delete(Guid fansubID, Guid userTrigger);
+        Fansub Create(FansubDTO fansubDTO, Guid identityID);
+        void Delete(Guid fansubID, Guid identityID);
+        Fansub GetByID(Guid ID);
     }
 }

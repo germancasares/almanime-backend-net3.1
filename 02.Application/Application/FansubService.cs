@@ -19,14 +19,19 @@ namespace Application
             _mapper = mapper;
         }
 
-        public Fansub Create(FansubDTO fansubDTO)
+        public Fansub GetByID(Guid ID) => _unitOfWork.Fansubs.GetByID(ID);
+
+        public Fansub Create(FansubDTO fansubDTO, Guid identityID)
         {
+            var user = _unitOfWork.Users.GetByIdentityID(identityID);
+            if (user == null) throw new ArgumentException(nameof(identityID));
+
             var fansub = _unitOfWork.Fansubs.Create(_mapper.Map<Fansub>(fansubDTO));
 
             _unitOfWork.Memberships.Create(new Membership
             {
                 FansubID = fansub.ID,
-                UserID = fansubDTO.Founder,
+                UserID = user.ID,
                 Role = EFansubRole.Founder
             });
 
@@ -35,9 +40,12 @@ namespace Application
             return fansub;
         }
 
-        public void Delete(Guid fansubID, Guid userTrigger)
+        public void Delete(Guid fansubID, Guid identityID)
         {
-            if (!_unitOfWork.Memberships.IsFounder(fansubID, userTrigger)) return;
+            var user = _unitOfWork.Users.GetByIdentityID(identityID);
+            if (user == null) throw new ArgumentException(nameof(identityID));
+
+            if (!_unitOfWork.Memberships.IsFounder(fansubID, user.ID)) return;
 
             _unitOfWork.Fansubs.DeleteMembers(fansubID);
             _unitOfWork.Fansubs.Delete(fansubID);
