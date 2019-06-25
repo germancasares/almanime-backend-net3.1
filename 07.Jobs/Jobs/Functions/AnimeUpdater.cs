@@ -2,7 +2,7 @@ using Application.Services.Interfaces;
 using Domain.DTOs;
 using Domain.Enums;
 using Domain.Enums.Anime;
-using Functions.Models;
+using Jobs.Models;
 using Infrastructure.Helpers;
 using Kitsu.Anime;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +18,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Functions
+namespace Jobs.Functions
 {
     public class AnimeUpdater
     {

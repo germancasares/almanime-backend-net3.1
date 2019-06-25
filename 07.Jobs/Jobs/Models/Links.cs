@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Functions.Models
+namespace Jobs.Models
 {
     public class Links
     {

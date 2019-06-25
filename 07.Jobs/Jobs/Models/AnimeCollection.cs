@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Functions.Models
+namespace Jobs.Models
 {
     public class AnimeCollection
     {

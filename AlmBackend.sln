@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "00.Domain\Domain\Domain.csproj", "{188CCEC1-90C5-4BCF-B3B2-AE6A50BB37A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "01.Presentation\Presentation\Presentation.csproj", "{F226BCC6-3A8D-43D6-999C-F6DBA76F8A1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Validators", "01.Presentation\Presentation.Validators\Presentation.Validators.csproj", "{557F5A7E-786E-47EB-B282-EFB15844CDEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Validators", "01.Presentation\Presentation.Validators\Presentation.Validators.csproj", "{557F5A7E-786E-47EB-B282-EFB15844CDEC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "02.Application\Application\Application.csproj", "{82209A1A-A3B3-433A-AA6C-0D39BCD26650}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations.Data", "06.Migra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations.Security", "06.Migrations\Migrations.Security\Migrations.Security.csproj", "{FA1AF926-DCD6-4E08-89DA-A08E012D1092}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions", "07.Functions\Functions\Functions.csproj", "{0056D2C0-6BEF-4997-AB22-DA1D4A66678E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobs", "07.Jobs\Jobs\Jobs.csproj", "{0056D2C0-6BEF-4997-AB22-DA1D4A66678E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLineInterface", "08.CLI\CommandLineInterface\CommandLineInterface.csproj", "{7BADE377-5D60-499E-9542-3DF5E30A075E}"
 EndProject
@@ -41,11 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.UnitTest", "05.UnitTest"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Migrations", "06.Migrations", "{04654A6C-0426-47A8-82E0-75CE71B22D89}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.Functions", "07.Functions", "{11002619-AA92-4928-AF29-EA4804CA7DA7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.Jobs", "07.Jobs", "{11002619-AA92-4928-AF29-EA4804CA7DA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08.CLI", "08.CLI", "{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}"
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +59,10 @@ Global
 		{F226BCC6-3A8D-43D6-999C-F6DBA76F8A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F226BCC6-3A8D-43D6-999C-F6DBA76F8A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F226BCC6-3A8D-43D6-999C-F6DBA76F8A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82209A1A-A3B3-433A-AA6C-0D39BCD26650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82209A1A-A3B3-433A-AA6C-0D39BCD26650}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82209A1A-A3B3-433A-AA6C-0D39BCD26650}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,10 +99,6 @@ Global
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BADE377-5D60-499E-9542-3DF5E30A075E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{557F5A7E-786E-47EB-B282-EFB15844CDEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +106,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{188CCEC1-90C5-4BCF-B3B2-AE6A50BB37A8} = {8B9E5956-35D6-4063-9109-E3DFFF3240A5}
 		{F226BCC6-3A8D-43D6-999C-F6DBA76F8A1C} = {3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}
+		{557F5A7E-786E-47EB-B282-EFB15844CDEC} = {3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}
 		{82209A1A-A3B3-433A-AA6C-0D39BCD26650} = {E81ED3F5-2A47-42B6-8ABE-88AEAC0DA516}
 		{29CCC7F9-BC02-410D-B69D-7D579DEDEAB9} = {3B5C9C97-3209-4A80-AA4D-85B5B1FA6065}
 		{C2513A5A-8332-4AF9-9936-01BCD2DF28BA} = {4B0E92B1-FF69-4777-9CA1-845892F3B085}
@@ -116,7 +116,6 @@ Global
 		{FA1AF926-DCD6-4E08-89DA-A08E012D1092} = {04654A6C-0426-47A8-82E0-75CE71B22D89}
 		{0056D2C0-6BEF-4997-AB22-DA1D4A66678E} = {11002619-AA92-4928-AF29-EA4804CA7DA7}
 		{7BADE377-5D60-499E-9542-3DF5E30A075E} = {ADE8B587-FF4A-4715-A942-AE83A2CF06F2}
-		{557F5A7E-786E-47EB-B282-EFB15844CDEC} = {3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0D3EAB5-5211-4E09-BE51-8B568A483EE1}
