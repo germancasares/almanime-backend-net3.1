@@ -46,6 +46,7 @@ namespace Infrastructure.Crosscutting
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -139,8 +140,9 @@ namespace Infrastructure.Crosscutting
 
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
-            services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
             services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
+            services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
+            services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
 
             return services;
         }
