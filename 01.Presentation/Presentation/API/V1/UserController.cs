@@ -1,10 +1,16 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace Presentation.API.V1
 {
+    [Authorize]
+    [ValidateModel]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
@@ -21,6 +27,14 @@ namespace Presentation.API.V1
             _logger = logger;
             _mapper = mapper;
             _userService = userService;
+        }
+
+        [HttpPut("Self")]
+        public async Task Update(UserDTO userDTO)
+        {
+            var identityID = User.Claims.GetIdentityID();
+
+            await _userService.Update(userDTO, identityID);
         }
     }
 }
