@@ -13,5 +13,7 @@ namespace Infrastructure.Helpers
 
             return id == null ? Guid.Empty : new Guid(id);
         }
+
+        public static long MbToBytes(this int mb) => mb * 1024 * 1024;
     }
 }

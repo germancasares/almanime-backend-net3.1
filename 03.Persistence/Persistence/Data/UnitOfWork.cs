@@ -12,7 +12,8 @@ namespace Persistence.Data
             IAnimeRepository animes,
             IUserRepository users,
             IFansubRepository fansubs,
-            IMembershipRepository memberships
+            IMembershipRepository memberships,
+            IImageRepository images
             )
         {
             _context = context;
@@ -20,12 +21,15 @@ namespace Persistence.Data
             Users = users;
             Fansubs = fansubs;
             Memberships = memberships;
+            Images = images;
         }
 
         public IAnimeRepository Animes { get; }
         public IUserRepository Users { get; }
         public IFansubRepository Fansubs { get; }
         public IMembershipRepository Memberships { get; }
+
+        public IImageRepository Images { get; }
 
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)

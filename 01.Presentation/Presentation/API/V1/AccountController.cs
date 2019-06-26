@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Presentation.API.V1
 {
+    [ValidateModel]
     [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
@@ -52,10 +53,8 @@ namespace Presentation.API.V1
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var (token, errors) = await _accountService.CreateAccount(registerDTO);
 
             if (errors.Count() != 0) return BadRequest(errors);
@@ -64,10 +63,8 @@ namespace Presentation.API.V1
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var token = await _accountService.Login(loginDTO);
 
             if (token == null) return Unauthorized();

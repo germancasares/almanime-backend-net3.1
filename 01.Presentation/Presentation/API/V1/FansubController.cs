@@ -41,8 +41,8 @@ namespace Presentation.API.V1
         }
 
         [Authorize]
-        [HttpPost("")]
-        public IActionResult Create([FromBody] FansubDTO fansubDTO)
+        [HttpPost]
+        public IActionResult Create(FansubDTO fansubDTO)
         {
             var identityID = User.Claims.GetIdentityID();
 
