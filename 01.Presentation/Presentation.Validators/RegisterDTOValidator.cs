@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Domain.DTOs.Account;
 using FluentValidation;
+using Infrastructure.Helpers;
+using SixLabors.ImageSharp;
 using System.Linq;
 
 namespace Presentation.Validators
@@ -44,6 +46,34 @@ namespace Presentation.Validators
             RuleFor(r => r.Username)
                 .MustAsync(async (username, _) => !await accountService.ExistsUsername(username))
                 .WithMessage(ValidationCode.Unique.ToString());
+
+            When(r => r.Avatar != null, () =>
+            {
+                RuleFor(r => r.Avatar)
+                    .Must(avatar => avatar.IsImage())
+                    .WithMessage(ValidationCode.ContentTypeNotValid.ToString());
+                RuleFor(r => r.Avatar.Length)
+                    .LessThanOrEqualTo(2.MbToBytes())
+                    .WithMessage(ValidationCode.MaximumLength.ToString());
+
+                When(r => r.Avatar.IsImage(), () =>
+                {
+                    RuleFor(r => r.Avatar)
+                        .Must(avatar =>
+                        {
+                            var image = Image.Load(avatar.OpenReadStream());
+                            return image.Width == image.Height;
+                        })
+                        .WithMessage(ValidationCode.ImageAspectRatio.ToString());
+                    RuleFor(r => r.Avatar)
+                        .Must(avatar =>
+                        {
+                            var image = Image.Load(avatar.OpenReadStream());
+                            return image.Width <= 512 && image.Height <= 512;
+                        })
+                        .WithMessage(ValidationCode.ImageResolution.ToString());
+                });
+            });
         }
     }
 }

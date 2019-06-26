@@ -19,14 +19,14 @@ namespace Presentation.Validators
 
             When(r => r.Avatar != null, () =>
             {
-                RuleFor(r => r.Avatar.ContentType)
-                    .Must(contentType => IsImage(contentType))
+                RuleFor(r => r.Avatar)
+                    .Must(avatar => avatar.IsImage())
                     .WithMessage(ValidationCode.ContentTypeNotValid.ToString());
                 RuleFor(r => r.Avatar.Length)
                     .LessThanOrEqualTo(2.MbToBytes())
                     .WithMessage(ValidationCode.MaximumLength.ToString());
 
-                When(r => IsImage(r.Avatar.ContentType), () =>
+                When(r => r.Avatar.IsImage(), () =>
                 {
                     RuleFor(r => r.Avatar)
                         .Must(avatar =>
@@ -45,7 +45,5 @@ namespace Presentation.Validators
                 });
             });
         }
-
-        private bool IsImage(string contentType) => contentType == "image/png" || contentType == "image/jpg" || contentType == "image/jpeg";
     }
 }
