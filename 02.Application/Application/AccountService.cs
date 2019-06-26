@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.Configurations;
+using Domain.DTOs;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -43,7 +44,7 @@ namespace Application
 
         public async Task<(JwtSecurityToken token, IEnumerable<IdentityError> errors)> CreateAccount(RegisterDTO registerDTO)
         {
-            var user = _mapper.Map<RegisterDTO, IdentityUser>(registerDTO);
+            var user = _mapper.Map<IdentityUser>(registerDTO);
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
@@ -52,7 +53,7 @@ namespace Application
                 return (null, result.Errors);
             }
 
-            _userService.Create(new UserDTO { IdentityID = new Guid(user.Id), NickName = user.UserName });
+            await _userService.Create(new UserDTO { Avatar = registerDTO.Avatar, NickName = user.UserName }, new Guid(user.Id));
 
             await _signInManager.SignInAsync(user, false);
 
