@@ -10,6 +10,7 @@ namespace Persistence.Data
         IAnimeRepository Animes { get; }
         IUserRepository Users { get; }
         IFansubRepository Fansubs { get; }
-        IMembershipRepository Memberships { get;  }
+        IMembershipRepository Memberships { get; }
+        IImageRepository Images { get; }
     }
 }
