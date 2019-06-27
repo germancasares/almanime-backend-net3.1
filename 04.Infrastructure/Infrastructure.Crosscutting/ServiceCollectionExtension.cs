@@ -32,10 +32,10 @@ namespace Infrastructure.Crosscutting
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IAnimeService, AnimeService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAnimeService, AnimeService>();
             services.AddScoped<IFansubService, FansubService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
@@ -43,10 +43,13 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBaseRepository<Chapter>, BaseRepository<Chapter>>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
-            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IStorageRepository, StorageRepository>();
+            services.AddScoped<IBaseRepository<Subtitle>, BaseRepository<Subtitle>>();
+            services.AddScoped<ISubtitlePartialRepository, SubtitlePartialRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
