@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Domain.Models
 {
@@ -9,11 +8,11 @@ namespace Domain.Models
         public string FullName { get; set; }
         public string LogoUrl { get; set; }
 
-        public virtual List<Membership> Memberships { get; set; }
+        public virtual ICollection<Membership> Memberships { get; set; }
 
-        public Fansub()
-        {
-            Memberships = new List<Membership>();
-        }
+        //public Fansub()
+        //{
+        //    Memberships = new List<Membership>();
+        //}
     }
 }
