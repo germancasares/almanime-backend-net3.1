@@ -58,7 +58,7 @@ namespace Jobs.Functions
                 url = next;
             }
 
-            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != EStatus.Tba && a.Season == seasonEnum).ToList();
+            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != EAnimeStatus.Tba && a.Season == seasonEnum).ToList();
 
             animesDTOs.ForEach(a => CreateOrUpdateAnime(a));
 
@@ -78,7 +78,7 @@ namespace Jobs.Functions
             if (anime.Slug == "delete") return null;
 
             // Status
-            var status = EnumHelper.GetEnumFromString<EStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
+            var status = EnumHelper.GetEnumFromString<EAnimeStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
             if (!status.HasValue)
             {
                 Log.LogError($"[AnimeUpdater~MapAnime(Status)] Anime {anime.Slug} - Status {anime.Status}");
