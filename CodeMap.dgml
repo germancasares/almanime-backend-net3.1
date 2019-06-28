@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" GraphDirection="BottomToTop" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@20)" Category="CodeSchema_Assembly" Bounds="744,40,118.04,25" CodeSchemaProperty_StrongName="UnitTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(f8777b7a-a960-4a46-a63d-47e6f5de90ac.OutputPath)" Group="Collapsed" Label="UnitTest.dll" />
+    <Node Id="(@3)" Category="CodeSchema_Assembly" Bounds="932.04,40,198.383333333333,25" CodeSchemaProperty_StrongName="CommandLineInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(7bade377-5d60-499e-9542-3df5e30a075e.OutputPath)" Group="Collapsed" Label="CommandLineInterface.dll" />
+    <Node Id="00.Domain{8B9E5956-35D6-4063-9109-E3DFFF3240A5}" Category="CodeMap_SolutionFolder" Bounds="272.468333333333,0,157.063333333333,85" Group="Expanded" Label="00.Domain" />
+    <Node Id="01.Presentation{3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}" Category="CodeMap_SolutionFolder" Bounds="190.796666666666,521.75,236.406666666667,140" Group="Expanded" Label="01.Presentation" />
+    <Node Id="02.Application{E81ED3F5-2A47-42B6-8ABE-88AEAC0DA516}" Category="CodeMap_SolutionFolder" Bounds="72.2083333333334,405.0625,175.583333333333,85" Group="Expanded" Label="02.Application" />
+    <Node Id="03.Persistence{3B5C9C97-3209-4A80-AA4D-85B5B1FA6065}" Category="CodeMap_SolutionFolder" Bounds="263.873333333333,116.6875,174.253333333333,85" Group="Expanded" Label="03.Persistence" />
+    <Node Id="04.Infrastructure{4B0E92B1-FF69-4777-9CA1-845892F3B085}" Category="CodeMap_SolutionFolder" Bounds="32.4383333333333,233.375,255.123333333333,140" Group="Expanded" Label="04.Infrastructure" />
+    <Node Id="05.UnitTest{922BFC67-A6B4-4C0F-AF50-320CC1139CB1}" Category="CodeMap_SolutionFolder" Bounds="724,0,158.04,85" Group="Expanded" Label="05.UnitTest" />
+    <Node Id="06.Migrations{04654A6C-0426-47A8-82E0-75CE71B22D89}" Category="CodeMap_SolutionFolder" Bounds="413.533333333333,233.375,216.933333333333,140" Group="Expanded" Label="06.Migrations" />
+    <Node Id="07.Jobs{11002619-AA92-4928-AF29-EA4804CA7DA7}" Category="CodeMap_SolutionFolder" Bounds="235.03,693.4375,147.94,85" Group="Expanded" Label="07.Jobs" />
+    <Node Id="08.CLI{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}" Category="CodeMap_SolutionFolder" Bounds="912.04,0,238.383333333333,85" Group="Expanded" Label="08.CLI" />
+    <Node Id="@11" Category="CodeSchema_Assembly" Bounds="292.468333333333,40,117.063333333333,25" CodeSchemaProperty_StrongName="Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(188ccec1-90c5-4bcf-b3b2-ae6a50bb37a8.OutputPath)" Group="Collapsed" Label="Domain.dll" />
+    <Node Id="@13" Category="CodeSchema_Assembly" Bounds="92.2083333333334,445.0625,135.583333333333,25" CodeSchemaProperty_StrongName="Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(82209a1a-a3b3-433a-aa6c-0d39bcd26650.OutputPath)" Group="Collapsed" Label="Application.dll" />
+    <Node Id="@15" Category="CodeSchema_Assembly" Bounds="238.111666666666,616.75,141.776666666667,25" CodeSchemaProperty_StrongName="Presentation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(f226bcc6-3a8d-43d6-999c-f6dba76f8a1c.OutputPath)" Group="Collapsed" Label="Presentation.dll" />
+    <Node Id="@17" Bounds="255.03,733.4375,107.94,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="NotFetched" ErrorLevel="NoResult" FilePath="$(0056d2c0-6bef-4997-ab22-da1d4a66678e.OutputPath)" Group="Collapsed" Label="Jobs.dll" />
+    <Node Id="@19" Category="CodeSchema_Assembly" Bounds="210.796666666666,561.75,196.406666666667,25" CodeSchemaProperty_StrongName="Presentation.Validators, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(557f5a7e-786e-47eb-b282-efb15844cdec.OutputPath)" Group="Collapsed" Label="Presentation.Validators.dll" />
+    <Node Id="@2" Category="CodeSchema_Assembly" Bounds="433.533333333333,273.375,159.69,25" CodeSchemaProperty_StrongName="Migrations.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(aca05dfb-2e51-4bed-a680-e7fd0287b4c1.OutputPath)" Group="Collapsed" Label="Migrations.Data.dll" />
+    <Node Id="@22" Category="CodeSchema_Assembly" Bounds="433.533333333333,328.375,176.933333333333,25" CodeSchemaProperty_StrongName="Migrations.Security, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(fa1af926-dcd6-4e08-89da-a08e012d1092.OutputPath)" Group="Collapsed" Label="Migrations.Security.dll" />
+    <Node Id="@5" Category="CodeSchema_Assembly" Bounds="283.873333333333,156.6875,134.253333333333,25" CodeSchemaProperty_StrongName="Persistence, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(29ccc7f9-bc02-410d-b69d-7d579dedeab9.OutputPath)" Group="Collapsed" Label="Persistence.dll" />
+    <Node Id="@7" Category="CodeSchema_Assembly" Bounds="86.7633333333333,273.375,146.473333333333,25" CodeSchemaProperty_StrongName="Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(c2513a5a-8332-4af9-9936-01bcd2df28ba.OutputPath)" Group="Collapsed" Label="Infrastructure.dll" />
+    <Node Id="@9" Category="CodeSchema_Assembly" Bounds="52.4383333333333,328.375,215.123333333333,25" CodeSchemaProperty_StrongName="Infrastructure.Crosscutting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(12f5b7c2-aa8a-485e-8786-e5f760d14202.OutputPath)" Group="Collapsed" Label="Infrastructure.Crosscutting.dll" />
+  </Nodes>
+  <Links>
+    <Link Source="00.Domain{8B9E5956-35D6-4063-9109-E3DFFF3240A5}" Target="@11" Category="Contains" FetchingParent="00.Domain{8B9E5956-35D6-4063-9109-E3DFFF3240A5}" />
+    <Link Source="01.Presentation{3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}" Target="@15" Category="Contains" FetchingParent="01.Presentation{3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}" />
+    <Link Source="01.Presentation{3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}" Target="@19" Category="Contains" FetchingParent="01.Presentation{3CFAFA5D-7BF1-4A56-BDBC-4FADC579F7DE}" />
+    <Link Source="02.Application{E81ED3F5-2A47-42B6-8ABE-88AEAC0DA516}" Target="@13" Category="Contains" FetchingParent="02.Application{E81ED3F5-2A47-42B6-8ABE-88AEAC0DA516}" />
+    <Link Source="03.Persistence{3B5C9C97-3209-4A80-AA4D-85B5B1FA6065}" Target="@5" Category="Contains" FetchingParent="03.Persistence{3B5C9C97-3209-4A80-AA4D-85B5B1FA6065}" />
+    <Link Source="04.Infrastructure{4B0E92B1-FF69-4777-9CA1-845892F3B085}" Target="@7" Category="Contains" FetchingParent="04.Infrastructure{4B0E92B1-FF69-4777-9CA1-845892F3B085}" />
+    <Link Source="04.Infrastructure{4B0E92B1-FF69-4777-9CA1-845892F3B085}" Target="@9" Category="Contains" FetchingParent="04.Infrastructure{4B0E92B1-FF69-4777-9CA1-845892F3B085}" />
+    <Link Source="05.UnitTest{922BFC67-A6B4-4C0F-AF50-320CC1139CB1}" Target="(@20)" Category="Contains" FetchingParent="05.UnitTest{922BFC67-A6B4-4C0F-AF50-320CC1139CB1}" />
+    <Link Source="06.Migrations{04654A6C-0426-47A8-82E0-75CE71B22D89}" Target="@2" Category="Contains" FetchingParent="06.Migrations{04654A6C-0426-47A8-82E0-75CE71B22D89}" />
+    <Link Source="06.Migrations{04654A6C-0426-47A8-82E0-75CE71B22D89}" Target="@22" Category="Contains" FetchingParent="06.Migrations{04654A6C-0426-47A8-82E0-75CE71B22D89}" />
+    <Link Source="07.Jobs{11002619-AA92-4928-AF29-EA4804CA7DA7}" Target="@17" Category="Contains" FetchingParent="07.Jobs{11002619-AA92-4928-AF29-EA4804CA7DA7}" />
+    <Link Source="08.CLI{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}" Target="(@3)" Category="Contains" FetchingParent="08.CLI{ADE8B587-FF4A-4715-A942-AE83A2CF06F2}" />
+    <Link Source="@13" Target="@11" Category="References" Bounds="165.894152137016,73.1404054746247,175.373232660013,371.922094525375" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="107">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeMap_ProjectReference" />
+      <Category Ref="CodeSchema_Calls" />
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@13" Target="@5" Category="References" Bounds="168.27915041179,189.190930159414,169.471937024888,255.871569840586" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="56">
+      <Category Ref="CodeMap_ProjectReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@13" Target="@7" Category="CodeMap_ProjectReference" Bounds="160,307.375,2.8421709430404E-14,137.6875" />
+    <Link Source="@15" Target="@11" Category="References" Bounds="309.910273081924,73.9762308983633,39.5257881270375,542.773769101637" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="26">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@15" Target="@13" Category="References" Bounds="176.747187487186,476.859699675881,121.404614478595,139.890300324119" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="21">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@15" Target="@19" Category="CodeMap_ExternalReference" Bounds="309,595.75,0,21" />
+    <Link Source="@15" Target="@2" Category="CodeMap_ProjectReference" Bounds="316.440055818468,306.108750268052,184.895059001964,310.641249731948" />
+    <Link Source="@15" Target="@22" Category="CodeMap_ProjectReference" Bounds="318.232769830949,360.614345685483,189.187323342842,256.135654314517" />
+    <Link Source="@15" Target="@5" Category="CodeMap_ExternalReference" Bounds="310.141149300367,190.650228822784,38.8994764612268,426.099771177216" />
+    <Link Source="@15" Target="@7" Category="CodeSchema_Calls" Bounds="169.006698471719,306.63120864246,134.569202511171,310.11879135754" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
+      <Category Ref="CodeMap_ExternalReference" />
+    </Link>
+    <Link Source="@15" Target="@9" Category="CodeSchema_Calls" Bounds="170.589921494893,361.370762490535,131.951474257166,255.379237509465" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
+      <Category Ref="CodeMap_ProjectReference" />
+    </Link>
+    <Link Source="@17" Target="@11" Category="CodeMap_ExternalReference" Bounds="309.757097791798,73.9835372055101,39.9416911219375,659.45396279449" />
+    <Link Source="@17" Target="@13" Category="CodeMap_ProjectReference" Bounds="170.589921494893,478.058262490535,131.951474257166,255.379237509465" />
+    <Link Source="@17" Target="@19" Category="CodeMap_ExternalReference" Bounds="309,595.75,2.27373675443232E-13,137.6875" />
+    <Link Source="@17" Target="@5" Category="CodeMap_ExternalReference" Bounds="309.910273081925,190.663730898363,39.5257881270373,542.773769101637" />
+    <Link Source="@17" Target="@7" Category="CodeMap_ProjectReference" Bounds="166.821377838085,306.93714860157,138.130259167757,426.50035139843" />
+    <Link Source="@17" Target="@9" Category="CodeMap_ProjectReference" Bounds="167.705115519446,361.821666812723,136.696828624976,371.615833187277" />
+    <Link Source="@19" Target="@11" Category="References" Bounds="310.006229036895,73.97098104578,39.2653929967942,487.77901895422" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="72">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeMap_ProjectReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@19" Target="@13" Category="References" Bounds="183.047161224761,475.611598157143,109.991403317285,86.138401842857" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="7">
+      <Category Ref="CodeMap_ProjectReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@19" Target="@5" Category="CodeMap_ExternalReference" Bounds="310.296096281438,190.639506515193,38.479594448664,371.110493484807" />
+    <Link Source="@19" Target="@7" Category="CodeSchema_Calls" Bounds="170.589921494893,306.370762490535,131.951474257166,255.379237509465" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
+      <Category Ref="CodeMap_ExternalReference" />
+    </Link>
+    <Link Source="@2" Target="@11" Category="CodeMap_ExternalReference" Bounds="364.837517366824,72.3876940610876,139.843529767616,200.987305938912" />
+    <Link Source="@2" Target="@5" Category="CodeMap_ProjectReference" Bounds="375.703178439252,186.939573660055,120.280582496295,86.4354263399452" />
+    <Link Source="@22" Target="@11" Category="CodeMap_ExternalReference" Bounds="363.002652519894,72.741315324119,151.585123813006,255.633684675881" />
+    <Link Source="@22" Target="@5" Category="CodeMap_ProjectReference" Bounds="369.80112625953,188.064215582942,139.748928345494,140.310784417058" />
+    <Link Source="@5" Target="@11" Category="References" Bounds="351,74,0,82.6875" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="98">
+      <Category Ref="CodeMap_ProjectReference" />
+      <Category Ref="CodeSchema_Calls" />
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@7" Target="@11" Category="CodeSchema_ReturnTypeLink" Bounds="170.230316014997,71.9647845738249,164.839212196677,201.410215426175" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1">
+      <Category Ref="CodeMap_ProjectReference" />
+    </Link>
+    <Link Source="@9" Target="@11" Category="References" Bounds="168.27915041179,72.5034301594138,169.471937024888,255.871569840586" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="160">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="@9" Target="@13" Category="References" Bounds="160,353.375,1.13686837721616E-13,82.6875" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeMap_ProjectReference" />
+    </Link>
+    <Link Source="@9" Target="@19" Category="References" Bounds="167.980717728977,353.375,128.195385574118,200.789249049394" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
+      <Category Ref="CodeMap_ProjectReference" />
+    </Link>
+    <Link Source="@9" Target="@5" Category="References" Bounds="173.906079359301,187.704067198069,156.494492407245,140.670932801931" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="16">
+      <Category Ref="CodeMap_ExternalReference" />
+      <Category Ref="CodeMap_ProjectReference" />
+    </Link>
+    <Link Source="@9" Target="@7" Category="CodeMap_ExternalReference" Bounds="160,307.375,0,21" />
+  </Links>
+  <Categories>
+    <Category Id="CodeMap_ExternalReference" Label="External Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+    <Category Id="CodeMap_ProjectReference" Label="Project Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+    <Category Id="CodeMap_SolutionFolder" Label="Solution Folder" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Solution Folder" />
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
+    <Category Id="CodeSchema_Calls" Label="Calls" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Called By" OutgoingActionLabel="Calls" />
+    <Category Id="CodeSchema_ReturnTypeLink" Label="Return" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Return types" OutgoingActionLabel="Return types" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="Files" />
+    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="DelayedChildNodesState" Label="Delayed Child Nodes State" Description="Unspecified if the delayed child nodes state is not specified. NotFetched if the group contains child nodes that are not fetched into the graph yet. Fetched if the group has all its delayed child nodes already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="DelayedCrossGroupLinksState" Label="Delayed Cross-Group Links State" Description="Unspecified if the delayed cross-group links state is not specified. NotFetched if delayed cross-group links on this node are not fetched into the graph yet. Fetched if all delayed cross-group links have already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="ErrorLevel" Label="Error Level" Description="Used to associate an error level with a node or link in the graph" Group="Analysis" DataType="Microsoft.VisualStudio.Progression.ErrorLevel" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FetchingParent" DataType="Microsoft.VisualStudio.GraphModel.GraphNodeId" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsSourceVirtualized" Label="Link Source Virtualized" Description="If true, the link source end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="IsTargetVirtualized" Label="Link Target Virtualized" Description="If true, the link target end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+    <Property Id="Weight" Label="Weight" Description="Weight" DataType="System.Double" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(aca05dfb-2e51-4bed-a680-e7fd0287b4c1.OutputPathUri)" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(7bade377-5d60-499e-9542-3df5e30a075e.OutputPathUri)" />
+    <Alias n="4" Uri="Assembly=$(29ccc7f9-bc02-410d-b69d-7d579dedeab9.OutputPathUri)" />
+    <Alias n="5" Id="(@4)" />
+    <Alias n="6" Uri="Assembly=$(c2513a5a-8332-4af9-9936-01bcd2df28ba.OutputPathUri)" />
+    <Alias n="7" Id="(@6)" />
+    <Alias n="8" Uri="Assembly=$(12f5b7c2-aa8a-485e-8786-e5f760d14202.OutputPathUri)" />
+    <Alias n="9" Id="(@8)" />
+    <Alias n="10" Uri="Assembly=$(188ccec1-90c5-4bcf-b3b2-ae6a50bb37a8.OutputPathUri)" />
+    <Alias n="11" Id="(@10)" />
+    <Alias n="12" Uri="Assembly=$(82209a1a-a3b3-433a-aa6c-0d39bcd26650.OutputPathUri)" />
+    <Alias n="13" Id="(@12)" />
+    <Alias n="14" Uri="Assembly=$(f226bcc6-3a8d-43d6-999c-f6dba76f8a1c.OutputPathUri)" />
+    <Alias n="15" Id="(@14)" />
+    <Alias n="16" Uri="Assembly=$(0056d2c0-6bef-4997-ab22-da1d4a66678e.OutputPathUri)" />
+    <Alias n="17" Id="(@16)" />
+    <Alias n="18" Uri="Assembly=$(557f5a7e-786e-47eb-b282-efb15844cdec.OutputPathUri)" />
+    <Alias n="19" Id="(@18)" />
+    <Alias n="20" Uri="Assembly=$(f8777b7a-a960-4a46-a63d-47e6f5de90ac.OutputPathUri)" />
+    <Alias n="21" Uri="Assembly=$(fa1af926-dcd6-4e08-89da-a08e012d1092.OutputPathUri)" />
+    <Alias n="22" Id="(@21)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Error" ValueLabel="Error Level">
+      <Condition Expression="HasValue('ErrorLevel')" />
+      <Setter Property="Icon" Value="Node.Error" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
+      <Condition Expression="HasCategory('QueryResult')" />
+      <Setter Property="Background" Value="#FFBCFFBE" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Test Project" ValueLabel="Test Project">
+      <Condition Expression="HasCategory('CodeMap_TestProject')" />
+      <Setter Property="Icon" Value="CodeMap_TestProject" />
+      <Setter Property="Background" Value="#FF307A69" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Web Project" ValueLabel="Web Project">
+      <Condition Expression="HasCategory('CodeMap_WebProject')" />
+      <Setter Property="Icon" Value="CodeMap_WebProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Windows Store Project" ValueLabel="Windows Store Project">
+      <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
+      <Setter Property="Icon" Value="CodeMap_WindowsStoreProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Phone Project" ValueLabel="Phone Project">
+      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
+      <Setter Property="Icon" Value="CodeMap_PhoneProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Portable Library" ValueLabel="Portable Library">
+      <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />
+      <Setter Property="Icon" Value="CodeMap_PortableLibraryProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="WPF Project" ValueLabel="WPF Project">
+      <Condition Expression="HasCategory('CodeMap_WpfProject')" />
+      <Setter Property="Icon" Value="CodeMap_WpfProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="VSIX Project" ValueLabel="VSIX Project">
+      <Condition Expression="HasCategory('CodeMap_VsixProject')" />
+      <Setter Property="Icon" Value="CodeMap_VsixProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Modeling Project" ValueLabel="Modeling Project">
+      <Condition Expression="HasCategory('CodeMap_ModelingProject')" />
+      <Setter Property="Icon" Value="CodeMap_ModelingProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Assembly" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Assembly')" />
+      <Setter Property="Background" Value="#FF094167" />
+      <Setter Property="Stroke" Value="#FF094167" />
+      <Setter Property="Icon" Value="CodeSchema_Assembly" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Namespace" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Namespace')" />
+      <Setter Property="Background" Value="#FF0E619A" />
+      <Setter Property="Stroke" Value="#FF0E619A" />
+      <Setter Property="Icon" Value="CodeSchema_Namespace" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Interface" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Interface')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Interface" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Struct" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Struct')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Struct" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enumeration" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Enum')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Enum" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Delegate" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Delegate')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Delegate" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Class" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Type')" />
+      <Setter Property="Background" Value="#FF0E70C0" />
+      <Setter Property="Stroke" Value="#FF0E70C0" />
+      <Setter Property="Icon" Value="CodeSchema_Class" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Property')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Property" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Method" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Method') Or HasCategory('CodeSchema_CallStackUnresolvedMethod')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Method" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Event" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Event')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Event" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Field')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Field" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Out Parameter" ValueLabel="Has category">
+      <Condition Expression="CodeSchemaProperty_IsOut = 'True'" />
+      <Setter Property="Icon" Value="CodeSchema_OutParameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Parameter" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Parameter')" />
+      <Setter Property="Icon" Value="CodeSchema_Parameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Local Variable" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_LocalExpression')" />
+      <Setter Property="Icon" Value="CodeSchema_LocalExpression" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Externals" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Externals')" />
+      <Setter Property="Background" Value="#FF424242" />
+      <Setter Property="Stroke" Value="#FF424242" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True">
+      <Condition Expression="HasCategory('InheritsFrom')" />
+      <Setter Property="Stroke" Value="#FF00A600" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True">
+      <Condition Expression="HasCategory('Implements')" />
+      <Setter Property="Stroke" Value="#8000A600" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Calls" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_Calls')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Function Pointer" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FunctionPointer')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Read" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldRead')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Write" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldWrite')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="DrawArrow" Value="true" />
+      <Setter Property="IsHidden" Value="false" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('InheritsFrom') And Target.HasCategory('CodeSchema_Class')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('Implements') And Target.HasCategory('CodeSchema_Interface')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Comment Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="Source.HasCategory('Comment')" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Cursor Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCursorLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Disabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="DisabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="EnabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Instruction Pointer Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsInstructionPointerLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Callstack Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCurrentCallstackFrame" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Return" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_ReturnTypeLink')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="References" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('References')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Uses Attribute" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_AttributeUse')" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Solution Folder" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeMap_SolutionFolder')" />
+      <Setter Property="Background" Value="#FFDEBA83" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Project Reference" ValueLabel="Project Reference">
+      <Condition Expression="HasCategory('CodeMap_ProjectReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="External Reference" ValueLabel="External Reference">
+      <Condition Expression="HasCategory('CodeMap_ExternalReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="0056d2c0-6bef-4997-ab22-da1d4a66678e.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\07.Jobs\Jobs\bin\Debug\netcoreapp2.2\Jobs.dll" />
+    <Path Id="0056d2c0-6bef-4997-ab22-da1d4a66678e.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/07.Jobs/Jobs/bin/Debug/netcoreapp2.2/Jobs.dll" />
+    <Path Id="12f5b7c2-aa8a-485e-8786-e5f760d14202.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\04.Infrastructure\Infrastructure.Crosscutting\bin\Debug\netcoreapp2.2\Infrastructure.Crosscutting.dll" />
+    <Path Id="12f5b7c2-aa8a-485e-8786-e5f760d14202.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/04.Infrastructure/Infrastructure.Crosscutting/bin/Debug/netcoreapp2.2/Infrastructure.Crosscutting.dll" />
+    <Path Id="188ccec1-90c5-4bcf-b3b2-ae6a50bb37a8.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\00.Domain\Domain\bin\Debug\netcoreapp2.2\Domain.dll" />
+    <Path Id="188ccec1-90c5-4bcf-b3b2-ae6a50bb37a8.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/00.Domain/Domain/bin/Debug/netcoreapp2.2/Domain.dll" />
+    <Path Id="29ccc7f9-bc02-410d-b69d-7d579dedeab9.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\03.Persistence\Persistence\bin\Debug\netcoreapp2.2\Persistence.dll" />
+    <Path Id="29ccc7f9-bc02-410d-b69d-7d579dedeab9.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/03.Persistence/Persistence/bin/Debug/netcoreapp2.2/Persistence.dll" />
+    <Path Id="557f5a7e-786e-47eb-b282-efb15844cdec.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\01.Presentation\Presentation.Validators\bin\Debug\netcoreapp2.2\Presentation.Validators.dll" />
+    <Path Id="557f5a7e-786e-47eb-b282-efb15844cdec.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/01.Presentation/Presentation.Validators/bin/Debug/netcoreapp2.2/Presentation.Validators.dll" />
+    <Path Id="7bade377-5d60-499e-9542-3df5e30a075e.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\08.CLI\CommandLineInterface\bin\Debug\netcoreapp2.2\CommandLineInterface.dll" />
+    <Path Id="7bade377-5d60-499e-9542-3df5e30a075e.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/08.CLI/CommandLineInterface/bin/Debug/netcoreapp2.2/CommandLineInterface.dll" />
+    <Path Id="82209a1a-a3b3-433a-aa6c-0d39bcd26650.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\02.Application\Application\bin\Debug\netcoreapp2.2\Application.dll" />
+    <Path Id="82209a1a-a3b3-433a-aa6c-0d39bcd26650.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/02.Application/Application/bin/Debug/netcoreapp2.2/Application.dll" />
+    <Path Id="aca05dfb-2e51-4bed-a680-e7fd0287b4c1.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\06.Migrations\Migrations.Data\bin\Debug\netcoreapp2.2\Migrations.Data.dll" />
+    <Path Id="aca05dfb-2e51-4bed-a680-e7fd0287b4c1.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/06.Migrations/Migrations.Data/bin/Debug/netcoreapp2.2/Migrations.Data.dll" />
+    <Path Id="c2513a5a-8332-4af9-9936-01bcd2df28ba.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\04.Infrastructure\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.dll" />
+    <Path Id="c2513a5a-8332-4af9-9936-01bcd2df28ba.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/04.Infrastructure/Infrastructure/bin/Debug/netcoreapp2.2/Infrastructure.dll" />
+    <Path Id="f226bcc6-3a8d-43d6-999c-f6dba76f8a1c.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\01.Presentation\Presentation\bin\Debug\netcoreapp2.2\Presentation.dll" />
+    <Path Id="f226bcc6-3a8d-43d6-999c-f6dba76f8a1c.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/01.Presentation/Presentation/bin/Debug/netcoreapp2.2/Presentation.dll" />
+    <Path Id="f8777b7a-a960-4a46-a63d-47e6f5de90ac.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\05.UnitTest\UnitTest\bin\Debug\netcoreapp2.2\UnitTest.dll" />
+    <Path Id="f8777b7a-a960-4a46-a63d-47e6f5de90ac.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/05.UnitTest/UnitTest/bin/Debug/netcoreapp2.2/UnitTest.dll" />
+    <Path Id="fa1af926-dcd6-4e08-89da-a08e012d1092.OutputPath" Value="C:\Users\German.Casares\Documents\Visual Studio 2019\Backend\06.Migrations\Migrations.Security\bin\Debug\netcoreapp2.2\Migrations.Security.dll" />
+    <Path Id="fa1af926-dcd6-4e08-89da-a08e012d1092.OutputPathUri" Value="file:///C:/Users/German.Casares/Documents/Visual Studio 2019/Backend/06.Migrations/Migrations.Security/bin/Debug/netcoreapp2.2/Migrations.Security.dll" />
+  </Paths>
+</DirectedGraph>
