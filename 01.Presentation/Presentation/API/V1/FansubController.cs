@@ -6,6 +6,7 @@ using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Presentation.ActionFilters;
 using System;
 
 namespace Presentation.API.V1

@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-public sealed class ValidateModelAttribute : ActionFilterAttribute
+namespace Presentation.ActionFilters
 {
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public sealed class ValidateModelAttribute : ActionFilterAttribute
     {
-        if (!context.ModelState.IsValid)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            context.Result = new BadRequestObjectResult(context.ModelState);
+            if (!context.ModelState.IsValid)
+            {
+                context.Result = new BadRequestObjectResult(context.ModelState);
+            }
         }
     }
 }
