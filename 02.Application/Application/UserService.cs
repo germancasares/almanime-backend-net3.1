@@ -22,10 +22,14 @@ namespace Application
         public User GetByNickName(string nickName) => _unitOfWork.Users.GetByNickName(nickName);
         public bool ExistsNickName(string nickName) => GetByNickName(nickName) != null;
 
-        public async Task<User> Create(UserDTO userDTO, Guid identityID)
+        public Task<User> Create(UserDTO userDTO, Guid identityID)
         {
             if (_unitOfWork.Users.GetByIdentityID(identityID) != null) throw new ArgumentException(nameof(identityID));
 
+            return CreateInternal(userDTO, identityID);
+        }
+        private async Task<User> CreateInternal(UserDTO userDTO, Guid identityID)
+        {
             var userEntity = new User
             {
                 IdentityID = identityID,
@@ -45,12 +49,15 @@ namespace Application
             return user;
         }
 
-        public async Task Update(UserDTO userDTO, Guid identityID)
+        public Task Update(UserDTO userDTO, Guid identityID)
         {
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
-
             if (user == null) throw new ArgumentException(nameof(identityID));
 
+            return UpdateInternal(userDTO, user);
+        }
+        public async Task UpdateInternal(UserDTO userDTO, User user)
+        {
             if (!string.IsNullOrWhiteSpace(userDTO.NickName))
             {
                 user.NickName = userDTO.NickName;
