@@ -10,7 +10,6 @@ using System;
 
 namespace Presentation.API.V1
 {
-    [ValidateModel]
     [Route("api/v1/[controller]")]
     public class FansubController : ControllerBase
     {

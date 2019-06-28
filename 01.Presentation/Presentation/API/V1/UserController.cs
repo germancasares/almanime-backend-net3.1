@@ -9,7 +9,6 @@ using Presentation.ActionFilters;
 namespace Presentation.API.V1
 {
     [Authorize]
-    [ValidateModel]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
