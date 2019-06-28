@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using AutoMapper;
 using Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Helpers;
@@ -14,15 +13,12 @@ namespace Presentation.API.V1
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
         public UserController(
-            IMapper mapper,
             IUserService userService
             )
         {
-            _mapper = mapper;
             _userService = userService;
         }
 

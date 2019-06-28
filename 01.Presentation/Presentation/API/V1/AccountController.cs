@@ -1,6 +1,5 @@
 ﻿using System;
 using Application.Interfaces;
-using AutoMapper;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +14,6 @@ namespace Presentation.API.V1
     [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
         private readonly IUserService _userService;
@@ -23,12 +21,10 @@ namespace Presentation.API.V1
 
         public AccountController(
             IConfiguration configuration,
-            IMapper mapper,
             IUserService userService,
             IAccountService accountService
         ) : base()
         {
-            _mapper = mapper;
             _configuration = configuration;
 
             _userService = userService;
