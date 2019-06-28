@@ -19,7 +19,7 @@ namespace Jobs.Security
     {
         private const string AUTH_HEADER_NAME = "Authorization";
         private const string BEARER_PREFIX = "Bearer ";
-        private HttpRequest _request;
+        private readonly HttpRequest _request;
         private readonly string _issuerToken;
         private readonly string _audience;
         private readonly string _issuer;
