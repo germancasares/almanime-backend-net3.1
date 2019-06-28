@@ -2,7 +2,6 @@
 using Application.Interfaces;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,20 +13,12 @@ namespace Presentation.API.V1
     [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-
-        private readonly IUserService _userService;
         private readonly IAccountService _accountService;
 
         public AccountController(
-            IConfiguration configuration,
-            IUserService userService,
             IAccountService accountService
         ) : base()
         {
-            _configuration = configuration;
-
-            _userService = userService;
             _accountService = accountService;
         }
 
