@@ -56,7 +56,7 @@ namespace Jobs.Security
 
                 // Validate the token
                 var handler = new JwtSecurityTokenHandler();
-                var result = handler.ValidateToken(token, tokenParams, out var securityToken);
+                var result = handler.ValidateToken(token, tokenParams, out _);
                 return Task.FromResult<object>(result);
             }
             else
