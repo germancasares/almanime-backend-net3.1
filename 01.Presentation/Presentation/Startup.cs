@@ -82,8 +82,6 @@ namespace AlmBackend
                 app.UseHsts();
             }
 
-            //app.UseCors("AllowAll");
-
             app.UseCors(builder => builder.WithOrigins(Configuration["FrontedUrl"]).AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
