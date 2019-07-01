@@ -35,6 +35,7 @@ namespace Infrastructure.Crosscutting
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAnimeService, AnimeService>();
             services.AddScoped<IFansubService, FansubService>();
+            services.AddScoped<ISubtitleService, SubtitleService>();
             services.AddScoped<IUserService, UserService>();
 
             return services;
@@ -62,21 +63,25 @@ namespace Infrastructure.Crosscutting
             {
                 config.CreateMap<string, string>().ConvertUsing(s => string.IsNullOrWhiteSpace(s) ? null : s);
 
+                // Accounts
+                config.CreateMap<RegisterDTO, IdentityUser>();
+
                 // Anime
                 config.CreateMap<AnimeDTO, Anime>();
                 config.CreateMap<Anime, AnimeVM>()
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
 
-                // Accounts
-                config.CreateMap<RegisterDTO, IdentityUser>();
-
-                // Users
-                config.CreateMap<UserDTO, User>();
+                // Chapters
+                config.CreateMap<Chapter, ChapterVM>();
 
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
                 config.CreateMap<Fansub, FansubVM>();
+
+                // Users
+                config.CreateMap<UserDTO, User>();
+
             }, AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
