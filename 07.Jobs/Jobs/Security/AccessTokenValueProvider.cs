@@ -19,7 +19,7 @@ namespace Jobs.Security
     {
         private const string AUTH_HEADER_NAME = "Authorization";
         private const string BEARER_PREFIX = "Bearer ";
-        private HttpRequest _request;
+        private readonly HttpRequest _request;
         private readonly string _issuerToken;
         private readonly string _audience;
         private readonly string _issuer;
@@ -56,7 +56,7 @@ namespace Jobs.Security
 
                 // Validate the token
                 var handler = new JwtSecurityTokenHandler();
-                var result = handler.ValidateToken(token, tokenParams, out var securityToken);
+                var result = handler.ValidateToken(token, tokenParams, out _);
                 return Task.FromResult<object>(result);
             }
             else

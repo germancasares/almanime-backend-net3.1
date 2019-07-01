@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.ActionFilters;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,11 @@ namespace AlmBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc()
+                .AddMvc(opt =>
+                {
+                    opt.Filters.Add(typeof(ValidatorActionFilter));
+                })
                 .AddFluentValidation();
-                //.AddMvc(opt => {
-                //    opt.Filters.Add(typeof(ValidatorActionFilter));
-                //});
 
             services
                 .AddConfiguration(Configuration)
@@ -80,8 +81,6 @@ namespace AlmBackend
             {
                 app.UseHsts();
             }
-
-            //app.UseCors("AllowAll");
 
             app.UseCors(builder => builder.WithOrigins(Configuration["FrontedUrl"]).AllowAnyMethod().AllowAnyHeader());
 

@@ -8,6 +8,7 @@ namespace Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Fansub> builder)
         {
+            // Will be implemented later on.
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Jobs.Security
 
         public bool FromAttribute => true;
 
-        public Task<IValueProvider> BindAsync(object value, ValueBindingContext context) => null;
+        public Task<IValueProvider> BindAsync(object value, ValueBindingContext context) => throw new NotImplementedException();
 
         public ParameterDescriptor ToParameterDescriptor() => new ParameterDescriptor();
     }

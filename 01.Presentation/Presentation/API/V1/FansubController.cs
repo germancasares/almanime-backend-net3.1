@@ -5,27 +5,22 @@ using Domain.VMs;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Presentation.ActionFilters;
 using System;
 
 namespace Presentation.API.V1
 {
-    [ValidateModel]
     [Route("api/v1/[controller]")]
     public class FansubController : ControllerBase
     {
-
-        private readonly ILogger<FansubController> _logger;
         private readonly IMapper _mapper;
         private readonly IFansubService _fansubService;
 
         public FansubController(
-            ILogger<FansubController> logger,
             IFansubService fansubService,
             IMapper mapper
         )
         {
-            _logger = logger;
             _fansubService = fansubService;
             _mapper = mapper;
         }

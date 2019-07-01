@@ -33,46 +33,7 @@ namespace Jobs.Functions
 
             var identityID = principal.Claims.GetIdentityID();
             var user = _userService.GetByIdentityID(identityID);
-
-            // Get request body
-
-            IFormFile algo;
-
-            //dynamic data = await req.Content.ReadAsAsync<object>();
-
-            //// Set name to query string or body data
-            //var name = data?.path;
-
-            //Image img = Image.FromFile(name);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // Create a file in your local MyDocuments folder to upload to a blob.
-            string localPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string localFileName = "QuickStart_" + Guid.NewGuid().ToString() + ".txt";
-            var sourceFile = Path.Combine(localPath, localFileName);
-            // Write text to the file.
-            File.WriteAllText(sourceFile, "Hello, World!");
-
-            Console.WriteLine("Temp file = {0}", sourceFile);
-            Console.WriteLine("Uploading to Blob storage as blob '{0}'", localFileName);
-
-            // Get a reference to the blob address, then upload the file to the blob.
-            // Use the value of localFileName for the blob name.
-            CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(localFileName);
-            await cloudBlockBlob.UploadFromFileAsync(sourceFile);
+            user.AvatarUrl = "";
         }
     }
 }
