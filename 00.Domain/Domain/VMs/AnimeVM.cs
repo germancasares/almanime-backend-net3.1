@@ -4,7 +4,7 @@ namespace Domain.VMs
 {
     public class AnimeVM
     {
-        public Guid? ID { get; set; }
+        public Guid ID { get; set; }
 
         public int KitsuID { get; set; }
         public int? Episodes { get; set; }

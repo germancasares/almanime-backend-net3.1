@@ -15,6 +15,6 @@ namespace Domain.Models
         public Guid ChapterID { get; set; }
         public virtual Chapter Chapter { get; set; }
 
-        public ICollection<SubtitlePartial> SubtitlePartials { get; set; }
+        public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }
 }
