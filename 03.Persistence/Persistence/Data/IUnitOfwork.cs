@@ -11,6 +11,6 @@ namespace Persistence.Data
         IUserRepository Users { get; }
         IFansubRepository Fansubs { get; }
         IMembershipRepository Memberships { get; }
-        IImageRepository Images { get; }
+        IStorageRepository Storage { get; }
     }
 }
