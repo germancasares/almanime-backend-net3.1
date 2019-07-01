@@ -1,4 +1,5 @@
-﻿using Persistence.Data.Repositories.Interfaces;
+﻿using Domain.Models;
+using Persistence.Data.Repositories.Interfaces;
 using System;
 
 namespace Persistence.Data
@@ -8,9 +9,12 @@ namespace Persistence.Data
         void Save();
 
         IAnimeRepository Animes { get; }
-        IUserRepository Users { get; }
+        IBaseRepository<Chapter> Chapters { get; }
         IFansubRepository Fansubs { get; }
         IMembershipRepository Memberships { get; }
-        IImageRepository Images { get; }
+        IStorageRepository Storage { get; }
+        IBaseRepository<Subtitle> Subtitles { get; set; }
+        ISubtitlePartialRepository SubtitlePartials { get; set; }
+        IUserRepository Users { get; }
     }
 }

@@ -39,7 +39,7 @@ namespace Application
             // TODO: What happens if UnitOfWork fails? we have this image that has to be deleted?
             if (userDTO.Avatar != null)
             {
-                userEntity.AvatarUrl = await _unitOfWork.Images.UploadAvatar(userDTO.Avatar, userEntity.ID);
+                userEntity.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, userEntity.ID);
             }
 
             var user = _unitOfWork.Users.Create(userEntity);
@@ -65,7 +65,7 @@ namespace Application
 
             if (userDTO.Avatar != null)
             {
-                user.AvatarUrl = await _unitOfWork.Images.UploadAvatar(userDTO.Avatar, user.ID);
+                user.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, user.ID);
             }
 
             _unitOfWork.Users.Update(user);

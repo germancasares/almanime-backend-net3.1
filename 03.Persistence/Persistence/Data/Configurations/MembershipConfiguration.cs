@@ -1,15 +1,17 @@
 ﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Data.Configurations
 {
-    public class MembershipConfiguration : IEntityTypeConfiguration<Membership>
+    public class MembershipConfiguration : BaseModelConfiguration<Membership>
     {
-        public void Configure(EntityTypeBuilder<Membership> builder)
+        public override void Configure(EntityTypeBuilder<Membership> builder)
         {
+            base.Configure(builder);
+
             builder
-                .HasKey(k => new { k.FansubID, k.UserID });
+                .HasIndex(k => new { k.FansubID, k.UserID })
+                .IsUnique();
 
             builder
                 .HasOne(c => c.Fansub)

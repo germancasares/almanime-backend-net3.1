@@ -1,9 +1,10 @@
 ﻿using Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class Membership
+    public class Membership : BaseModel
     {
         public Guid FansubID { get; set; }
         public virtual Fansub Fansub { get; set; }
@@ -12,5 +13,7 @@ namespace Domain.Models
         public virtual User User { get; set; }
 
         public EFansubRole Role { get; set; }
+
+        public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace Domain.Models
         public string NickName { get; set; }
         public Guid IdentityID { get; set; }
 
-        public virtual List<Membership> Memberships { get; set; }
+        public virtual ICollection<Membership> Memberships { get; set; }
     }
 }

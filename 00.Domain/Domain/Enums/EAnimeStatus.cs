@@ -1,11 +1,11 @@
 ﻿namespace Domain.Enums.Anime
 {
-    public enum EStatus
+    public enum EAnimeStatus
     {
         Tba,
         Unreleased,
         Upcoming,
         Current,
-        Finished
+        Finished,
     }
 }

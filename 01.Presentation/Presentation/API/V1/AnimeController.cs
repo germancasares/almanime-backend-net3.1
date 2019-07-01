@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Constants;
-using Domain.Models;
 using Domain.VMs;
 using Domain.Enums;
 using System;
@@ -34,8 +32,6 @@ namespace Presentation.Controllers
         [HttpGet("{ID}")]
         public IActionResult Get(Guid ID)
         {
-            _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/anime/{ID}", ID);
-
             var anime = _animeService.GetByID(ID);
 
             if (anime == null) return NotFound();
@@ -43,11 +39,17 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
+        [HttpGet("{ID}/chapters")]
+        public IActionResult GetChapters(Guid ID)
+        {
+            var chapters = _animeService.GetChapters(ID);
+
+            return Ok(_mapper.Map<IEnumerable<ChapterVM>>(chapters));
+        }
+
         [HttpGet("Slug={slug}")]
         public IActionResult GetBySlug(string slug)
         {
-            _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/animes/Slug={slug}", slug);
-
             var anime = _animeService.GetBySlug(slug);
 
             if (anime == null) return NotFound();
@@ -55,13 +57,12 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
+        //TODO: Add pagination
         [HttpGet("Year={year}&Season={season}")]
         public IActionResult GetSeason(
             int year,
             string season)
         {
-            _logger.LogInformation(LoggingEvents.GetItem, "Request recived for path /api/animes?Year={year}&Season={season}", year, season);
-
             var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
 
             if (!seasonEnum.HasValue) return BadRequest("Season not valid.");

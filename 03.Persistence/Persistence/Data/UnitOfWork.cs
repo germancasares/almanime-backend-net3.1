@@ -1,4 +1,5 @@
-﻿using Persistence.Data.Repositories.Interfaces;
+﻿using Domain.Models;
+using Persistence.Data.Repositories.Interfaces;
 using System;
 
 namespace Persistence.Data
@@ -9,27 +10,37 @@ namespace Persistence.Data
 
         public UnitOfWork(
             AlmanimeContext context,
+
             IAnimeRepository animes,
-            IUserRepository users,
+            IBaseRepository<Chapter> chapters,
             IFansubRepository fansubs,
             IMembershipRepository memberships,
-            IImageRepository images
+            IStorageRepository storage,
+            IBaseRepository<Subtitle> subtitles,
+            ISubtitlePartialRepository subtitlesPartials,
+            IUserRepository users
             )
         {
             _context = context;
+
             Animes = animes;
-            Users = users;
+            Chapters = chapters;
             Fansubs = fansubs;
             Memberships = memberships;
-            Images = images;
+            Storage = storage;
+            Subtitles = subtitles;
+            SubtitlePartials = subtitlesPartials;
+            Users = users;
         }
 
         public IAnimeRepository Animes { get; }
-        public IUserRepository Users { get; }
+        public IBaseRepository<Chapter> Chapters { get; }
         public IFansubRepository Fansubs { get; }
         public IMembershipRepository Memberships { get; }
-
-        public IImageRepository Images { get; }
+        public IStorageRepository Storage { get; }
+        public IBaseRepository<Subtitle> Subtitles { get; set; }
+        public ISubtitlePartialRepository SubtitlePartials { get; set; }
+        public IUserRepository Users { get; }
 
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)

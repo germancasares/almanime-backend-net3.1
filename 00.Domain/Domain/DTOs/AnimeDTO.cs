@@ -10,7 +10,7 @@ namespace Domain.DTOs
         public string Slug { get; set; }
         public string Name { get; set; }
         public ESeason Season { get; set; }
-        public EStatus Status { get; set; }
+        public EAnimeStatus Status { get; set; }
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }

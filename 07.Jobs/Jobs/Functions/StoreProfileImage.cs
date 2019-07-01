@@ -23,7 +23,7 @@ namespace Jobs.Functions
             _userService = userService;
         }
 
-        [FunctionName("StoreProfileImage")]
+        //[FunctionName("StoreProfileImage")]
         public async Task Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestMessage req,
             [Blob("sample-images-sm", FileAccess.Write)] CloudBlobContainer cloudBlobContainer,

@@ -27,15 +27,16 @@ namespace Infrastructure.Crosscutting
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddContext(this IServiceCollection services) => services.AddDbContext<AlmanimeContext>(options => options.UseSqlServer("Name=AlmanimeConnection", b => b.MigrationsAssembly("Migrations.Data")));
+        public static IServiceCollection AddContext(this IServiceCollection services) => services.AddDbContext<AlmanimeContext>(options => options.UseLazyLoadingProxies().UseSqlServer("Name=AlmanimeConnection", b => b.MigrationsAssembly("Migrations.Data")));
         public static IServiceCollection AddContext(this IServiceCollection services, string connectionString) => services.AddDbContext<AlmanimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IAnimeService, AnimeService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAnimeService, AnimeService>();
             services.AddScoped<IFansubService, FansubService>();
+            services.AddScoped<ISubtitleService, SubtitleService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
@@ -43,10 +44,13 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBaseRepository<Chapter>, BaseRepository<Chapter>>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
-            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IStorageRepository, StorageRepository>();
+            services.AddScoped<IBaseRepository<Subtitle>, BaseRepository<Subtitle>>();
+            services.AddScoped<ISubtitlePartialRepository, SubtitlePartialRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -59,21 +63,25 @@ namespace Infrastructure.Crosscutting
             {
                 config.CreateMap<string, string>().ConvertUsing(s => string.IsNullOrWhiteSpace(s) ? null : s);
 
+                // Accounts
+                config.CreateMap<RegisterDTO, IdentityUser>();
+
                 // Anime
                 config.CreateMap<AnimeDTO, Anime>();
                 config.CreateMap<Anime, AnimeVM>()
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
 
-                // Accounts
-                config.CreateMap<RegisterDTO, IdentityUser>();
-
-                // Users
-                config.CreateMap<UserDTO, User>();
+                // Chapters
+                config.CreateMap<Chapter, ChapterVM>();
 
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
                 config.CreateMap<Fansub, FansubVM>();
+
+                // Users
+                config.CreateMap<UserDTO, User>();
+
             }, AppDomain.CurrentDomain.GetAssemblies());
 
             return services;

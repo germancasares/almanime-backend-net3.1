@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20190621062306_FansubFounder.Designer.cs" />
     <Compile Remove="Migrations\20190621070942_FansubFounder.cs" />
     <Compile Remove="Migrations\20190621070942_FansubFounder.Designer.cs" />
+    <Compile Remove="Migrations\20190627052127_Subtitle.cs" />
+    <Compile Remove="Migrations\20190627052127_Subtitle.Designer.cs" />
+    <Compile Remove="Migrations\20190627055630_Subtitle.cs" />
+    <Compile Remove="Migrations\20190627055630_Subtitle.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
