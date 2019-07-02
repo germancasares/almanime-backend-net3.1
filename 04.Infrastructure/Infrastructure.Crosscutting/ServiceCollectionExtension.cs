@@ -27,8 +27,7 @@ namespace Infrastructure.Crosscutting
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddContext(this IServiceCollection services) => services.AddDbContext<AlmanimeContext>(options => options.UseLazyLoadingProxies().UseSqlServer("Name=AlmanimeConnection", b => b.MigrationsAssembly("Migrations.Data")));
-        public static IServiceCollection AddContext(this IServiceCollection services, string connectionString) => services.AddDbContext<AlmanimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
+        public static IServiceCollection AddContext(this IServiceCollection services, string connectionString = "Name=AlmanimeConnection") => services.AddDbContext<AlmanimeContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
