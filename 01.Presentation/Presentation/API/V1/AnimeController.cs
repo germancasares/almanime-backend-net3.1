@@ -70,11 +70,9 @@ namespace Presentation.Controllers
         [HttpGet("slug/{slug}/episodes")]
         public IActionResult GetEpisodesBySlug(string slug)
         {
-            var anime = _animeService.GetEpisodesBySlug(slug);
+            var episodes = _animeService.GetEpisodesBySlug(slug);
 
-            if (anime == null) return NotFound();
-
-            return Ok(_mapper.Map<AnimeVM>(anime));
+            return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
 
         [HttpGet("slug/{slug}/episodes/{number}")]
