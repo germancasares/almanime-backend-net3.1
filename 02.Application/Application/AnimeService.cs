@@ -23,7 +23,7 @@ namespace Application.Services
         public Anime GetByID(Guid guid) => _unitOfWork.Animes.GetByID(guid);
         public Anime GetByKitsuID(int kitsuID) => _unitOfWork.Animes.GetByKitsuID(kitsuID);
         public Anime GetBySlug(string slug) => _unitOfWork.Animes.GetBySlug(slug);
-        public IEnumerable<Chapter> GetChapters(Guid guid) => _unitOfWork.Animes.GetByID(guid).Chapters;
+        public IEnumerable<Episode> GetEpisodes(Guid guid) => _unitOfWork.Animes.GetByID(guid).Episodes;
         public IEnumerable<Anime> GetSeason(int year, ESeason season) => _unitOfWork.Animes.GetSeason(year, season);
 
         public Anime Create(AnimeDTO animeDTO)
