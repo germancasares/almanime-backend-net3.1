@@ -16,5 +16,8 @@ namespace Application.Services.Interfaces
         void Update(AnimeDTO animeDTO);
         IEnumerable<Anime> GetSeason(int year, ESeason season);
         IEnumerable<Episode> GetEpisodes(Guid guid);
+        IEnumerable<Episode> GetEpisodesBySlug(string slug);
+        Episode GetEpisode(Guid animeID, int number);
+        Episode GetEpisodeBySlug(string slug, int number);
     }
 }
