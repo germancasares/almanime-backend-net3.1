@@ -43,7 +43,7 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
-            services.AddScoped<IBaseRepository<Chapter>, BaseRepository<Chapter>>();
+            services.AddScoped<IBaseRepository<Episode>, BaseRepository<Episode>>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
             services.AddScoped<IStorageRepository, StorageRepository>();
@@ -72,7 +72,7 @@ namespace Infrastructure.Crosscutting
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
 
                 // Chapters
-                config.CreateMap<Chapter, ChapterVM>();
+                config.CreateMap<Episode, EpisodeVM>();
 
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
