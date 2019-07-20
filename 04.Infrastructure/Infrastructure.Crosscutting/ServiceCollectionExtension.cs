@@ -73,6 +73,7 @@ namespace Infrastructure.Crosscutting
 
                 // Chapters
                 config.CreateMap<Episode, EpisodeVM>();
+                config.CreateMap<EpisodeDTO, Episode>();
 
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
