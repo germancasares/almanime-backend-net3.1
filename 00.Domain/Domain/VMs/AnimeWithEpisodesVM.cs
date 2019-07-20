@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.VMs
 {
-    public class AnimeVM
+    public class AnimeWithEpisodesVM
     {
         public Guid ID { get; set; }
 
@@ -17,5 +17,7 @@ namespace Domain.VMs
 
         public string CoverImage { get; set; }
         public string PosterImage { get; set; }
+
+        public ICollection<EpisodeVM> Episodes { get; set; }
     }
 }
