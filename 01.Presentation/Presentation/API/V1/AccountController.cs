@@ -21,21 +21,21 @@ namespace Presentation.API.V1
             _accountService = accountService;
         }
 
-        [HttpHead("Username/{username}")]
+        [HttpHead("username/{username}")]
         public async Task<IActionResult> CheckUserNameAvailability(string username)
         {
             if (await _accountService.ExistsUsername(username)) return Ok();
             return NotFound();
         }
 
-        [HttpHead("Email/{email}")]
+        [HttpHead("email/{email}")]
         public async Task<IActionResult> CheckEmailAvailability(string email)
         {
             if (await _accountService.ExistsEmail(email)) return Ok();
             return NotFound();
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             var (token, errors) = await _accountService.CreateAccount(registerDTO);
@@ -45,7 +45,7 @@ namespace Presentation.API.V1
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             var token = await _accountService.Login(loginDTO);

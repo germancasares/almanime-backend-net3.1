@@ -21,7 +21,7 @@ namespace Presentation.API.V1
             _userService = userService;
         }
 
-        [HttpPut("Self")]
+        [HttpPut("self")]
         public async Task Update(UserDTO userDTO)
         {
             var identityID = User.Claims.GetIdentityID();
