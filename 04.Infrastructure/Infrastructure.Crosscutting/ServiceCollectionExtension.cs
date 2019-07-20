@@ -70,6 +70,9 @@ namespace Infrastructure.Crosscutting
                 config.CreateMap<Anime, AnimeVM>()
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
+                config.CreateMap<Anime, AnimeWithEpisodesVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
+                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
 
                 // Chapters
                 config.CreateMap<Episode, EpisodeVM>();
