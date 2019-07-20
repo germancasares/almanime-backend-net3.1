@@ -36,7 +36,7 @@ namespace Presentation.Controllers
 
             if (anime == null) return NotFound();
  
-            return Ok(_mapper.Map<AnimeVM>(anime));
+            return Ok(_mapper.Map<AnimeWithEpisodesVM>(anime));
         }
 
         [HttpGet("{ID}/episodes")]
@@ -64,7 +64,7 @@ namespace Presentation.Controllers
 
             if (anime == null) return NotFound();
 
-            return Ok(_mapper.Map<AnimeVM>(anime));
+            return Ok(_mapper.Map<AnimeWithEpisodesVM>(anime));
         }
 
         [HttpGet("slug/{slug}/episodes")]
