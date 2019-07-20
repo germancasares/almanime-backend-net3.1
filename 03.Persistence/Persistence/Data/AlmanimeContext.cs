@@ -14,7 +14,7 @@ namespace Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AnimeConfiguration());
-            modelBuilder.ApplyConfiguration(new ChapterConfiguration());
+            modelBuilder.ApplyConfiguration(new EpisodeConfiguration());
             modelBuilder.ApplyConfiguration(new FansubConfiguration());
             modelBuilder.ApplyConfiguration(new MembershipConfiguration());
             modelBuilder.ApplyConfiguration(new SubtitleConfiguration());
@@ -25,7 +25,7 @@ namespace Persistence.Data
         #region DBSets
 
         public DbSet<Anime> Animes { get; set; }
-        public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
         public DbSet<Fansub> Fansubs { get; set; }
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Subtitle> Subtitles { get; set; }

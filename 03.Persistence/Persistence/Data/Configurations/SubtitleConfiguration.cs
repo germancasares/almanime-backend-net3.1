@@ -10,9 +10,9 @@ namespace Persistence.Data.Configurations
             base.Configure(builder);
 
             builder
-                .HasOne(c => c.Chapter)
+                .HasOne(c => c.Episode)
                 .WithMany(c => c.Subtitles)
-                .HasForeignKey(c => c.ChapterID);
+                .HasForeignKey(c => c.EpisodeID);
         }
     }
 }
