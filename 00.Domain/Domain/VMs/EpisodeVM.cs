@@ -2,7 +2,7 @@
 
 namespace Domain.VMs
 {
-    public class ChapterVM
+    public class EpisodeVM
     {
         public Guid ID { get; set; }
 
