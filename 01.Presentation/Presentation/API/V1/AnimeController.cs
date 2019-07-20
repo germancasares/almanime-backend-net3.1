@@ -39,15 +39,24 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
-        [HttpGet("{ID}/chapters")]
-        public IActionResult GetChapters(Guid ID)
+        [HttpGet("{ID}/episodes")]
+        public IActionResult GetEpisodes(Guid ID)
         {
-            var chapters = _animeService.GetChapters(ID);
+            var episodes = _animeService.GetEpisodes(ID);
 
-            return Ok(_mapper.Map<IEnumerable<ChapterVM>>(chapters));
+            return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
 
-        //TOOD: Make slug get the ID of the anime, and then call Get from above.
+        [HttpGet("{ID}/episodes/{number}")]
+        public IActionResult GetEpisode(Guid ID, int number)
+        {
+            var episode = _animeService.GetEpisode(ID, number);
+
+            if (episode == null) return NotFound();
+
+            return Ok(_mapper.Map<EpisodeVM>(episode));
+        }
+
         [HttpGet("slug/{slug}")]
         public IActionResult GetBySlug(string slug)
         {
@@ -58,7 +67,25 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
-        //TODO: Write endpoint to access chapters via slug
+        [HttpGet("slug/{slug}/episodes")]
+        public IActionResult GetEpisodesBySlug(string slug)
+        {
+            var anime = _animeService.GetEpisodesBySlug(slug);
+
+            if (anime == null) return NotFound();
+
+            return Ok(_mapper.Map<AnimeVM>(anime));
+        }
+
+        [HttpGet("slug/{slug}/episodes/{number}")]
+        public IActionResult GetEpisodeBySlug(string slug, int number)
+        {
+            var episode = _animeService.GetEpisodeBySlug(slug, number);
+
+            if (episode == null) return NotFound();
+
+            return Ok(_mapper.Map<EpisodeVM>(episode));
+        }
 
         //TODO: Add pagination
         [HttpGet("year/{year}/season/{season}")]

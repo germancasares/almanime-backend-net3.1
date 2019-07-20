@@ -12,8 +12,8 @@ namespace Domain.Models
         // Restriction to only allow one subtitle per Fansub.
         public ESubtitleStatus Status { get; set; }
 
-        public Guid ChapterID { get; set; }
-        public virtual Chapter Chapter { get; set; }
+        public Guid EpisodeID { get; set; }
+        public virtual Episode Episode { get; set; }
 
         public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }

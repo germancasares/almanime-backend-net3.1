@@ -1,6 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.Enums.Anime;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.DTOs
 {
@@ -14,9 +15,10 @@ namespace Domain.DTOs
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
-        public int? Episodes { get; set; }
         public string Synopsis { get; set; }
         public string CoverImageUrl { get; set; }
         public string PosterImageUrl { get; set; }
+
+        public IEnumerable<EpisodeDTO> Episodes { get; set; }
     }
 }

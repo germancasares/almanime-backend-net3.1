@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class Chapter : BaseModel
+    public class Episode : BaseModel
     {
         public int Number { get; set; }
         public string Name { get; set; }

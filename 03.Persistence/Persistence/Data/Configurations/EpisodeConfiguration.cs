@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Data.Configurations
 {
-    public class ChapterConfiguration : BaseModelConfiguration<Chapter>
+    public class EpisodeConfiguration : BaseModelConfiguration<Episode>
     {
-        public override void Configure(EntityTypeBuilder<Chapter> builder)
+        public override void Configure(EntityTypeBuilder<Episode> builder)
         {
             base.Configure(builder);
 
             builder
                 .HasOne(c => c.Anime)
-                .WithMany(c => c.Chapters)
+                .WithMany(c => c.Episodes)
                 .HasForeignKey(c => c.AnimeID);
         }
     }

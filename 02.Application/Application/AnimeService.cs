@@ -6,6 +6,7 @@ using Domain.Models;
 using Persistence.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Services
 {
@@ -23,7 +24,11 @@ namespace Application.Services
         public Anime GetByID(Guid guid) => _unitOfWork.Animes.GetByID(guid);
         public Anime GetByKitsuID(int kitsuID) => _unitOfWork.Animes.GetByKitsuID(kitsuID);
         public Anime GetBySlug(string slug) => _unitOfWork.Animes.GetBySlug(slug);
-        public IEnumerable<Chapter> GetChapters(Guid guid) => _unitOfWork.Animes.GetByID(guid).Chapters;
+        public IEnumerable<Episode> GetEpisodes(Guid guid) => _unitOfWork.Animes.GetByID(guid).Episodes;
+        public IEnumerable<Episode> GetEpisodesBySlug(string slug) => _unitOfWork.Animes.GetBySlug(slug).Episodes;
+        public Episode GetEpisode(Guid animeID, int number) => _unitOfWork.Animes.GetByID(animeID).Episodes.SingleOrDefault(c => c.Number == number);
+        public Episode GetEpisodeBySlug(string slug, int number) => _unitOfWork.Animes.GetBySlug(slug).Episodes.SingleOrDefault(c => c.Number == number);
+
         public IEnumerable<Anime> GetSeason(int year, ESeason season) => _unitOfWork.Animes.GetSeason(year, season);
 
         public Anime Create(AnimeDTO animeDTO)

@@ -9,7 +9,7 @@ namespace Persistence.Data
         void Save();
 
         IAnimeRepository Animes { get; }
-        IBaseRepository<Chapter> Chapters { get; }
+        IBaseRepository<Episode> Episodes { get; }
         IFansubRepository Fansubs { get; }
         IMembershipRepository Memberships { get; }
         IStorageRepository Storage { get; }

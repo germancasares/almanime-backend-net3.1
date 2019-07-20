@@ -12,7 +12,7 @@ namespace Persistence.Data
             AlmanimeContext context,
 
             IAnimeRepository animes,
-            IBaseRepository<Chapter> chapters,
+            IBaseRepository<Episode> episodes,
             IFansubRepository fansubs,
             IMembershipRepository memberships,
             IStorageRepository storage,
@@ -24,7 +24,7 @@ namespace Persistence.Data
             _context = context;
 
             Animes = animes;
-            Chapters = chapters;
+            Episodes = episodes;
             Fansubs = fansubs;
             Memberships = memberships;
             Storage = storage;
@@ -34,7 +34,7 @@ namespace Persistence.Data
         }
 
         public IAnimeRepository Animes { get; }
-        public IBaseRepository<Chapter> Chapters { get; }
+        public IBaseRepository<Episode> Episodes { get; }
         public IFansubRepository Fansubs { get; }
         public IMembershipRepository Memberships { get; }
         public IStorageRepository Storage { get; }
