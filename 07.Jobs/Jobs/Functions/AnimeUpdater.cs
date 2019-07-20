@@ -6,7 +6,6 @@ using Jobs.Models;
 using Infrastructure.Helpers;
 using Kitsu.Anime;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
@@ -22,11 +21,13 @@ namespace Jobs.Functions
 {
     public class AnimeUpdater
     {
-        private const int AnimesInPage = 20;
-        private const string KitsuAPI = "https://kitsu.io/api/edge";
-        private static readonly HttpClient Client = new HttpClient();
-        private static ILogger Log;
+        private const int MAX_PER_PAGE = 20;
+        private ILogger Log;
         private static IAnimeService _animeService;
+        private const string KitsuAPI = "https://kitsu.io/api/edge";
+        private static readonly string AnimeURL = $"{{0}}/anime?filter[seasonYear]={{1}}&filter[season]={{2}}&page[limit]={{3}}";
+        private static readonly string EpisodeURL = $"{{0}}/anime/{{1}}/episodes?page[limit]={{2}}";
+        private readonly HttpClient Client = new HttpClient();
 
         public AnimeUpdater(IAnimeService animeService)
         {
@@ -34,7 +35,7 @@ namespace Jobs.Functions
         }
 
         [FunctionName("AnimeUpdater")]
-        public async Task<IActionResult> Run(
+        public async Task Run(
             [HttpTrigger(AuthorizationLevel.Function, "PUT", Route = "AnimeUpdater/{year}/{season}")]
             HttpRequest req,
             int year,
@@ -48,59 +49,102 @@ namespace Jobs.Functions
             var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
             if (!seasonEnum.HasValue) throw new ArgumentException("Season must be {Winter, Spring, Summer, Fall}");
 
-            var url = $"{KitsuAPI}/anime?filter[seasonYear]={year}&filter[season]={season.ToString().ToLower()}&page[limit]={AnimesInPage}";
+            // Get AnimesDataModels
+            var animes = await GetAnimes(year, seasonEnum.Value);
 
-            var animes = new List<KeyValuePair<string, AnimeAttributesModel>>();
+            // Get EpisodeDataModels
+            var episodesTask = animes.Select(async c => new { c.Id, Episodes = await GetEpisodes(c) });
+            var episodes = await Task.WhenAll(episodesTask.ToArray());
+
+            // Map AnimeDataModels
+            var animesDTOs = animes
+                .Select(a => MapAnime(a))
+                .Where(a => a != null && a.Status != EAnimeStatus.Tba && a.Season == seasonEnum)
+                .ToList();
+
+            // Map EpisodeDataModels
+            var episodesDTOs = episodes
+                .Select(c => new KeyValuePair<int, IEnumerable<EpisodeDTO>>(int.Parse(c.Id), c.Episodes.Select(x => MapEpisode(x))))
+                .ToList();
+
+            animesDTOs.ForEach(a =>
+            {
+                // Merge EpisodeDTOs into AnimeDTOs
+                a.Episodes = episodesDTOs.SingleOrDefault(c => c.Key == a.KitsuID).Value;
+
+                // Foreach CreateOrUpdateAnime
+                CreateOrUpdateAnime(a);
+            });
+        }
+
+        private async Task<List<AnimeDataModel>> GetAnimes(int year, ESeason season)
+        {
+            var animeDataModels = new List<AnimeDataModel>();
+
+            var url = string.Format(AnimeURL, KitsuAPI, year, season.ToString().ToLower(), MAX_PER_PAGE);
             while (!string.IsNullOrWhiteSpace(url))
             {
-                var (next, animesInPage) = await ProcessPage(url);
-                animes.AddRange(animesInPage.Where(c => c.Value.Subtype == "TV"));
+                var (next, rawAnimes) = await ProcessAnimePage(url);
+
+                var filteredAnimes = rawAnimes.Where(c => c.Attributes.Subtype == "TV").ToList();
+
+                animeDataModels.AddRange(filteredAnimes);
+
+
                 url = next;
             }
 
-            var animesDTOs = animes.Select(a => MapAnime(a.Key, a.Value)).Where(a => a != null && a.Status != EAnimeStatus.Tba && a.Season == seasonEnum).ToList();
-
-            animesDTOs.ForEach(a => CreateOrUpdateAnime(a));
-
-            return new OkResult();
+            return animeDataModels;
         }
 
-        private static async Task<(string next, IEnumerable<KeyValuePair<string, AnimeAttributesModel>> animesInPage)> ProcessPage(string url)
+        private async Task<List<EpisodeDataModel>> GetEpisodes(AnimeDataModel anime)
         {
-            var httpResponse = await Client.GetAsync(url);
-            var response = await httpResponse.Content.ReadAsStringAsync();
+            var episodeDataModels = new List<EpisodeDataModel>();
+
+            var url = string.Format(EpisodeURL, KitsuAPI, anime.Id, MAX_PER_PAGE);
+            while (!string.IsNullOrWhiteSpace(url))
+            {
+                var (next, rawEpisodes) = await ProcessEpisodePage(url);
+                episodeDataModels.AddRange(rawEpisodes);
+                url = next;
+            }
+
+            return episodeDataModels;
+        }
+
+        private async Task<(string Next, IEnumerable<AnimeDataModel> AnimeDataModel)> ProcessAnimePage(string url)
+        {
+            var response = await Client.GetStringAsync(url);
             var animeCollection = JsonConvert.DeserializeObject<AnimeCollection>(response);
-            return (animeCollection.Links.Next, animeCollection.Data.Select(c => new KeyValuePair<string, AnimeAttributesModel>(c.Id, c.Attributes)));
+            return (animeCollection.Links.Next, animeCollection.Data);
         }
 
-        private static AnimeDTO MapAnime(string kitsuID, AnimeAttributesModel anime)
+        private async Task<(string Next, List<EpisodeDataModel> EpisodeDataModel)> ProcessEpisodePage(string url)
         {
-            if (anime.Slug == "delete") return null;
+            var response = await Client.GetStringAsync(url);
+            var episodeCollection = JsonConvert.DeserializeObject<EpisodeCollection>(response, new JsonSerializerSettings
+            {
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            });
+            return (episodeCollection.Links.Next, episodeCollection.Data);
+        }
 
-            // Status
+        private AnimeDTO MapAnime(AnimeDataModel model)
+        {
+            var anime = model.Attributes;
+
+            if (!IsProcessable(model.Id , anime)) return null;
+
             var status = EnumHelper.GetEnumFromString<EAnimeStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
-            if (!status.HasValue)
-            {
-                Log.LogError($"[AnimeUpdater~MapAnime(Status)] Anime {anime.Slug} - Status {anime.Status}");
-                return null;
-            }
+            DateTime.TryParseExact(anime.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate);
 
-            // StartDate
-            if (!DateTime.TryParseExact(anime.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
-            {
-                Log.LogError($"[AnimeUpdater~MapAnime(StartDate)] Anime {anime.Slug} - StartDate {anime.StartDate}");
-                return null;
-            }
-
-            // EndDate
             var endDateCorrect = DateTime.TryParseExact(anime.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDate);
 
             return new AnimeDTO
             {
-                KitsuID = int.Parse(kitsuID),
+                KitsuID = int.Parse(model.Id),
                 Slug = anime.Slug,
                 Name = anime.CanonicalTitle,
-                Episodes = anime.EpisodeCount,
                 Synopsis = anime.Synopsis,
                 Status = status.Value,
                 StartDate = startDate,
@@ -109,6 +153,48 @@ namespace Jobs.Functions
                 CoverImageUrl = anime.CoverImage?.Original,
                 PosterImageUrl = anime.PosterImage?.Original
             };
+        }
+
+        private static EpisodeDTO MapEpisode(EpisodeDataModel model)
+        {
+            var episode = model.Attributes;
+
+            var endDateCorrect = DateTime.TryParseExact(episode.Airdate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime airDate);
+
+            return new EpisodeDTO
+            {
+                Aired = endDateCorrect ? airDate : (DateTime?)null,
+                Duration = episode.Length,
+                Name = episode.CanonicalTitle,
+                Number = episode.Number.Value,
+            };
+        }
+
+        private bool IsProcessable(string id, AnimeAttributesModel anime)
+        {
+            // Slug
+            if (anime.Slug == "delete")
+            {
+                Log.LogError($"[AnimeUpdater~MapAnime(Slug)] AnimeID {id} - Slug {anime.Slug}");
+                return false;
+            }
+
+            // Status
+            var status = EnumHelper.GetEnumFromString<EAnimeStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
+            if (!status.HasValue)
+            {
+                Log.LogError($"[AnimeUpdater~MapAnime(Status)] Anime {anime.Slug} - Status {anime.Status}");
+                return false;
+            }
+
+            // StartDate
+            if (!DateTime.TryParseExact(anime.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            {
+                Log.LogError($"[AnimeUpdater~MapAnime(StartDate)] Anime {anime.Slug} - StartDate {anime.StartDate}");
+                return false;
+            }
+
+            return true;
         }
 
         private static void CreateOrUpdateAnime(AnimeDTO anime)
