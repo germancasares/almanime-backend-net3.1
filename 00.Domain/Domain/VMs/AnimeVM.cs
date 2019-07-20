@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.VMs
 {
@@ -7,7 +8,6 @@ namespace Domain.VMs
         public Guid ID { get; set; }
 
         public int KitsuID { get; set; }
-        public int? Episodes { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
         public string Season { get; set; }
@@ -17,5 +17,7 @@ namespace Domain.VMs
 
         public string CoverImage { get; set; }
         public string PosterImage { get; set; }
+
+        public ICollection<EpisodeVM> Episodes { get; set; }
     }
 }
