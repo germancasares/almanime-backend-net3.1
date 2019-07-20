@@ -39,12 +39,12 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<AnimeVM>(anime));
         }
 
-        [HttpGet("{ID}/chapters")]
-        public IActionResult GetChapters(Guid ID)
+        [HttpGet("{ID}/episodes")]
+        public IActionResult GetEpisodes(Guid ID)
         {
-            var chapters = _animeService.GetChapters(ID);
+            var episodes = _animeService.GetEpisodes(ID);
 
-            return Ok(_mapper.Map<IEnumerable<ChapterVM>>(chapters));
+            return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
 
         //TOOD: Make slug get the ID of the anime, and then call Get from above.
