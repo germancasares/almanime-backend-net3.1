@@ -34,7 +34,7 @@ namespace Jobs.Functions
         }
 
         [FunctionName("AnimeUpdater")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "PUT", Route = "AnimeUpdater/{year}/{season}")]
             HttpRequest req,
             int year,
