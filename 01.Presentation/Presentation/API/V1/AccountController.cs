@@ -36,7 +36,7 @@ namespace Presentation.API.V1
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDTO registerDTO)
+        public async Task<IActionResult> Register([FromBody]RegisterDTO registerDTO)
         {
             var (token, errors) = await _accountService.CreateAccount(registerDTO);
 
@@ -46,7 +46,7 @@ namespace Presentation.API.V1
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        public async Task<IActionResult> Login([FromBody]LoginDTO loginDTO)
         {
             var token = await _accountService.Login(loginDTO);
 
