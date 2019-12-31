@@ -119,8 +119,10 @@ namespace Infrastructure.Crosscutting
             return services;
         }
 
-        public static IServiceCollection AddAuthentication(this IServiceCollection services, TokenConfiguration tokenConfiguration)
+        public static IServiceCollection AddAlmAuthentication(this IServiceCollection services)
         {
+            var tokenConfiguration = services.BuildServiceProvider().GetService<TokenConfiguration>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -163,7 +165,7 @@ namespace Infrastructure.Crosscutting
             services.AddOptions();
 
             var tokenConfiguration = new TokenConfiguration();
-            config.Bind("Token", tokenConfiguration);
+            config.Bind("TokenConfiguration", tokenConfiguration);
             services.AddSingleton(tokenConfiguration);
 
             return services;

@@ -6,6 +6,7 @@ using System;
 
 namespace Presentation.API.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
     public class SubtitleController : ControllerBase
     {

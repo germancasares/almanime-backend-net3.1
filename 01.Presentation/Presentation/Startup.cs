@@ -1,14 +1,14 @@
-using Domain.Configurations;
 using FluentValidation.AspNetCore;
 using Infrastructure.Crosscutting;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.ActionFilters;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
 
 namespace AlmBackend
 {
@@ -25,7 +25,7 @@ namespace AlmBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc(opt =>
+                .AddControllers(opt =>
                 {
                     opt.Filters.Add(typeof(ValidatorActionFilter));
                 })
@@ -35,43 +35,53 @@ namespace AlmBackend
                 .AddConfiguration(Configuration)
                 .AddContext()
                 .AddIdentity()
-                .AddAuthentication(services.BuildServiceProvider().GetService<TokenConfiguration>())
+                .AddAlmAuthentication()
                 .AddServices()
                 .AddRepositories()
                 .AddValidators()
                 .AddMapper()
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info
+                    c.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Title = "AlmBackend API",
+                        Description = "Backend for the Almanime project.",
                         Version = "v1",
-                        Contact = new Contact
+                        Contact = new OpenApiContact
                         {
-                            Email = "german.casares@outlook.com",
                             Name = "German Casares March",
-                            Url = "https://www.linkedin.com/in/germancasares/"
+                            Url = new Uri("https://www.linkedin.com/in/germancasares/"),
+                            Email = "german.casares@outlook.com",
                         },
-                        Description = "Backend for the Almanime project."
-                    });
-                    c.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                    {
-                        In = "header",
-                        Description = "Please Enter Authentication Token",
-                        Name = "Authorization",
-                        Type = "apiKey"
-                    });
-                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
-                        { "Bearer", Enumerable.Empty<string>() },
                     });
 
-                    c.DescribeAllEnumsAsStrings();
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.ApiKey,
+                        Description = "Please Enter Authentication Token",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            Implicit = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri("https://authorization.com"),
+                                TokenUrl = new Uri("https://token.com"),
+                                RefreshUrl = new Uri("https://refresh.com"),
+                                Scopes = new Dictionary<string, string>(),
+                            }
+                        },
+                        
+                        
+                    });
+
+                    //c.DescribeAllEnumsAsStrings();
                 });
  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -82,7 +92,7 @@ namespace AlmBackend
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.WithOrigins(Configuration["FrontendUrl"].Split(";")).AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins(Configuration["FrontendUrls"].Split(";")).AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
 
@@ -93,7 +103,13 @@ namespace AlmBackend
                 c.RoutePrefix = string.Empty;
             });
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

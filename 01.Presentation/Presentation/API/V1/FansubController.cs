@@ -5,11 +5,11 @@ using Domain.VMs;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.ActionFilters;
 using System;
 
 namespace Presentation.API.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
     public class FansubController : ControllerBase
     {

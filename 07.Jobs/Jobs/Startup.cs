@@ -1,10 +1,7 @@
-﻿using Jobs;
+﻿using System;
 using Infrastructure.Crosscutting;
+using Jobs;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Domain.Configurations;
-using Jobs.Security;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Jobs
@@ -13,13 +10,11 @@ namespace Jobs
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder = builder.AddAccessTokenBinding();
-
-            var services = builder.Services;
-
             var connectionString = Environment.GetEnvironmentVariable("AlmanimeConnection");
 
-            services
+            //builder = builder.AddAccessTokenBinding();
+
+            builder.Services
                 .AddContext(connectionString)
                 //.AddAuthentication(services.BuildServiceProvider().GetService<TokenConfiguration>())
                 .AddServices()

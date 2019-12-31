@@ -1,7 +1,4 @@
 using Application.Services.Interfaces;
-using Domain.DTOs;
-using Domain.Enums;
-using Domain.Enums.Anime;
 using Jobs.Models;
 using Infrastructure.Helpers;
 using Kitsu.Anime;
@@ -16,6 +13,9 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Domain.Enums;
+using Domain.Enums.Anime;
+using Domain.DTOs;
 
 namespace Jobs.Functions
 {

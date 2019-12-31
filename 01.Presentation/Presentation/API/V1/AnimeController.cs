@@ -11,6 +11,7 @@ using Infrastructure.Helpers;
 
 namespace Presentation.Controllers
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
     public class AnimeController : ControllerBase
     {

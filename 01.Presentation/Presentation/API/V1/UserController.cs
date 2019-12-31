@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using Presentation.ActionFilters;
 
 namespace Presentation.API.V1
 {
+    [ApiController]
     [Authorize]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase

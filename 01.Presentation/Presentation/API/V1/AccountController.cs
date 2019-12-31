@@ -1,14 +1,13 @@
-﻿using System;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
-using Presentation.ActionFilters;
 
 namespace Presentation.API.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
