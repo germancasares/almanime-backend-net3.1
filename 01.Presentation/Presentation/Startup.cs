@@ -69,10 +69,27 @@ namespace AlmBackend
                                 TokenUrl = new Uri("https://token.com"),
                                 RefreshUrl = new Uri("https://refresh.com"),
                                 Scopes = new Dictionary<string, string>(),
-                            }
+                            },
                         },
-                        
-                        
+                    });
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                },
+                                Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
+
+                            },
+                            new List<string>()
+                        }
                     });
 
                     //c.DescribeAllEnumsAsStrings();
@@ -92,9 +109,7 @@ namespace AlmBackend
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder.WithOrigins(Configuration["FrontendUrls"].Split(";")).AllowAnyMethod().AllowAnyHeader());
-
-            app.UseAuthentication();
+            app.UseRouting();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -104,7 +119,10 @@ namespace AlmBackend
             });
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseCors(builder => builder.WithOrigins(Configuration["FrontendUrls"].Split(";")).AllowAnyMethod().AllowAnyHeader());
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

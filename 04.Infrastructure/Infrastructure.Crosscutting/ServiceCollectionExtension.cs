@@ -84,6 +84,7 @@ namespace Infrastructure.Crosscutting
 
                 // Users
                 config.CreateMap<UserDTO, User>();
+                config.CreateMap<User, UserVM>();
 
             }, AppDomain.CurrentDomain.GetAssemblies());
 
