@@ -5,23 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190621031732_Membership.cs" />
-    <Compile Remove="Migrations\20190621031732_Membership.Designer.cs" />
-    <Compile Remove="Migrations\20190621061657_FansubFounder.cs" />
-    <Compile Remove="Migrations\20190621061657_FansubFounder.Designer.cs" />
-    <Compile Remove="Migrations\20190621062306_FansubFounder.cs" />
-    <Compile Remove="Migrations\20190621062306_FansubFounder.Designer.cs" />
-    <Compile Remove="Migrations\20190621070942_FansubFounder.cs" />
-    <Compile Remove="Migrations\20190621070942_FansubFounder.Designer.cs" />
-    <Compile Remove="Migrations\20190627052127_Subtitle.cs" />
-    <Compile Remove="Migrations\20190627052127_Subtitle.Designer.cs" />
-    <Compile Remove="Migrations\20190627055630_Subtitle.cs" />
-    <Compile Remove="Migrations\20190627055630_Subtitle.Designer.cs" />
-    <Compile Remove="Migrations\20200101222904_Bookmarks.cs" />
-    <Compile Remove="Migrations\20200101222904_Bookmarks.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
