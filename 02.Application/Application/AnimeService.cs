@@ -1,4 +1,4 @@
-﻿using Application.Services.Interfaces;
+﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Enums;

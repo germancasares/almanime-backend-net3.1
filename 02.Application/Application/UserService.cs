@@ -19,8 +19,8 @@ namespace Application
         }
 
         public User GetByIdentityID(Guid id) => _unitOfWork.Users.GetByIdentityID(id);
-        public User GetByNickName(string nickName) => _unitOfWork.Users.GetByNickName(nickName);
-        public bool ExistsNickName(string nickName) => GetByNickName(nickName) != null;
+        public User GetByName(string name) => _unitOfWork.Users.GetByName(name);
+        public bool ExistsName(string name) => GetByName(name) != null;
 
         public Task<User> Create(UserDTO userDTO, Guid identityID)
         {
@@ -33,7 +33,7 @@ namespace Application
             var userEntity = new User
             {
                 IdentityID = identityID,
-                NickName = userDTO.NickName
+                Name = userDTO.Name
             };
 
             // TODO: What happens if UnitOfWork fails? we have this image that has to be deleted?
@@ -58,9 +58,9 @@ namespace Application
         }
         public async Task UpdateInternal(UserDTO userDTO, User user)
         {
-            if (!string.IsNullOrWhiteSpace(userDTO.NickName))
+            if (!string.IsNullOrWhiteSpace(userDTO.Name))
             {
-                user.NickName = userDTO.NickName;
+                user.Name = userDTO.Name;
             }
 
             if (userDTO.Avatar != null)

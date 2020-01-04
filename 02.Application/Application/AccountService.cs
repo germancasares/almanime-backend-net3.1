@@ -53,7 +53,7 @@ namespace Application
                 return (null, result.Errors);
             }
 
-            await _userService.Create(new UserDTO { Avatar = registerDTO.Avatar, NickName = user.UserName }, new Guid(user.Id));
+            await _userService.Create(new UserDTO { Avatar = registerDTO.Avatar, Name = user.UserName }, new Guid(user.Id));
 
             await _signInManager.SignInAsync(user, false);
 

@@ -10,10 +10,10 @@ namespace Presentation.Validators
     {
         public UserDTOValidator(IUserService userService)
         {
-            When(r => r.NickName != null, () =>
+            When(r => r.Name != null, () =>
             {
-                RuleFor(r => r.NickName)
-                    .Must(nickName => !userService.ExistsNickName(nickName))
+                RuleFor(r => r.Name)
+                    .Must(name => !userService.ExistsName(name))
                     .WithMessage(ValidationCode.Unique.ToString());
             });
 

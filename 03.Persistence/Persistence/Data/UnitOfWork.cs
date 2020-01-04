@@ -12,6 +12,7 @@ namespace Persistence.Data
             AlmanimeContext context,
 
             IAnimeRepository animes,
+            IBookmarkRepository bookmarks,
             IBaseRepository<Episode> episodes,
             IFansubRepository fansubs,
             IMembershipRepository memberships,
@@ -24,6 +25,7 @@ namespace Persistence.Data
             _context = context;
 
             Animes = animes;
+            Bookmarks = bookmarks;
             Episodes = episodes;
             Fansubs = fansubs;
             Memberships = memberships;
@@ -34,6 +36,7 @@ namespace Persistence.Data
         }
 
         public IAnimeRepository Animes { get; }
+        public IBookmarkRepository Bookmarks { get; }
         public IBaseRepository<Episode> Episodes { get; }
         public IFansubRepository Fansubs { get; }
         public IMembershipRepository Memberships { get; }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.VMs;
 using Domain.Enums;
@@ -8,6 +7,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Helpers;
+using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
@@ -18,15 +19,21 @@ namespace Presentation.Controllers
         private readonly ILogger<AnimeController> _logger;
         private readonly IMapper _mapper;
         private readonly IAnimeService _animeService;
+        private readonly IBookmarkService _bookmarkService;
+        private readonly IUserService _userService;
 
         public AnimeController(
             ILogger<AnimeController> logger,
             IAnimeService animeService,
+            IBookmarkService bookmarkService,
+            IUserService userService,
             IMapper mapper
         )
         {
             _logger = logger;
             _animeService = animeService;
+            _bookmarkService = bookmarkService;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -103,6 +110,28 @@ namespace Presentation.Controllers
                 .ToList();
 
             return Ok(_mapper.Map<List<AnimeVM>>(requestedSeason));
+        }
+
+        [Authorize]
+        [HttpPost("slug/{slug}/bookmark")]
+        public IActionResult CreateBoookmark(string slug)
+        {
+
+
+            var identityID = User.Claims.GetIdentityID();
+
+            var bookmark = _bookmarkService.Create(slug, identityID);
+
+            return Ok(_mapper.Map<BookmarkVM>(bookmark));
+        }
+
+        [Authorize]
+        [HttpDelete("slug/{slug}/bookmark")]
+        public void DeleteBoookmark(string slug)
+        {
+            var identityID = User.Claims.GetIdentityID();
+
+            _bookmarkService.Delete(slug, identityID);
         }
     }
 }

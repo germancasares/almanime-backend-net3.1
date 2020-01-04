@@ -43,7 +43,7 @@ namespace Presentation.API.V1
 
             var fansub = _fansubService.Create(fansubDTO, identityID);
 
-            return Ok(fansub);
+            return Ok(fansub.ID);
         }
 
         [Authorize]

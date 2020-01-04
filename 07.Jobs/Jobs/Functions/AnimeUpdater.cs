@@ -1,4 +1,3 @@
-using Application.Services.Interfaces;
 using Jobs.Models;
 using Infrastructure.Helpers;
 using Kitsu.Anime;
@@ -16,6 +15,7 @@ using System.Threading.Tasks;
 using Domain.Enums;
 using Domain.Enums.Anime;
 using Domain.DTOs;
+using Application.Interfaces;
 
 namespace Jobs.Functions
 {
@@ -150,9 +150,16 @@ namespace Jobs.Functions
                 StartDate = startDate,
                 EndDate = endDateCorrect ? endDate : (DateTime?)null,
                 Season = EnumHelper.GetSeason(startDate.Month),
-                CoverImageUrl = anime.CoverImage?.Original,
-                PosterImageUrl = anime.PosterImage?.Original
+                CoverImageUrl = GetBaseUrl(model.Id, anime.CoverImage?.Original),
+                PosterImageUrl = GetBaseUrl(model.Id, anime.PosterImage?.Original),
             };
+        }
+
+        private static string GetBaseUrl(string id, string url)
+        {
+            if (url == null) return null;
+
+            return url.Substring(0, url.IndexOf(id) + id.Length + 1);
         }
 
         private static EpisodeDTO MapEpisode(EpisodeDataModel model)

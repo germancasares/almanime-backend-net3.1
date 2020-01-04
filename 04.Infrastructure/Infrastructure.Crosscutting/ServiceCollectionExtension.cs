@@ -1,5 +1,4 @@
 ﻿using Application.Services;
-using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
@@ -22,6 +21,7 @@ using Presentation.Validators;
 using FluentValidation;
 using Domain.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Linq;
 
 namespace Infrastructure.Crosscutting
 {
@@ -32,6 +32,7 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
             services.AddScoped<IAnimeService, AnimeService>();
             services.AddScoped<IFansubService, FansubService>();
             services.AddScoped<ISubtitleService, SubtitleService>();
@@ -43,6 +44,7 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
+            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
             services.AddScoped<IBaseRepository<Episode>, BaseRepository<Episode>>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
@@ -74,6 +76,12 @@ namespace Infrastructure.Crosscutting
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
 
+                // Bookmarks
+                config.CreateMap<BookmarkDTO, Bookmark>();
+                config.CreateMap<Bookmark, BookmarkVM>()
+                    .ForMember(a => a.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
+                    .ForMember(a => a.UserName, opt => opt.MapFrom(src => src.User.Name));
+
                 // Chapters
                 config.CreateMap<Episode, EpisodeVM>();
                 config.CreateMap<EpisodeDTO, Episode>();
@@ -84,7 +92,8 @@ namespace Infrastructure.Crosscutting
 
                 // Users
                 config.CreateMap<UserDTO, User>();
-                config.CreateMap<User, UserVM>();
+                config.CreateMap<User, UserVM>()
+                    .ForMember(u => u.Bookmarks, opt => opt.MapFrom(src => src.Bookmarks.Select(b => b.Anime.Slug)));
 
             }, AppDomain.CurrentDomain.GetAssemblies());
 

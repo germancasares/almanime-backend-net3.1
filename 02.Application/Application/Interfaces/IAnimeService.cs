@@ -4,7 +4,7 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Services.Interfaces
+namespace Application.Interfaces
 {
     public interface IAnimeService
     {

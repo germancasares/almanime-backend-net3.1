@@ -28,5 +28,6 @@ namespace Domain.Models
         public string PosterImageUrl { get; set; }
 
         public virtual ICollection<Episode> Episodes { get; set; }
+        public virtual ICollection<Bookmark> Bookmarks { get; set; }
     }
 }

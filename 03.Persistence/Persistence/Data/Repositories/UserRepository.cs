@@ -11,6 +11,6 @@ namespace Persistence.Data.Repositories
 
         public User GetByIdentityID(Guid id) => GetAll().SingleOrDefault(p => p.IdentityID == id);
 
-        public User GetByNickName(string name) => GetAll().SingleOrDefault(u => u.NickName == name);
+        public User GetByName(string name) => GetAll().SingleOrDefault(u => u.Name == name);
     }
 }

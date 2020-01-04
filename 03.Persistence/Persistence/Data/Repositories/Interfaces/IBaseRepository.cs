@@ -12,5 +12,6 @@ namespace Persistence.Data.Repositories.Interfaces
         TModel Create(TModel entity);
         void Update(TModel entity);
         TModel Delete(Guid id);
+        TModel Delete(TModel entity);
     }
 }
