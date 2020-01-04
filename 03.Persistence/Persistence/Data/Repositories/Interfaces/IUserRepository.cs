@@ -6,6 +6,6 @@ namespace Persistence.Data.Repositories.Interfaces
     public interface IUserRepository : IBaseRepository<User>
     {
         User GetByIdentityID(Guid id);
-        User GetByNickName(string name);
+        User GetByName(string name);
     }
 }

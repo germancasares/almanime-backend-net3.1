@@ -35,5 +35,14 @@ namespace Persistence.Data.Repositories
             }
             return _context.Set<TModel>().Remove(entity).Entity;
         }
+
+        public TModel Delete(TModel entity)
+        {
+            if (_context.Entry(entity).State == EntityState.Detached)
+            {
+                _context.Set<TModel>().Attach(entity);
+            }
+            return _context.Set<TModel>().Remove(entity).Entity;
+        }
     }
 }
