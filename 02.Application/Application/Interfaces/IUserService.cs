@@ -8,10 +8,10 @@ namespace Application.Interfaces
     public interface IUserService
     {
         User GetByIdentityID(Guid id);
-        User GetByNickName(string nickName);
+        User GetByName(string name);
 
         Task<User> Create(UserDTO userDTO, Guid identityID);
         Task Update(UserDTO userDTO, Guid identityID);
-        bool ExistsNickName(string nickName);
+        bool ExistsName(string name);
     }
 }
