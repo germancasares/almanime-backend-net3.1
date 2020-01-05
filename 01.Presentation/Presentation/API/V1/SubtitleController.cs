@@ -1,8 +1,12 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Domain.DTOs;
 using Domain.VMs;
+using Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace Presentation.API.V1
 {
@@ -30,6 +34,17 @@ namespace Presentation.API.V1
             if (subtitle == null) return NotFound();
 
             return Ok(_mapper.Map<SubtitleVM>(subtitle));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateSubtitle([FromForm]SubtitleDTO subtitleDTO)
+        {
+            var identityID = User.Claims.GetIdentityID();
+
+            var subtitle = await _subtitleService.Create(subtitleDTO, identityID);
+
+            return Ok(subtitle);
         }
     }
 }
