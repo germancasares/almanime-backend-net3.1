@@ -45,7 +45,7 @@ namespace Infrastructure.Crosscutting
         {
             services.AddScoped<IAnimeRepository, AnimeRepository>();
             services.AddScoped<IBookmarkRepository, BookmarkRepository>();
-            services.AddScoped<IBaseRepository<Episode>, BaseRepository<Episode>>();
+            services.AddScoped<IEpisodeRepository, EpisodeRepository>();
             services.AddScoped<IFansubRepository, FansubRepository>();
             services.AddScoped<IMembershipRepository, MembershipRepository>();
             services.AddScoped<IStorageRepository, StorageRepository>();
@@ -79,8 +79,8 @@ namespace Infrastructure.Crosscutting
                 // Bookmarks
                 config.CreateMap<BookmarkDTO, Bookmark>();
                 config.CreateMap<Bookmark, BookmarkVM>()
-                    .ForMember(a => a.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
-                    .ForMember(a => a.UserName, opt => opt.MapFrom(src => src.User.Name));
+                    .ForMember(b => b.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
+                    .ForMember(b => b.UserName, opt => opt.MapFrom(src => src.User.Name));
 
                 // Chapters
                 config.CreateMap<Episode, EpisodeVM>();
@@ -89,6 +89,12 @@ namespace Infrastructure.Crosscutting
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
                 config.CreateMap<Fansub, FansubVM>();
+
+                // Subtitles
+                config.CreateMap<Subtitle, SubtitleVM>()
+                    .ForMember(s => s.FansubAcronym, opt => opt.MapFrom(src => src.Fansub.Acronym))
+                    .ForMember(s => s.AnimeSlug, opt => opt.MapFrom(src => src.Episode.Anime.Slug))
+                    .ForMember(s => s.EpisodeNumber, opt => opt.MapFrom(src => src.Episode.Number));
 
                 // Users
                 config.CreateMap<UserDTO, User>();
@@ -166,6 +172,7 @@ namespace Infrastructure.Crosscutting
             services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
             services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
             services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
+            services.AddTransient<IValidator<SubtitleDTO>, SubtitleDTOValidator>();
 
             return services;
         }
