@@ -14,18 +14,14 @@ namespace Infrastructure.Helpers
 
         public static ESeason GetSeason(int month)
         {
-            switch (month)
+            return month switch
             {
-                case int n when n == 12 || n <= 2:
-                    return ESeason.Winter;
-                case int n when n >= 3 && n <= 5:
-                    return ESeason.Spring;
-                case int n when n >= 6 && n <= 8:
-                    return ESeason.Summer;
-                case int n when n >= 9 && n <= 11:
-                    return ESeason.Fall;
-                default: throw new ArgumentException("Month out of valid range.");
-            }
+                int n when n == 12 || n <= 2 => ESeason.Winter,
+                int n when n >= 3 && n <= 5 => ESeason.Spring,
+                int n when n >= 6 && n <= 8 => ESeason.Summer,
+                int n when n >= 9 && n <= 11 => ESeason.Fall,
+                _ => throw new ArgumentException("Month out of valid range."),
+            };
         }
     }
 }
