@@ -15,17 +15,14 @@ namespace Presentation.API.V1
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IBookmarkService _bookmarkService;
         private readonly IMapper _mapper;
 
         public UserController(
-            IBookmarkService bookmarkService,
             IUserService userService,
             IMapper mapper
             )
         {
             _userService = userService;
-            _bookmarkService = bookmarkService;
             _mapper = mapper;
         }
 
