@@ -44,20 +44,20 @@ namespace Application
 
         public async Task<(JwtSecurityToken token, IEnumerable<IdentityError> errors)> CreateAccount(RegisterDTO registerDTO)
         {
-            var user = _mapper.Map<IdentityUser>(registerDTO);
+            var identityUser = _mapper.Map<IdentityUser>(registerDTO);
 
-            var result = await _userManager.CreateAsync(user, registerDTO.Password);
+            var result = await _userManager.CreateAsync(identityUser, registerDTO.Password);
 
             if (!result.Succeeded)
             {
                 return (null, result.Errors);
             }
 
-            await _userService.Create(new UserDTO { Avatar = registerDTO.Avatar, Name = user.UserName }, new Guid(user.Id));
+            await _userService.Create(new UserDTO { Avatar = registerDTO.Avatar, Name = identityUser.UserName }, new Guid(identityUser.Id));
 
-            await _signInManager.SignInAsync(user, false);
+            await _signInManager.SignInAsync(identityUser, false);
 
-            return (GenerateJwtToken(user), new List<IdentityError>());
+            return (GenerateJwtToken(identityUser), new List<IdentityError>());
         }
 
         public async Task<JwtSecurityToken> Login(LoginDTO loginDTO)

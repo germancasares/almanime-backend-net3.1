@@ -15,6 +15,8 @@ namespace Domain.Models
         public Guid FansubID { get; set; }
         public virtual Fansub Fansub { get; set; }
 
+        public string Url { get; set; }
+        public ESubtitleFormat Format { get; set; }
         public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }
 }

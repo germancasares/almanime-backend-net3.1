@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace Presentation.Validators
@@ -12,5 +14,19 @@ namespace Presentation.Validators
         }
 
         public static bool IsImage(this IFormFile file) => file.ContentType == "image/png" || file.ContentType == "image/jpg" || file.ContentType == "image/jpeg";
+
+        public static bool IsSubtitle(this IFormFile file)
+        {
+            try
+            {
+                file.GetSubtitleFormat();
+
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
     }
 }

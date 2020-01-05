@@ -10,9 +10,18 @@ namespace Persistence.Data.Configurations
             base.Configure(builder);
 
             builder
+                .HasIndex(c => new { c.EpisodeID, c.FansubID })
+                .IsUnique();
+
+            builder
                 .HasOne(c => c.Episode)
                 .WithMany(c => c.Subtitles)
                 .HasForeignKey(c => c.EpisodeID);
+
+            builder
+                .HasOne(c => c.Fansub)
+                .WithMany(c => c.Subtitles)
+                .HasForeignKey(c => c.FansubID);
         }
     }
 }

@@ -33,14 +33,12 @@ namespace Application
 
             var fansub = _unitOfWork.Fansubs.Create(_mapper.Map<Fansub>(fansubDTO));
 
-            var algo = new Membership
+            _unitOfWork.Memberships.Create(new Membership
             {
                 FansubID = fansub.ID,
                 UserID = user.ID,
                 Role = EFansubRole.Founder
-            };
-
-            _unitOfWork.Memberships.Create(algo);
+            });
 
             _unitOfWork.Save();
 

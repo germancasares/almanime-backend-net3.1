@@ -25,24 +25,15 @@ namespace Persistence.Data.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public TModel Delete(Guid id)
-        {
-            var entity = GetByID(id);
+        public void Delete(Guid id) => Delete(GetByID(id));
 
-            if (_context.Entry(entity).State == EntityState.Detached)
-            {
-                _context.Set<TModel>().Attach(entity);
-            }
-            return _context.Set<TModel>().Remove(entity).Entity;
-        }
-
-        public TModel Delete(TModel entity)
+        public void Delete(TModel entity)
         {
             if (_context.Entry(entity).State == EntityState.Detached)
             {
                 _context.Set<TModel>().Attach(entity);
             }
-            return _context.Set<TModel>().Remove(entity).Entity;
+            _context.Set<TModel>().Remove(entity);
         }
     }
 }

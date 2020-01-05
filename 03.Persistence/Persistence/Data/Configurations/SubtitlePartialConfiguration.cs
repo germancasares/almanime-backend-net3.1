@@ -9,12 +9,20 @@ namespace Persistence.Data.Configurations
         public void Configure(EntityTypeBuilder<SubtitlePartial> builder)
         {
             builder
-                .HasKey(c => new { c.UserID, c.SubtitleID });
+                .HasKey(c => c.ID);
 
             builder
-                .Property(c => c.RevisionDate)
+                .Property(c => c.ID)
+                .ValueGeneratedOnAdd();
+
+            builder
+                .Property(c => c.CreationDate)
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("GETUTCDATE()");
+
+            builder
+                .HasIndex(c => new { c.UserID, c.SubtitleID })
+                .IsUnique();
 
             builder
                 .HasOne(c => c.User)

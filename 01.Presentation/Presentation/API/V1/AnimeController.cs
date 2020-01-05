@@ -113,8 +113,6 @@ namespace Presentation.Controllers
         [HttpPost("slug/{slug}/bookmark")]
         public IActionResult CreateBoookmark(string slug)
         {
-
-
             var identityID = User.Claims.GetIdentityID();
 
             var bookmark = _bookmarkService.Create(slug, identityID);
