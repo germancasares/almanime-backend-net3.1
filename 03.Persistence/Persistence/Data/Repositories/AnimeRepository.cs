@@ -14,5 +14,7 @@ namespace Persistence.Data.Repositories
         public Anime GetBySlug(string slug) => GetAll().SingleOrDefault(a => a.Slug == slug);
 
         public IQueryable<Anime> GetSeason(int year, ESeason season) => GetAll().Where(a => a.StartDate.Year == year && a.Season == season);
+
+        public IQueryable<Anime> GetByFansub(string acronym) => GetAll().Where(a => a.Episodes.Any(e => e.Subtitles.Any(s => s.Fansub.Acronym == acronym)));
     }
 }

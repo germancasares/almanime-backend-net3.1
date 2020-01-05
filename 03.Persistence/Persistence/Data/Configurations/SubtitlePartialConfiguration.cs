@@ -9,7 +9,7 @@ namespace Persistence.Data.Configurations
         public void Configure(EntityTypeBuilder<SubtitlePartial> builder)
         {
             builder
-                .HasKey(c => new { c.MembershipID, c.SubtitleID });
+                .HasKey(c => new { c.UserID, c.SubtitleID });
 
             builder
                 .Property(c => c.RevisionDate)
@@ -17,9 +17,9 @@ namespace Persistence.Data.Configurations
                 .HasDefaultValueSql("GETUTCDATE()");
 
             builder
-                .HasOne(c => c.Membership)
+                .HasOne(c => c.User)
                 .WithMany(c => c.SubtitlePartials)
-                .HasForeignKey(c => c.MembershipID);
+                .HasForeignKey(c => c.UserID);
 
             builder
                 .HasOne(c => c.Subtitle)
