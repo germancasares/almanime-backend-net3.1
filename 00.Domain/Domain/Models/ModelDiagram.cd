@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Domain.Models.Anime">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEASBIBAAAAAAAAAQoAAAAEAAAAAAAAEQAAAA=</HashCode>
+      <FileName>Models\Anime.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Bookmarks" />
+      <Property Name="Episodes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.Bookmark">
+    <Position X="13" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAACAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Bookmark.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Anime" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Models.Episode">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAACAAAAQEAAAAQAAAAAAAAAAIIAAAAAAAA=</HashCode>
+      <FileName>Models\Episode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Anime" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Subtitles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.User">
+    <Position X="10" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABBAAAIAgAAAAQAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Bookmarks" />
+      <Property Name="Memberships" />
+      <Property Name="SubtitlePartials" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.Subtitle">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAFAEABAAAAAAAAACAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Models\Subtitle.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fansub" />
+      <Property Name="Episode" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="SubtitlePartials" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.Fansub">
+    <Position X="1" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAIAAQgAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fansub.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Memberships" />
+      <Property Name="Subtitles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.Membership">
+    <Position X="5.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAEAAAAAAEAAAACgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Membership.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fansub" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Models.SubtitlePartial">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAQAAAAAgAQEAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SubtitlePartial.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Subtitle" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
