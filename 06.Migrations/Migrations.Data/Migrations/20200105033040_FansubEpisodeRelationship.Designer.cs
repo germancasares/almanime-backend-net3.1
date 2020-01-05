@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
 namespace Migrations.Data.Migrations
 {
     [DbContext(typeof(AlmanimeContext))]
-    partial class AlmanimeContextModelSnapshot : ModelSnapshot
+    [Migration("20200105033040_FansubEpisodeRelationship")]
+    partial class FansubEpisodeRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,54 +219,40 @@ namespace Migrations.Data.Migrations
                     b.Property<Guid>("FansubID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Format")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("FansubID");
+                    b.HasIndex("EpisodeID");
 
-                    b.HasIndex("EpisodeID", "FansubID")
-                        .IsUnique();
+                    b.HasIndex("FansubID");
 
                     b.ToTable("Subtitles");
                 });
 
             modelBuilder.Entity("Domain.Models.SubtitlePartial", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<Guid>("SubtitleID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Revision")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("RevisionDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.HasKey("ID");
+                    b.HasKey("UserID", "SubtitleID");
 
                     b.HasIndex("SubtitleID");
-
-                    b.HasIndex("UserID", "SubtitleID")
-                        .IsUnique();
 
                     b.ToTable("SubtitlePartials");
                 });
