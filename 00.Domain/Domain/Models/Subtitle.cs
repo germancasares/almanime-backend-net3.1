@@ -6,14 +6,14 @@ namespace Domain.Models
 {
     public class Subtitle : BaseModel
     {
-        //TODO: Make this property be "Derived" from one of the multiple rows from Subtitle_History table.
-        //public Fansub Fansub { get; set; }
-
         // Restriction to only allow one subtitle per Fansub.
         public ESubtitleStatus Status { get; set; }
 
         public Guid EpisodeID { get; set; }
         public virtual Episode Episode { get; set; }
+
+        public Guid FansubID { get; set; }
+        public virtual Fansub Fansub { get; set; }
 
         public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }

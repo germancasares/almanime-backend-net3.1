@@ -13,7 +13,5 @@ namespace Domain.Models
         public virtual User User { get; set; }
 
         public EFansubRole Role { get; set; }
-
-        public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }
 }

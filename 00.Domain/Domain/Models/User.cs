@@ -12,5 +12,6 @@ namespace Domain.Models
 
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual ICollection<Bookmark> Bookmarks { get; set; }
+        public virtual ICollection<SubtitlePartial> SubtitlePartials { get; set; }
     }
 }

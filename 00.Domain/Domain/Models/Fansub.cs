@@ -9,10 +9,6 @@ namespace Domain.Models
         public string LogoUrl { get; set; }
 
         public virtual ICollection<Membership> Memberships { get; set; }
-
-        //public Fansub()
-        //{
-        //    Memberships = new List<Membership>();
-        //}
+        public virtual ICollection<Subtitle> Subtitles { get; set; }
     }
 }

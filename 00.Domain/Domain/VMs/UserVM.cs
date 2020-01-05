@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.VMs
 {
@@ -7,6 +8,6 @@ namespace Domain.VMs
         public string AvatarUrl { get; set; }
         public string Name { get; set; }
         public Guid IdentityID { get; set; }
-        public string[] Bookmarks { get; set; }
+        public List<string> Bookmarks { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     public enum ESubtitleStatus
     {
         Draft,
-        Approved,
+        Review,
         Published,
         Removed,
     }
