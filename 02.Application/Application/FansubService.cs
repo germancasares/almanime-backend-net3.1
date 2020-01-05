@@ -5,6 +5,7 @@ using Domain.Enums;
 using Domain.Models;
 using Persistence.Data;
 using System;
+using System.Collections.Generic;
 
 namespace Application
 {
@@ -20,6 +21,10 @@ namespace Application
         }
 
         public Fansub GetByID(Guid ID) => _unitOfWork.Fansubs.GetByID(ID);
+
+        public Fansub GetByAcronym(string acronym) => _unitOfWork.Fansubs.GetByAcronym(acronym);
+
+        public IEnumerable<Anime> GetAnimes(string acronym) => _unitOfWork.Animes.GetByFansub(acronym);
 
         public Fansub Create(FansubDTO fansubDTO, Guid identityID)
         {

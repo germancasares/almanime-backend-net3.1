@@ -11,12 +11,10 @@ namespace Application
     public class BookmarkService : IBookmarkService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public BookmarkService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BookmarkService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public IEnumerable<string> GetByUserID(Guid userID) => _unitOfWork.Bookmarks.GetByUserID(userID).Select(b => b.Anime.Slug);
