@@ -13,7 +13,7 @@ namespace Persistence.Data
 
             IAnimeRepository animes,
             IBookmarkRepository bookmarks,
-            IBaseRepository<Episode> episodes,
+            IEpisodeRepository episodes,
             IFansubRepository fansubs,
             IMembershipRepository memberships,
             IStorageRepository storage,
@@ -37,7 +37,7 @@ namespace Persistence.Data
 
         public IAnimeRepository Animes { get; }
         public IBookmarkRepository Bookmarks { get; }
-        public IBaseRepository<Episode> Episodes { get; }
+        public IEpisodeRepository Episodes { get; }
         public IFansubRepository Fansubs { get; }
         public IMembershipRepository Memberships { get; }
         public IStorageRepository Storage { get; }
