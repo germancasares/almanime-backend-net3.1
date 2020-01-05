@@ -36,15 +36,18 @@ namespace Application
                 Name = userDTO.Name
             };
 
-            // TODO: What happens if UnitOfWork fails? we have this image that has to be deleted?
-            if (userDTO.Avatar != null)
-            {
-                userEntity.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, userEntity.ID);
-            }
-
             var user = _unitOfWork.Users.Create(userEntity);
 
+            // If this fails, we don't upload an avatar for nothing.
             _unitOfWork.Save();
+
+            if (userDTO.Avatar != null)
+            {
+                //TODO: What do we do if this fails? We can delete the User but what about the Identity?
+                userEntity.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, user.ID);
+                _unitOfWork.Users.Update(user);
+                _unitOfWork.Save();
+            }
 
             return user;
         }
@@ -61,14 +64,17 @@ namespace Application
             if (!string.IsNullOrWhiteSpace(userDTO.Name))
             {
                 user.Name = userDTO.Name;
+                _unitOfWork.Users.Update(user);
             }
 
             if (userDTO.Avatar != null)
             {
                 user.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, user.ID);
+                _unitOfWork.Users.Update(user);
             }
 
-            _unitOfWork.Users.Update(user);
+            // We do not want to Update if UserDTO is empty.
+
             _unitOfWork.Save();
         }
     }
