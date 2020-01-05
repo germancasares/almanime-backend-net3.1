@@ -20,20 +20,17 @@ namespace Presentation.Controllers
         private readonly IMapper _mapper;
         private readonly IAnimeService _animeService;
         private readonly IBookmarkService _bookmarkService;
-        private readonly IUserService _userService;
 
         public AnimeController(
             ILogger<AnimeController> logger,
             IAnimeService animeService,
             IBookmarkService bookmarkService,
-            IUserService userService,
             IMapper mapper
         )
         {
             _logger = logger;
             _animeService = animeService;
             _bookmarkService = bookmarkService;
-            _userService = userService;
             _mapper = mapper;
         }
 

@@ -6,6 +6,7 @@ using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace Presentation.API.V1
 {
@@ -25,15 +26,24 @@ namespace Presentation.API.V1
             _mapper = mapper;
         }
 
-        [HttpGet("{ID}")]
-        public IActionResult Get(Guid ID)
+        [HttpGet("{acronym}")]
+        public IActionResult Get(string acronym)
         {
-            var fansub = _fansubService.GetByID(ID);
+            var fansub = _fansubService.GetByAcronym(acronym);
 
             if (fansub == null) return NotFound();
 
             return Ok(_mapper.Map<FansubVM>(fansub));
         }
+
+        [HttpGet("{acronym}/animes")]
+        public IActionResult GetAnimes(string acronym)
+        {
+            var animes = _fansubService.GetAnimes(acronym);
+
+            return Ok(_mapper.Map<List<AnimeVM>>(animes));
+        }
+
 
         [Authorize]
         [HttpPost]
