@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Infrastructure.Helpers
@@ -20,7 +21,17 @@ namespace Infrastructure.Helpers
                 int n when n >= 3 && n <= 5 => ESeason.Spring,
                 int n when n >= 6 && n <= 8 => ESeason.Summer,
                 int n when n >= 9 && n <= 11 => ESeason.Fall,
-                _ => throw new ArgumentException("Month out of valid range."),
+                _ => throw new ArgumentException("Month out of ESeason range."),
+            };
+        }
+
+        public static ESubtitleFormat GetSubtitleFormat(this IFormFile file)
+        {
+            return (file.GetExtension()) switch
+            {
+                ".ass" => ESubtitleFormat.ASS,
+                ".srt" => ESubtitleFormat.SRT,
+                _ => throw new ArgumentException("Extension out of ESubtitleFormat range."),
             };
         }
     }
