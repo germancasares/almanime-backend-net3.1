@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Presentation.API.V1
 {
@@ -41,9 +42,8 @@ namespace Presentation.API.V1
         {
             var animes = _fansubService.GetAnimes(acronym);
 
-            return Ok(_mapper.Map<List<AnimeVM>>(animes));
+            return Ok(_mapper.Map<List<AnimeWithEpisodesAndSubtitleVM>>(animes.ToList()));
         }
-
 
         [Authorize]
         [HttpPost]

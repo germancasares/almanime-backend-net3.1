@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using Persistence.Data.Repositories.Interfaces;
+﻿using Persistence.Data.Repositories.Interfaces;
 using System;
 
 namespace Persistence.Data
@@ -14,7 +13,7 @@ namespace Persistence.Data
         IFansubRepository Fansubs { get; }
         IMembershipRepository Memberships { get; }
         IStorageRepository Storage { get; }
-        IBaseRepository<Subtitle> Subtitles { get; set; }
+        ISubtitleRepository Subtitles { get; set; }
         ISubtitlePartialRepository SubtitlePartials { get; set; }
         IUserRepository Users { get; }
     }
