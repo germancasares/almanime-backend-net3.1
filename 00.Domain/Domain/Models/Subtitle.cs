@@ -6,7 +6,6 @@ namespace Domain.Models
 {
     public class Subtitle : BaseModel
     {
-        // Restriction to only allow one subtitle per Fansub.
         public ESubtitleStatus Status { get; set; }
 
         public Guid EpisodeID { get; set; }
