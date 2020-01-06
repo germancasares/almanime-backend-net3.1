@@ -51,6 +51,7 @@ namespace Infrastructure.Crosscutting
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IBaseRepository<Subtitle>, BaseRepository<Subtitle>>();
             services.AddScoped<ISubtitlePartialRepository, SubtitlePartialRepository>();
+            services.AddScoped<ISubtitleRepository, SubtitleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -75,6 +76,9 @@ namespace Infrastructure.Crosscutting
                 config.CreateMap<Anime, AnimeWithEpisodesVM>()
                     .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
                     .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
+                config.CreateMap<Anime, AnimeWithEpisodesAndSubtitleVM>()
+                    .ForMember(a => a.EpisodesCount, opt => opt.MapFrom(src => src.Episodes.Count))
+                    .ForMember(a => a.Episodes, opt => opt.MapFrom(src => src.Episodes.Where(s => s.Subtitles.Any(s => !string.IsNullOrEmpty(s.Url)))));
 
                 // Bookmarks
                 config.CreateMap<BookmarkDTO, Bookmark>();
@@ -82,9 +86,11 @@ namespace Infrastructure.Crosscutting
                     .ForMember(b => b.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
                     .ForMember(b => b.UserName, opt => opt.MapFrom(src => src.User.Name));
 
-                // Chapters
+                // Episodes
+                config.CreateMap<EpisodeDTO, EpisodeVM>();
                 config.CreateMap<Episode, EpisodeVM>();
-                config.CreateMap<EpisodeDTO, Episode>();
+                config.CreateMap<Episode, EpisodeWithSubtitleVM>()
+                    .ForMember(e => e.Subtitle, opt => opt.MapFrom(src => src.Subtitles.SingleOrDefault()));
 
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
@@ -92,9 +98,7 @@ namespace Infrastructure.Crosscutting
 
                 // Subtitles
                 config.CreateMap<Subtitle, SubtitleVM>()
-                    .ForMember(s => s.FansubAcronym, opt => opt.MapFrom(src => src.Fansub.Acronym))
-                    .ForMember(s => s.AnimeSlug, opt => opt.MapFrom(src => src.Episode.Anime.Slug))
-                    .ForMember(s => s.EpisodeNumber, opt => opt.MapFrom(src => src.Episode.Number));
+                    .ForMember(s => s.ModificationDate, opt => opt.MapFrom(src => src.ModificationDate.HasValue ? src.ModificationDate : src.CreationDate));
 
                 // Users
                 config.CreateMap<UserDTO, User>();
