@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Infrastructure.Helpers;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Domain.Models.Derived;
 
 namespace Presentation.Controllers
 {
@@ -90,23 +91,44 @@ namespace Presentation.Controllers
             return Ok(_mapper.Map<EpisodeVM>(episode));
         }
 
-        //TODO: Add pagination
         [HttpGet("year/{year}/season/{season}")]
         public IActionResult GetSeason(
             int year,
-            string season)
+            string season,
+            [FromQuery]int page = 1,
+            [FromQuery]int size = 8,
+            [FromQuery]bool includeMeta = false)
         {
             var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
 
             if (!seasonEnum.HasValue) return BadRequest("Season not valid.");
 
-            var requestedSeason = _animeService
+            if (size > 25) return BadRequest("Maximun size is 25");
+
+            var animesInPage = _animeService
                 .GetSeason(year, seasonEnum.Value)
                 .OrderBy(a => string.IsNullOrWhiteSpace(a.CoverImageUrl))
                 .ThenBy(a => a.Name)
+                .Page(page, size)
                 .ToList();
 
-            return Ok(_mapper.Map<List<AnimeVM>>(requestedSeason));
+            var animeSeasonPage = new AnimeSeasonPage
+            {
+                Animes = animesInPage,
+            };
+
+            if (includeMeta)
+            {
+                animeSeasonPage.Meta = new PaginationMeta
+                {
+                    BaseUrl = Request.GetPath(),
+                    Count = _animeService.GetAnimesInSeason(year, seasonEnum.Value),
+                    CurrentPage = page,
+                    PageSize = size,
+                };
+            }
+
+            return Ok(_mapper.Map<AnimeSeasonPageVM>(animeSeasonPage));
         }
 
         [Authorize]

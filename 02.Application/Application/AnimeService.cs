@@ -29,6 +29,7 @@ namespace Application.Services
         public Episode GetEpisode(Guid animeID, int number) => _unitOfWork.Animes.GetByID(animeID).Episodes.SingleOrDefault(c => c.Number == number);
         public Episode GetEpisodeBySlug(string slug, int number) => _unitOfWork.Animes.GetBySlug(slug).Episodes.SingleOrDefault(c => c.Number == number);
 
+        public int GetAnimesInSeason(int year, ESeason season) => _unitOfWork.Animes.GetAnimesInSeason(year, season);
         public IEnumerable<Anime> GetSeason(int year, ESeason season) => _unitOfWork.Animes.GetSeason(year, season);
 
         public Anime Create(AnimeDTO animeDTO)

@@ -19,5 +19,6 @@ namespace Application.Interfaces
         IEnumerable<Episode> GetEpisodesBySlug(string slug);
         Episode GetEpisode(Guid animeID, int number);
         Episode GetEpisodeBySlug(string slug, int number);
+        int GetAnimesInSeason(int year, ESeason season);
     }
 }
