@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.DTOs;
+using Domain.Enums;
 using Domain.Models;
 using Infrastructure.Helpers;
 using Persistence.Data;
@@ -20,27 +21,46 @@ namespace Application
 
         public Subtitle GetByID(Guid ID) => _unitOfWork.Subtitles.GetByID(ID);
 
-        public async Task<Subtitle> Create(SubtitleDTO subtitleDTO, Guid identityID)
+        public Subtitle GetForEdit(string fansubAcronym, string animeSlug, int episodeNumber, Guid identityID)
         {
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
             if (user == null) throw new ArgumentException(nameof(identityID));
 
-            var episode = _unitOfWork.Episodes.GetByNumber(subtitleDTO.AnimeSlug, subtitleDTO.EpisodeNumber);
-            if (episode == null) throw new ArgumentException(nameof(subtitleDTO.EpisodeNumber));
-
-            var fansub = _unitOfWork.Fansubs.GetByAcronym(subtitleDTO.FansubAcronym);
-            if (fansub == null) throw new ArgumentException(nameof(subtitleDTO.FansubAcronym));
+            var fansub = _unitOfWork.Fansubs.GetByAcronym(fansubAcronym);
+            if (fansub == null) throw new ArgumentException(nameof(fansubAcronym));
 
             if (!fansub.Memberships.Any(m => m.UserID == user.ID))
             {
                 throw new Exception("User does not belong on the fansub.");
             }
 
+            var episode = _unitOfWork.Episodes.GetByNumber(animeSlug, episodeNumber);
+            if (episode == null) throw new ArgumentException($"{nameof(animeSlug)} & {nameof(episodeNumber)}");
+
+            return episode.Subtitles.SingleOrDefault(s => s.FansubID == fansub.ID);
+        }
+
+        public async Task<Subtitle> Create(SubtitleDTO subtitleDTO, string fansubAcronym, string animeSlug, int episodeNumber, Guid identityID)
+        {
+            var user = _unitOfWork.Users.GetByIdentityID(identityID);
+            if (user == null) throw new ArgumentException(nameof(identityID));
+
+            var fansub = _unitOfWork.Fansubs.GetByAcronym(fansubAcronym);
+            if (fansub == null) throw new ArgumentException(nameof(fansubAcronym));
+
+            if (!fansub.Memberships.Any(m => m.UserID == user.ID))
+            {
+                throw new Exception("User does not belong on the fansub.");
+            }
+
+            var episode = _unitOfWork.Episodes.GetByNumber(animeSlug, episodeNumber);
+            if (episode == null) throw new ArgumentException($"{nameof(animeSlug)} & {nameof(episodeNumber)}");
+
             var subtitle = _unitOfWork.Subtitles.Create(new Subtitle
             {
                 EpisodeID = episode.ID,
                 FansubID = fansub.ID,
-                Status = subtitleDTO.Status,
+                Status = ESubtitleStatus.Published,
                 Format = subtitleDTO.Subtitle.GetSubtitleFormat(),
             });
 

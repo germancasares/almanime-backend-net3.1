@@ -27,16 +27,16 @@ namespace Persistence.Data.Repositories
             return await Upload("avatars", $"users/{userID}/avatar{avatar.GetExtension()}", avatar);
         }
 
-        public async void DeleteSubtitle(Guid fansubID, Guid subtitleID) => await Delete("subtitles", $"fansub/{fansubID}/subtitles/{subtitleID}");
+        public async void DeleteSubtitle(Guid fansubID, Guid subtitleID) => await Delete("subtitles", $"fansubs/{fansubID}/subtitles/{subtitleID}");
         public async Task<string> UploadSubtitle(IFormFile subtitle, Guid fansubID, Guid subtitleID)
         {
-            return await Upload("subtitles", $"fansub/{fansubID}/subtitles/{subtitleID}{subtitle.GetExtension()}", subtitle);
+            return await Upload("subtitles", $"fansubs/{fansubID}/subtitles/{subtitleID}{subtitle.GetExtension()}", subtitle);
         }
 
-        public async void DeleteSubtitlePartial(Guid fansubID, Guid subtitleID, Guid subtitlePartialID) => await Delete("subtitles", $"fansub/{fansubID}/subtitles/{subtitleID}/{subtitlePartialID}");
+        public async void DeleteSubtitlePartial(Guid fansubID, Guid subtitleID, Guid subtitlePartialID) => await Delete("subtitles", $"fansubs/{fansubID}/subtitles/{subtitleID}/{subtitlePartialID}");
         public async Task<string> UploadSubtitlePartial(IFormFile subtitlePartial, Guid fansubID, Guid subtitleID, Guid subtitlePartialID)
         {
-            return await Upload("subtitles", $"fansub/{fansubID}/subtitles/{subtitleID}/{subtitlePartialID}{subtitlePartial.GetExtension()}", subtitlePartial);
+            return await Upload("subtitles", $"fansubs/{fansubID}/subtitles/{subtitleID}/{subtitlePartialID}{subtitlePartial.GetExtension()}", subtitlePartial);
         }
 
         private async Task Delete(string container, string blob)

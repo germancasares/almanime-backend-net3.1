@@ -37,14 +37,34 @@ namespace Presentation.API.V1
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateSubtitle([FromForm]SubtitleDTO subtitleDTO)
+        [HttpGet("fansubs/{fansubAcronym}/animes/{animeSlug}/episodes/{episodeNumber}")]
+        public IActionResult Get(string fansubAcronym, string animeSlug, int episodeNumber)
         {
             var identityID = User.Claims.GetIdentityID();
 
-            var subtitle = await _subtitleService.Create(subtitleDTO, identityID);
+            var subtitle = _subtitleService.GetForEdit(fansubAcronym, animeSlug, episodeNumber, identityID);
+
+            if (subtitle == null) return NotFound();
+
+            return Ok(_mapper.Map<SubtitleVM>(subtitle));
+        }
+
+        [Authorize]
+        [HttpPost("fansubs/{fansubAcronym}/animes/{animeSlug}/episodes/{episodeNumber}/subtitle")]
+        public async Task<IActionResult> CreateSubtitle(string fansubAcronym, string animeSlug, int episodeNumber, [FromForm]SubtitleDTO subtitleDTO)
+        {
+            var identityID = User.Claims.GetIdentityID();
+
+            var subtitle = await _subtitleService.Create(subtitleDTO, fansubAcronym, animeSlug, episodeNumber, identityID);
 
             return Ok(subtitle);
+        }
+
+        [Authorize]
+        [HttpPost("fansubs/{fansubAcronym}/animes/{animeSlug}/episodes/{episodeNumber}/subtitle/partial")]
+        public async Task<IActionResult> CreateSubtitlePartial(string fansubAcronym, string animeSlug, int episodeNumber, [FromForm]SubtitlePartialDTO subtitlePartialDTO)
+        {
+            throw new NotImplementedException();
         }
     }
 }
