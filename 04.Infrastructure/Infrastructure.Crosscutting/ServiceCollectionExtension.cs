@@ -89,6 +89,7 @@ namespace Infrastructure.Crosscutting
                     .ForMember(b => b.UserName, opt => opt.MapFrom(src => src.User.Name));
 
                 // Episodes
+                config.CreateMap<EpisodeDTO, Episode>();
                 config.CreateMap<EpisodeDTO, EpisodeVM>();
                 config.CreateMap<Episode, EpisodeVM>();
                 config.CreateMap<Episode, EpisodeWithSubtitleVM>()
