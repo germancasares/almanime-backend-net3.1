@@ -27,6 +27,20 @@ namespace Presentation.API.V1
             _mapper = mapper;
         }
 
+        [HttpHead("fullname/{fullname}")]
+        public IActionResult CheckFullNameAvailability(string fullname)
+        {
+            if (_fansubService.ExistsFullName(fullname)) return Ok();
+            return NotFound();
+        }
+
+        [HttpHead("acronym/{acronym}")]
+        public IActionResult CheckAcronymAvailability(string acronym)
+        {
+            if (_fansubService.ExistsAcronym(acronym)) return Ok();
+            return NotFound();
+        }
+
         [HttpGet("{acronym}")]
         public IActionResult Get(string acronym)
         {
