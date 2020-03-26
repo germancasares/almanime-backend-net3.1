@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text.Json.Serialization;
 
 namespace AlmBackend
 {
@@ -28,6 +29,10 @@ namespace AlmBackend
                 .AddControllers(opt =>
                 {
                     opt.Filters.Add(typeof(ValidatorActionFilter));
+                })
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 })
                 .AddFluentValidation();
 
@@ -91,8 +96,6 @@ namespace AlmBackend
                             new List<string>()
                         }
                     });
-
-                    //c.DescribeAllEnumsAsStrings();
                 });
  
         }
