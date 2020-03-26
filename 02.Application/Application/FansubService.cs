@@ -20,6 +20,10 @@ namespace Application
             _mapper = mapper;
         }
 
+        public bool ExistsFullName(string fullname) => _unitOfWork.Fansubs.GetByFullName(fullname) != null;
+
+        public bool ExistsAcronym(string acronym) => _unitOfWork.Fansubs.GetByAcronym(acronym) != null;
+
         public Fansub GetByID(Guid ID) => _unitOfWork.Fansubs.GetByID(ID);
 
         public Fansub GetByAcronym(string acronym) => _unitOfWork.Fansubs.GetByAcronym(acronym);

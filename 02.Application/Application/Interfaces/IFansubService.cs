@@ -12,5 +12,7 @@ namespace Application.Interfaces
         IEnumerable<Anime> GetAnimes(string acronym);
         Fansub GetByAcronym(string acronym);
         Fansub GetByID(Guid ID);
+        bool ExistsFullName(string fullname);
+        bool ExistsAcronym(string acronym);
     }
 }
