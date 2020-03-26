@@ -8,5 +8,6 @@ namespace Persistence.Data.Repositories.Interfaces
     {
         void DeleteMembers(Guid fansubID);
         Fansub GetByAcronym(string acronym);
+        Fansub GetByFullName(string fullname);
     }
 }
