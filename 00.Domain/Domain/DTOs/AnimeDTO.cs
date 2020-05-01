@@ -1,5 +1,4 @@
 ﻿using Domain.Enums;
-using Domain.Enums.Anime;
 using System;
 using System.Collections.Generic;
 
