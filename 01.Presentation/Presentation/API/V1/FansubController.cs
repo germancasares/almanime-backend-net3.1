@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.DTOs;
+using Domain.VMs.Derived;
 using Domain.VMs;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -51,13 +52,81 @@ namespace Presentation.API.V1
             return Ok(_mapper.Map<FansubVM>(fansub));
         }
 
-        [HttpGet("{acronym}/animes")]
-        public IActionResult GetAnimes(string acronym)
+        [HttpGet("{acronym}/completedAnimes")]
+        public IActionResult GetCompletedAnimes(
+            string acronym,
+            [FromQuery]int page = 1,
+            [FromQuery]int size = 8,
+            [FromQuery]bool includeMeta = false
+        )
         {
-            var animes = _fansubService.GetAnimes(acronym);
+            if (size > 25) return BadRequest("Maximun size is 25");
 
-            return Ok(_mapper.Map<List<AnimeWithEpisodesAndSubtitleVM>>(animes.ToList()));
+            var animes = _fansubService
+                .GetCompletedAnimes(acronym);
+
+            var animesInPage = animes.OrderByDescending(a => a.FinishedDate)
+                .Page(page, size)
+                .ToList();
+
+            var animePage = new ModelWithMetaVM<List<FansubAnimeVM>>
+            {
+                Models = animesInPage
+            };
+
+            if (includeMeta)
+            {
+                animePage.Meta = new PaginationMetaVM
+                {
+                    BaseUrl = Request.GetPath(),
+                    Count = animes.Count(),
+                    CurrentPage = page,
+                    PageSize = size,
+                };
+            }
+
+            return Ok(animePage);
         }
+
+        [HttpGet("{acronym}/completedEpisodes")]
+        public IActionResult GetCompletedEpisodes(
+            string acronym,
+            [FromQuery]int page = 1,
+            [FromQuery]int size = 8,
+            [FromQuery]bool includeMeta = false
+        )
+        {
+            if (size > 25) return BadRequest("Maximun size is 25");
+
+            var episodes = _fansubService
+                .GetCompletedEpisodes(acronym);
+
+            var episodesInPage = episodes
+                .OrderByDescending(e => e.FinishedDate)
+                .Page(page, size)
+                .ToList();
+
+            var episodePage = new ModelWithMetaVM<List<FansubEpisodeVM>>
+            {
+                Models = episodesInPage
+            };
+
+            if (includeMeta)
+            {
+                episodePage.Meta = new PaginationMetaVM
+                {
+                    BaseUrl = Request.GetPath(),
+                    Count = episodes.Count(),
+                    CurrentPage = page,
+                    PageSize = size,
+                };
+            }
+
+            return Ok(episodePage);
+        }
+
+        [HttpGet("{acronym}/members")]
+        public IActionResult GetMembers(string acronym) => Ok(_fansubService.GetMembers(acronym));
 
         [Authorize]
         [HttpPost]
