@@ -12,5 +12,7 @@ namespace Persistence.Data.Repositories
         public User GetByIdentityID(Guid id) => GetAll().SingleOrDefault(p => p.IdentityID == id);
 
         public User GetByName(string name) => GetAll().SingleOrDefault(u => u.Name == name);
+
+        public IQueryable<User> GetByFansub(string acronym) => GetAll().Where(u => u.Memberships.Any(m => m.Fansub.Acronym == acronym));
     }
 }
