@@ -9,7 +9,6 @@ using Application.Interfaces;
 using Azure.Storage.Queues;
 using Domain.DTOs;
 using Domain.Enums;
-using Domain.Enums.Anime;
 using Infrastructure.Helpers;
 using Jobs.Models;
 using Jobs.UpdateEpisodeTable.Contracts;
