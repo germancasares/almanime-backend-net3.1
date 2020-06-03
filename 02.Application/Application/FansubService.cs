@@ -45,7 +45,7 @@ namespace Application
 
         public IEnumerable<FansubEpisodeVM> GetCompletedEpisodes(string acronym)
         {
-            var episodes = _unitOfWork.Episodes.GetCompletedByFansub(acronym);
+            var episodes = _unitOfWork.Episodes.GetByFansub(acronym);
 
             return episodes.Select(e => new FansubEpisodeVM
             {
