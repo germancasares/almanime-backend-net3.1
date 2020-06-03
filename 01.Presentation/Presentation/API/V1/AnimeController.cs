@@ -21,17 +21,20 @@ namespace Presentation.Controllers
         private readonly IMapper _mapper;
         private readonly IAnimeService _animeService;
         private readonly IBookmarkService _bookmarkService;
+        private readonly IEpisodeService _episodeService;
 
         public AnimeController(
             ILogger<AnimeController> logger,
             IAnimeService animeService,
             IBookmarkService bookmarkService,
+            IEpisodeService episodeService,
             IMapper mapper
         )
         {
             _logger = logger;
             _animeService = animeService;
             _bookmarkService = bookmarkService;
+            _episodeService = episodeService;
             _mapper = mapper;
         }
 
@@ -48,7 +51,7 @@ namespace Presentation.Controllers
         [HttpGet("{ID}/episodes")]
         public IActionResult GetEpisodes(Guid ID)
         {
-            var episodes = _animeService.GetEpisodes(ID);
+            var episodes = _episodeService.GetByAnimeID(ID);
 
             return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
@@ -56,7 +59,7 @@ namespace Presentation.Controllers
         [HttpGet("{ID}/episodes/{number}")]
         public IActionResult GetEpisode(Guid ID, int number)
         {
-            var episode = _animeService.GetEpisode(ID, number);
+            var episode = _episodeService.GetByAnimeIDAndNumber(ID, number);
 
             if (episode == null) return NotFound();
 
@@ -76,7 +79,7 @@ namespace Presentation.Controllers
         [HttpGet("slug/{slug}/episodes")]
         public IActionResult GetEpisodesBySlug(string slug)
         {
-            var episodes = _animeService.GetEpisodesBySlug(slug);
+            var episodes = _episodeService.GetByAnimeSlug(slug);
 
             return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
@@ -84,7 +87,7 @@ namespace Presentation.Controllers
         [HttpGet("slug/{slug}/episodes/{number}")]
         public IActionResult GetEpisodeBySlug(string slug, int number)
         {
-            var episode = _animeService.GetEpisodeBySlug(slug, number);
+            var episode = _episodeService.GetByAnimeSlugAndNumber(slug, number);
 
             if (episode == null) return NotFound();
 

@@ -1,7 +1,7 @@
-﻿using System;
-using Infrastructure.Crosscutting;
+﻿using Infrastructure.Crosscutting;
 using Jobs;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using System;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Jobs
@@ -12,14 +12,11 @@ namespace Jobs
         {
             var connectionString = Environment.GetEnvironmentVariable("AlmanimeConnection");
 
-            //builder = builder.AddAccessTokenBinding();
-
             builder.Services
                 .AddContext(connectionString)
-                //.AddAuthentication(services.BuildServiceProvider().GetService<TokenConfiguration>())
-                .AddServices()
+                .AddMapper()
                 .AddRepositories()
-                .AddMapper();
+                .AddServices();
         }
     }
 }

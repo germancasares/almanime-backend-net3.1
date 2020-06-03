@@ -25,7 +25,7 @@ namespace Application
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
             if (user == null) throw new ArgumentException(nameof(identityID));
 
-            var episode = _unitOfWork.Episodes.GetByNumber(subtitleDTO.AnimeSlug, subtitleDTO.EpisodeNumber);
+            var episode = _unitOfWork.Episodes.GetByAnimeSlugAndNumber(subtitleDTO.AnimeSlug, subtitleDTO.EpisodeNumber);
             if (episode == null) throw new ArgumentException(nameof(subtitleDTO.EpisodeNumber));
 
             var fansub = _unitOfWork.Fansubs.GetByAcronym(subtitleDTO.FansubAcronym);
