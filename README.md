@@ -46,7 +46,7 @@ Backend of the Almanime website
             "RefreshExpirationDays": "<Days that the refresh token will last>"
         },
         "ConnectionStrings": {
-            "AzureStorage": "<Connection to the Azure Storage, for localhost use UseDevelopmentStorage=true>",
+            "AzureWebJobsStorage": "<Connection to the Azure Storage, for localhost use UseDevelopmentStorage=true>",
             "SecurityConnection": "Server=securitydb;Database=master;User=sa;Password=<The SA_PASSWORD_SECURIRTYDB environment variable from .env in the Docker Compose>",
             "AlmanimeConnection": "Server=datadb;Database=master;User=sa;Password=<The SA_PASSWORD_DATADB environment variable from .env in the Docker Compose>"
         }
@@ -58,11 +58,16 @@ Backend of the Almanime website
     SA_PASSWORD_DATADB=<A secure password for the Data database>
     SA_PASSWORD_SECURIRTYDB=<A secure password for the Security database>
     ```
-9. Run the Docker Compose project, so the containers are created.
-10. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Security`
-11. Run the command `Update-Database -Context SecurityContext`
-12. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Data`
-13. Run the command `Update-Database -Context AlmanimeContext`
+
+
+
+### Run the migrations
+
+1. Run the Docker Compose project, so the containers are created.
+2. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Security`
+3. Run the command `Update-Database`
+4. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Data`
+5. Run the command `Update-Database`
 
 
 
@@ -75,19 +80,12 @@ Backend of the Almanime website
         "IsEncrypted": false,
         "Values": {
             "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-            "AzureWebJobsStorage": "UseDevelopmentStorage=true"
-        }
-    }
-	```
-3. Include both files on the output directory, `Copy to Output Directory: Copy if newer`
-6. Add the following sections:
-    ```JSON
-    {
-        "Values": {
+            "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+            "ConnectionStrings:AzureWebJobsStorage": "UseDevelopmentStorage=true",
             "AlmanimeConnection": "Server=datadb;Database=master;User=sa;Password=<The SA_PASSWORD_DATADB environment variable from .env in the Docker Compose>"
         }
     }
-    ```
+	```
 
 
 
