@@ -18,10 +18,10 @@ namespace Persistence.Data.Repositories
 
         public StorageRepository(IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("AzureStorage");
+            var connectionString = configuration.GetConnectionString("AzureWebJobsStorage");
 
             if (connectionString == null)
-                throw new InvalidOperationException("AzureStorage connection string not set.");
+                throw new InvalidOperationException("AzureWebJobsStorage connection string not set.");
 
             _blobServiceClient = new BlobServiceClient(connectionString);
         }
