@@ -1,4 +1,4 @@
-﻿namespace Domain.Enums.Anime
+﻿namespace Domain.Enums
 {
     public enum EAnimeStatus
     {

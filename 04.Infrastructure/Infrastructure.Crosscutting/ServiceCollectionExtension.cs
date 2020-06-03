@@ -22,7 +22,6 @@ using FluentValidation;
 using Domain.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Linq;
-using Domain.Models.Derived;
 
 namespace Infrastructure.Crosscutting
 {
@@ -80,7 +79,8 @@ namespace Infrastructure.Crosscutting
                 config.CreateMap<Anime, AnimeWithEpisodesAndSubtitleVM>()
                     .ForMember(a => a.EpisodesCount, opt => opt.MapFrom(src => src.Episodes.Count))
                     .ForMember(a => a.Episodes, opt => opt.MapFrom(src => src.Episodes.Where(s => s.Subtitles.Any(s => !string.IsNullOrEmpty(s.Url)))));
-                config.CreateMap<AnimeSeasonPage, AnimeSeasonPageVM>();
+                config.CreateMap<Anime, FansubAnimeVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl));
 
                 // Bookmarks
                 config.CreateMap<BookmarkDTO, Bookmark>();
@@ -98,9 +98,6 @@ namespace Infrastructure.Crosscutting
                 // Fansubs
                 config.CreateMap<FansubDTO, Fansub>();
                 config.CreateMap<Fansub, FansubVM>();
-
-                // PaginationMeta
-                config.CreateMap<PaginationMeta, PaginationMetaVM>();
 
                 // Subtitles
                 config.CreateMap<Subtitle, SubtitleVM>()

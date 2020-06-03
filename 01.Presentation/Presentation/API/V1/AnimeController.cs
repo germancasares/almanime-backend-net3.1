@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Infrastructure.Helpers;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Domain.Models.Derived;
+using Domain.VMs.Derived;
 
 namespace Presentation.Controllers
 {
@@ -97,7 +97,8 @@ namespace Presentation.Controllers
             string season,
             [FromQuery]int page = 1,
             [FromQuery]int size = 8,
-            [FromQuery]bool includeMeta = false)
+            [FromQuery]bool includeMeta = false
+        )
         {
             var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
 
@@ -112,14 +113,14 @@ namespace Presentation.Controllers
                 .Page(page, size)
                 .ToList();
 
-            var animeSeasonPage = new AnimeSeasonPage
+            var animePage = new ModelWithMetaVM<List<AnimeVM>>
             {
-                Animes = animesInPage,
+                Models = _mapper.Map<List<AnimeVM>>(animesInPage)
             };
 
             if (includeMeta)
             {
-                animeSeasonPage.Meta = new PaginationMeta
+                animePage.Meta = new PaginationMetaVM
                 {
                     BaseUrl = Request.GetPath(),
                     Count = _animeService.GetAnimesInSeason(year, seasonEnum.Value),
@@ -128,7 +129,7 @@ namespace Presentation.Controllers
                 };
             }
 
-            return Ok(_mapper.Map<AnimeSeasonPageVM>(animeSeasonPage));
+            return Ok(animePage);
         }
 
         [Authorize]

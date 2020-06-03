@@ -16,6 +16,8 @@ namespace Persistence.Data.Repositories
         public int GetAnimesInSeason(int year, ESeason season) => GetAll().Count(a => a.StartDate.Year == year && a.Season == season);
         public IQueryable<Anime> GetSeason(int year, ESeason season) => GetAll().Where(a => a.StartDate.Year == year && a.Season == season);
 
-        public IQueryable<Anime> GetByFansub(string acronym) => GetAll().Where(a => a.Episodes.Any(e => e.Subtitles.Any(s => s.Fansub.Acronym == acronym)));
+        public IQueryable<Anime> GetByFansub(string acronym) => GetAll().Where(a => a.Episodes.Any(e => e.Subtitles.Any(s => s.Fansub.Acronym == acronym && s.Status == ESubtitleStatus.Published)));
+
+        public IQueryable<Anime> GetCompletedByFansub(string acronym) => GetAll().Where(a => a.Episodes.Any(e => e.Subtitles.Any(s => s.Fansub.Acronym == acronym && s.Status == ESubtitleStatus.Published)));
     }
 }

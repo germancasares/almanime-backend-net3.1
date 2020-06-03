@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
 namespace Migrations.Data.Migrations
 {
     [DbContext(typeof(AlmanimeContext))]
-    partial class AlmanimeContextModelSnapshot : ModelSnapshot
+    [Migration("20200323033833_UpdateFansubProperties")]
+    partial class UpdateFansubProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +148,7 @@ namespace Migrations.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Acronym")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -154,7 +156,7 @@ namespace Migrations.Data.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoUrl")
                         .HasColumnType("nvarchar(max)");
@@ -172,14 +174,6 @@ namespace Migrations.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("Acronym")
-                        .IsUnique()
-                        .HasFilter("[Acronym] IS NOT NULL");
-
-                    b.HasIndex("FullName")
-                        .IsUnique()
-                        .HasFilter("[FullName] IS NOT NULL");
 
                     b.ToTable("Fansubs");
                 });

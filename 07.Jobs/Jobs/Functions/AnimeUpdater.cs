@@ -13,7 +13,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Domain.Enums;
-using Domain.Enums.Anime;
 using Domain.DTOs;
 using Application.Interfaces;
 

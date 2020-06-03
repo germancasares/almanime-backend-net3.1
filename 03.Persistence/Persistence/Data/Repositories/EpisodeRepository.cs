@@ -9,5 +9,7 @@ namespace Persistence.Data.Repositories
         public EpisodeRepository(AlmanimeContext context) : base(context) { }
 
         public Episode GetByNumber(string animeSlug, int number) => GetAll().SingleOrDefault(e => e.Anime.Slug == animeSlug && e.Number == number);
+
+        public IQueryable<Episode> GetCompletedByFansub(string acronym) => GetAll().Where(e => e.Subtitles.Any(s => s.Fansub.Acronym == acronym));
     }
 }
