@@ -8,5 +8,7 @@ namespace Domain.DTOs
         public string Name { get; set; }
         public DateTime? Aired { get; set; }
         public int? Duration { get; set; }
+
+        public string AnimeSlug { get; set; }
     }
 }
