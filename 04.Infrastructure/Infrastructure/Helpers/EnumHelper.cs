@@ -13,6 +13,8 @@ namespace Infrastructure.Helpers
             return isEnum ? type : (T?)null;
         }
 
+        public static ESeason GetSeason(DateTime date) => GetSeason(date.Month);
+
         public static ESeason GetSeason(int month)
         {
             return month switch

@@ -32,8 +32,9 @@ namespace Infrastructure.Crosscutting
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IBookmarkService, BookmarkService>();
             services.AddScoped<IAnimeService, AnimeService>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<IFansubService, FansubService>();
             services.AddScoped<ISubtitleService, SubtitleService>();
             services.AddScoped<IUserService, UserService>();
