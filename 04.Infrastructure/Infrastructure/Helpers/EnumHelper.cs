@@ -19,11 +19,12 @@ namespace Infrastructure.Helpers
         {
             return month switch
             {
-                int n when n == 12 || n <= 2 => ESeason.Winter,
+                int n when n >= 1 && n <= 2 => ESeason.Winter,
                 int n when n >= 3 && n <= 5 => ESeason.Spring,
                 int n when n >= 6 && n <= 8 => ESeason.Summer,
                 int n when n >= 9 && n <= 11 => ESeason.Fall,
                 _ => throw new ArgumentException("Month out of ESeason range."),
+                int n when n == 12 => ESeason.Winter,
             };
         }
 
