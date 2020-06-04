@@ -23,8 +23,8 @@ namespace Infrastructure.Helpers
                 int n when n >= 3 && n <= 5 => ESeason.Spring,
                 int n when n >= 6 && n <= 8 => ESeason.Summer,
                 int n when n >= 9 && n <= 11 => ESeason.Fall,
-                _ => throw new ArgumentException("Month out of ESeason range."),
                 int n when n == 12 => ESeason.Winter,
+                _ => throw new ArgumentException(ExceptionCode.ESeasonOutOfRange),
             };
         }
 
@@ -34,7 +34,7 @@ namespace Infrastructure.Helpers
             {
                 ".ass" => ESubtitleFormat.ASS,
                 ".srt" => ESubtitleFormat.SRT,
-                _ => throw new ArgumentException("Extension out of ESubtitleFormat range."),
+                _ => throw new ArgumentException(ExceptionCode.ESubtitleFormatOutOfRange),
             };
         }
     }
