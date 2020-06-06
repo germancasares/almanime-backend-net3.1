@@ -132,7 +132,7 @@ namespace Presentation.API.V1
         [HttpPost]
         public IActionResult Create(FansubDTO fansubDTO)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var fansub = _fansubService.Create(fansubDTO, identityID);
 
@@ -143,7 +143,7 @@ namespace Presentation.API.V1
         [HttpDelete("{fansubID}")]
         public void Delete(Guid fansubID)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             _fansubService.Delete(fansubID, identityID);
         }

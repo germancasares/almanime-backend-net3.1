@@ -40,7 +40,7 @@ namespace Presentation.API.V1
         [HttpPost]
         public async Task<IActionResult> CreateSubtitle([FromForm]SubtitleDTO subtitleDTO)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var subtitle = await _subtitleService.Create(subtitleDTO, identityID);
 

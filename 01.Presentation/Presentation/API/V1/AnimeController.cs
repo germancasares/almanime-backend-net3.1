@@ -139,7 +139,7 @@ namespace Presentation.Controllers
         [HttpPost("slug/{slug}/bookmark")]
         public IActionResult CreateBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var bookmark = _bookmarkService.Create(slug, identityID);
 
@@ -150,7 +150,7 @@ namespace Presentation.Controllers
         [HttpDelete("slug/{slug}/bookmark")]
         public void DeleteBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             _bookmarkService.Delete(slug, identityID);
         }
