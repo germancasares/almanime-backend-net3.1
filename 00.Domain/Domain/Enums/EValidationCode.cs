@@ -1,6 +1,8 @@
-﻿namespace Presentation.Validators
+﻿using System.ComponentModel;
+
+namespace Domain.Enums
 {
-    public enum ValidationCode
+    public enum EValidationCode
     {
         NotEmpty = 1,
         Unique = 2,
@@ -9,6 +11,7 @@
         ContentTypeNotValid = 5,
         ImageAspectRatio = 6,
         ImageResolution = 7,
+        PaginationMaximumExceeded = 8,
 
         // Account
         ValidEmailAddress = 1001,
@@ -17,5 +20,8 @@
         HasLowerCase = 1004,
         HasNonAlphanumeric = 105,
         HasUpperCase = 1006,
+
+        // Anime
+        SeasonNotValid = 2001,
     }
 }

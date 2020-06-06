@@ -1,7 +1,8 @@
 ﻿using Domain.DTOs;
+using Domain.Enums;
 using FluentValidation;
 
-namespace Presentation.Validators
+namespace Presentation.Validators.FluentValidation
 {
     public class SubtitleDTOValidator : AbstractValidator<SubtitleDTO>
     {
@@ -9,7 +10,7 @@ namespace Presentation.Validators
         {
             RuleFor(r => r.Subtitle)
                 .Must(subtitle => subtitle.IsSubtitle())
-                .WithMessage(ValidationCode.ContentTypeNotValid.ToString());
+                .WithMessage(EValidationCode.ContentTypeNotValid.ToString());
         }
     }
 }

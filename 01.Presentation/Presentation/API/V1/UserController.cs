@@ -30,7 +30,7 @@ namespace Presentation.API.V1
         [HttpGet("self")]
         public IActionResult Get()
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var user = _userService.GetByIdentityID(identityID);
 
@@ -40,7 +40,7 @@ namespace Presentation.API.V1
         [HttpPut("self")]
         public async Task Update([FromForm] UserDTO userDTO)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             await _userService.Update(userDTO, identityID);
         }

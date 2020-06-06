@@ -15,7 +15,7 @@ namespace Presentation.API.V1
 
         public AccountController(
             IAccountService accountService
-        ) : base()
+        )
         {
             _accountService = accountService;
         }

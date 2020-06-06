@@ -12,11 +12,7 @@ namespace Jobs
         {
             var connectionString = Environment.GetEnvironmentVariable("AlmanimeConnection");
 
-            builder.Services
-                .AddContext(connectionString)
-                .AddMapper()
-                .AddRepositories()
-                .AddServices();
+            builder.Services.AddJobsServices(connectionString);
         }
     }
 }

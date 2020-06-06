@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Constants;
+using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -24,7 +25,7 @@ namespace Infrastructure.Helpers
                 int n when n >= 6 && n <= 8 => ESeason.Summer,
                 int n when n >= 9 && n <= 11 => ESeason.Fall,
                 int n when n == 12 => ESeason.Winter,
-                _ => throw new ArgumentException(ExceptionCode.ESeasonOutOfRange),
+                _ => throw new ArgumentException(ExceptionMessage.ESeasonOutOfRange),
             };
         }
 
@@ -34,7 +35,7 @@ namespace Infrastructure.Helpers
             {
                 ".ass" => ESubtitleFormat.ASS,
                 ".srt" => ESubtitleFormat.SRT,
-                _ => throw new ArgumentException(ExceptionCode.ESubtitleFormatOutOfRange),
+                _ => throw new ArgumentException(ExceptionMessage.ESubtitleFormatOutOfRange),
             };
         }
     }

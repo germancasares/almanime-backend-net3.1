@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Presentation.Validators.DataAnnotations;
 
 namespace Presentation.API.V1
 {
@@ -56,12 +57,10 @@ namespace Presentation.API.V1
         public IActionResult GetCompletedAnimes(
             string acronym,
             [FromQuery]int page = 1,
-            [FromQuery]int size = 8,
+            [FromQuery][Max(25)]int size = 8,
             [FromQuery]bool includeMeta = false
         )
         {
-            if (size > 25) return BadRequest("Maximun size is 25");
-
             var animes = _fansubService
                 .GetCompletedAnimes(acronym);
 
@@ -92,12 +91,10 @@ namespace Presentation.API.V1
         public IActionResult GetCompletedEpisodes(
             string acronym,
             [FromQuery]int page = 1,
-            [FromQuery]int size = 8,
+            [FromQuery][Max(25)]int size = 8,
             [FromQuery]bool includeMeta = false
         )
         {
-            if (size > 25) return BadRequest("Maximun size is 25");
-
             var episodes = _fansubService
                 .GetCompletedEpisodes(acronym);
 
@@ -132,7 +129,7 @@ namespace Presentation.API.V1
         [HttpPost]
         public IActionResult Create(FansubDTO fansubDTO)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var fansub = _fansubService.Create(fansubDTO, identityID);
 
@@ -143,7 +140,7 @@ namespace Presentation.API.V1
         [HttpDelete("{fansubID}")]
         public void Delete(Guid fansubID)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             _fansubService.Delete(fansubID, identityID);
         }

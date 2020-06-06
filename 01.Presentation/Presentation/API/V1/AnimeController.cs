@@ -10,6 +10,7 @@ using Infrastructure.Helpers;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Domain.VMs.Derived;
+using Presentation.Validators.DataAnnotations;
 
 namespace Presentation.Controllers
 {
@@ -97,20 +98,14 @@ namespace Presentation.Controllers
         [HttpGet("year/{year}/season/{season}")]
         public IActionResult GetSeason(
             int year,
-            string season,
+            ESeason season,
             [FromQuery]int page = 1,
-            [FromQuery]int size = 8,
+            [FromQuery][Max(25)]int size = 8,
             [FromQuery]bool includeMeta = false
         )
         {
-            var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
-
-            if (!seasonEnum.HasValue) return BadRequest("Season not valid.");
-
-            if (size > 25) return BadRequest("Maximun size is 25");
-
             var animesInPage = _animeService
-                .GetSeason(year, seasonEnum.Value)
+                .GetSeason(year, season)
                 .OrderBy(a => string.IsNullOrWhiteSpace(a.CoverImageUrl))
                 .ThenBy(a => a.Name)
                 .Page(page, size)
@@ -126,7 +121,7 @@ namespace Presentation.Controllers
                 animePage.Meta = new PaginationMetaVM
                 {
                     BaseUrl = Request.GetPath(),
-                    Count = _animeService.GetAnimesInSeason(year, seasonEnum.Value),
+                    Count = _animeService.GetAnimesInSeason(year, season),
                     CurrentPage = page,
                     PageSize = size,
                 };
@@ -139,7 +134,7 @@ namespace Presentation.Controllers
         [HttpPost("slug/{slug}/bookmark")]
         public IActionResult CreateBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var bookmark = _bookmarkService.Create(slug, identityID);
 
@@ -150,7 +145,7 @@ namespace Presentation.Controllers
         [HttpDelete("slug/{slug}/bookmark")]
         public void DeleteBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             _bookmarkService.Delete(slug, identityID);
         }

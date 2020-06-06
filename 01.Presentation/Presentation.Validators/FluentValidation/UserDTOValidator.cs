@@ -1,10 +1,11 @@
 ﻿using Application.Interfaces;
 using Domain.DTOs;
+using Domain.Enums;
 using FluentValidation;
 using Infrastructure.Helpers;
 using SixLabors.ImageSharp;
 
-namespace Presentation.Validators
+namespace Presentation.Validators.FluentValidation
 {
     public class UserDTOValidator : AbstractValidator<UserDTO>
     {
@@ -14,17 +15,17 @@ namespace Presentation.Validators
             {
                 RuleFor(r => r.Name)
                     .Must(name => !userService.ExistsName(name))
-                    .WithMessage(ValidationCode.Unique.ToString());
+                    .WithMessage(EValidationCode.Unique.ToString());
             });
 
             When(r => r.Avatar != null, () =>
             {
                 RuleFor(r => r.Avatar)
                     .Must(avatar => avatar.IsImage())
-                    .WithMessage(ValidationCode.ContentTypeNotValid.ToString());
+                    .WithMessage(EValidationCode.ContentTypeNotValid.ToString());
                 RuleFor(r => r.Avatar.Length)
                     .LessThanOrEqualTo(2.MbToBytes())
-                    .WithMessage(ValidationCode.MaximumLength.ToString());
+                    .WithMessage(EValidationCode.MaximumLength.ToString());
 
                 When(r => r.Avatar.IsImage(), () =>
                 {
@@ -34,14 +35,14 @@ namespace Presentation.Validators
                             var image = Image.Load(avatar.OpenReadStream());
                             return image.Width == image.Height;
                         })
-                        .WithMessage(ValidationCode.ImageAspectRatio.ToString());
+                        .WithMessage(EValidationCode.ImageAspectRatio.ToString());
                     RuleFor(r => r.Avatar)
                         .Must(avatar =>
                         {
                             var image = Image.Load(avatar.OpenReadStream());
                             return image.Width <= 512 && image.Height <= 512;
                         })
-                        .WithMessage(ValidationCode.ImageResolution.ToString());
+                        .WithMessage(EValidationCode.ImageResolution.ToString());
                 });
             });
         }
