@@ -1,11 +1,12 @@
 ﻿using Application.Interfaces;
 using Domain.DTOs.Account;
+using Domain.Enums;
 using FluentValidation;
 using Infrastructure.Helpers;
 using SixLabors.ImageSharp;
 using System.Linq;
 
-namespace Presentation.Validators
+namespace Presentation.Validators.FluentValidation
 {
     public class RegisterDTOValidator : AbstractValidator<RegisterDTO>
     {
@@ -13,48 +14,48 @@ namespace Presentation.Validators
         {
             RuleFor(r => r.Password)
                 .NotEmpty()
-                .WithMessage(ValidationCode.NotEmpty.ToString());
+                .WithMessage(EValidationCode.NotEmpty.ToString());
             RuleFor(r => r.Password)
                 .Must(p => p.Any(char.IsDigit))
-                .WithMessage(ValidationCode.HasDigit.ToString());
+                .WithMessage(EValidationCode.HasDigit.ToString());
             RuleFor(r => r.Password)
                 .MinimumLength(6)
-                .WithMessage(ValidationCode.MinimumLength.ToString());
+                .WithMessage(EValidationCode.MinimumLength.ToString());
             RuleFor(r => r.Password)
                 .Must(p => p.Any(char.IsLower))
-                .WithMessage(ValidationCode.HasLowerCase.ToString());
+                .WithMessage(EValidationCode.HasLowerCase.ToString());
             RuleFor(r => r.Password)
                 .Must(p => !p.All(char.IsLetterOrDigit))
-                .WithMessage(ValidationCode.HasNonAlphanumeric.ToString());
+                .WithMessage(EValidationCode.HasNonAlphanumeric.ToString());
             RuleFor(r => r.Password)
                 .Must(p => p.Any(char.IsUpper))
-                .WithMessage(ValidationCode.HasUpperCase.ToString());
+                .WithMessage(EValidationCode.HasUpperCase.ToString());
 
             RuleFor(r => r.Email)
                 .NotEmpty()
-                .WithMessage(ValidationCode.NotEmpty.ToString());
+                .WithMessage(EValidationCode.NotEmpty.ToString());
             RuleFor(r => r.Email)
                 .EmailAddress()
-                .WithMessage(ValidationCode.ValidEmailAddress.ToString());
+                .WithMessage(EValidationCode.ValidEmailAddress.ToString());
             RuleFor(r => r.Email)
                 .MustAsync(async (email, _) => !await accountService.ExistsEmail(email))
-                .WithMessage(ValidationCode.Unique.ToString());
+                .WithMessage(EValidationCode.Unique.ToString());
 
             RuleFor(r => r.Username)
                 .NotEmpty()
-                .WithMessage(ValidationCode.NotEmpty.ToString());
+                .WithMessage(EValidationCode.NotEmpty.ToString());
             RuleFor(r => r.Username)
                 .MustAsync(async (username, _) => !await accountService.ExistsUsername(username))
-                .WithMessage(ValidationCode.Unique.ToString());
+                .WithMessage(EValidationCode.Unique.ToString());
 
             When(r => r.Avatar != null, () =>
             {
                 RuleFor(r => r.Avatar)
                     .Must(avatar => avatar.IsImage())
-                    .WithMessage(ValidationCode.ContentTypeNotValid.ToString());
+                    .WithMessage(EValidationCode.ContentTypeNotValid.ToString());
                 RuleFor(r => r.Avatar.Length)
                     .LessThanOrEqualTo(2.MbToBytes())
-                    .WithMessage(ValidationCode.MaximumLength.ToString());
+                    .WithMessage(EValidationCode.MaximumLength.ToString());
 
                 When(r => r.Avatar.IsImage(), () =>
                 {
@@ -64,14 +65,14 @@ namespace Presentation.Validators
                             var image = Image.Load(avatar.OpenReadStream());
                             return image.Width == image.Height;
                         })
-                        .WithMessage(ValidationCode.ImageAspectRatio.ToString());
+                        .WithMessage(EValidationCode.ImageAspectRatio.ToString());
                     RuleFor(r => r.Avatar)
                         .Must(avatar =>
                         {
                             var image = Image.Load(avatar.OpenReadStream());
                             return image.Width <= 512 && image.Height <= 512;
                         })
-                        .WithMessage(ValidationCode.ImageResolution.ToString());
+                        .WithMessage(EValidationCode.ImageResolution.ToString());
                 });
             });
         }
