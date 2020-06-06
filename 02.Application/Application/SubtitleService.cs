@@ -33,7 +33,7 @@ namespace Application
 
             if (!fansub.Memberships.Any(m => m.UserID == user.ID))
             {
-                throw new Exception("User does not belong on the fansub.");
+                throw new ArgumentException("User does not belong on the fansub.");
             }
 
             var subtitle = _unitOfWork.Subtitles.Create(new Subtitle
