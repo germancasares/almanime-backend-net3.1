@@ -1,5 +1,5 @@
-﻿using Domain.Enums;
-using Infrastructure;
+﻿using Domain.Constants;
+using Domain.Enums;
 using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -44,7 +44,7 @@ namespace Test.Infrastructure.Unit.Helpers.EnumHelpers
             // Assert
             Assert.That(
                 () => file.GetSubtitleFormat(),
-                Throws.TypeOf<ArgumentException>().With.Property("Message").EqualTo(ExceptionCode.ESubtitleFormatOutOfRange)
+                Throws.TypeOf<ArgumentException>().With.Property("Message").EqualTo(ExceptionMessage.ESubtitleFormatOutOfRange)
             );
         }
     }

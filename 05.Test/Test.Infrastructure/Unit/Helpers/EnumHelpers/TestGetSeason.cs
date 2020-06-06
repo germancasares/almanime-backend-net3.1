@@ -1,5 +1,5 @@
-﻿using Domain.Enums;
-using Infrastructure;
+﻿using Domain.Constants;
+using Domain.Enums;
 using NUnit.Framework;
 using System;
 using static Infrastructure.Helpers.EnumHelper;
@@ -41,7 +41,7 @@ namespace Test.Infrastructure.Unit.Helpers.EnumHelper
         public static void IntegerOutOfRange_ShouldThrowException([Values(-1, 13, 9999)] int month) =>
             Assert.That(
                 () => GetSeason(month),
-                Throws.TypeOf<ArgumentException>().With.Property("Message").EqualTo(ExceptionCode.ESeasonOutOfRange)
+                Throws.TypeOf<ArgumentException>().With.Property("Message").EqualTo(ExceptionMessage.ESeasonOutOfRange)
             );
     }
 }
