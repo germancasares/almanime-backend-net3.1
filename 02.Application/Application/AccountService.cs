@@ -1,9 +1,9 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
-using Domain.Configurations;
 using Domain.DTOs;
 using Domain.DTOs.Account;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TokenOptions = Domain.Configurations.TokenOptions;
 
 namespace Application
 {
@@ -18,21 +19,21 @@ namespace Application
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly TokenConfiguration _tokenConfiguration;
+        private readonly TokenOptions _tokenOptions;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public AccountService(
             IMapper mapper,
             IUserService userService,
-            TokenConfiguration tokenConfiguration,
+            IOptions<TokenOptions> tokenOptions,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager
             )
         {
             _mapper = mapper;
             _userService = userService;
-            _tokenConfiguration = tokenConfiguration;
+            _tokenOptions = tokenOptions.Value;
 
             _userManager = userManager;
             _signInManager = signInManager;
@@ -87,14 +88,14 @@ namespace Application
                 new Claim(JwtRegisteredClaimNames.Iat, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}")
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfiguration.Secret));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_tokenConfiguration.AccessExpirationDays));
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_tokenOptions.AccessExpirationDays));
             var notBefore = DateTime.Now;
 
             return new JwtSecurityToken(
-                _tokenConfiguration.Issuer,
-                _tokenConfiguration.Audience,
+                _tokenOptions.Issuer,
+                _tokenOptions.Audience,
                 claims,
                 notBefore,
                 expires,
