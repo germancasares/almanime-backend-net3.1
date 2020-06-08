@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
 {
@@ -26,5 +29,17 @@ namespace Infrastructure.Helpers
         public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int pageSize) => source.Skip((page - 1) * pageSize).Take(pageSize);
 
         public static string GetPath(this HttpRequest request) => $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}";
+
+        public static void Emit<T>(this ILogger<T> logger, ELoggingEvent loggingEvent, string message = null,
+            params object[] args)
+        {
+            var level = Log.LevelMap.ContainsKey(loggingEvent) ? Log.LevelMap[loggingEvent] : LogLevel.None;
+            var eventId = (int)loggingEvent;
+            var eventName = loggingEvent.ToString();
+            var eventScope = loggingEvent.GetType().Name;
+            var parameters = args.Append(eventScope).Append(eventName).ToArray();
+
+            logger.Log(level, eventId, message + " (Event scope: {eventScope}, name: {eventName})", parameters);
+        }
     }
 }
