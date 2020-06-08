@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace Infrastructure.Helpers
 {
@@ -27,16 +28,18 @@ namespace Infrastructure.Helpers
 
         public static string GetPath(this HttpRequest request) => $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}";
 
-        public static void Emit<T>(this ILogger<T> logger, ELoggingEvent loggingEvent, string message = null,
-            params object[] args)
+        public static void Emit<T>(this ILogger<T> logger, ELoggingEvent loggingEvent, object obj)
         {
             var level = Log.LevelMap.ContainsKey(loggingEvent) ? Log.LevelMap[loggingEvent] : LogLevel.None;
             var eventId = (int)loggingEvent;
-            var eventName = loggingEvent.ToString();
-            var eventScope = loggingEvent.GetType().Name;
-            var parameters = args.Append(eventScope).Append(eventName).ToArray();
 
-            logger.Log(level, eventId, message + " (Event scope: {eventScope}, name: {eventName})", parameters);
+            // TODO: How can I add this to obj???
+            //obj.EventScope = loggingEvent.GetType().Name;
+            //obj.EventName = loggingEvent.ToString();
+
+            string message = JsonSerializer.Serialize(obj);
+
+            logger.Log(level, eventId, message, null);
         }
     }
 }
