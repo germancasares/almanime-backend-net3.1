@@ -92,13 +92,13 @@ namespace Jobs.UpdateEpisodeTable
             if (_episodeService.GetByAnimeSlugAndNumber(episode.AnimeSlug, episode.Number) == null)
             {
                 _episodeService.Create(episode);
-                _logger.Emit(ELoggingEvent.EpisodeCreated, $"Slug {episode.AnimeSlug} - Number: {episode.Number}");
+                _logger.Emit(ELoggingEvent.EpisodeCreated, new { episode.AnimeSlug, EpisodeNumber = episode.Number });
 
             }
             else
             {
                 _episodeService.Update(episode);
-                _logger.Emit(ELoggingEvent.EpisodeUpdated, $"Slug {episode.AnimeSlug} - Number: {episode.Number}");
+                _logger.Emit(ELoggingEvent.EpisodeUpdated, new { episode.AnimeSlug, EpisodeNumber = episode.Number });
             }
         }
     }

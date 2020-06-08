@@ -124,7 +124,7 @@ namespace Jobs.UpdateAnimeTable
             // Slug
             if (anime.Slug == "delete")
             {
-                _logger.Emit(ELoggingEvent.SlugIsDelete, $"AnimeID {id}");
+                _logger.Emit(ELoggingEvent.SlugIsDelete, new { AnimeID = id });
                 return false;
             }
 
@@ -132,14 +132,14 @@ namespace Jobs.UpdateAnimeTable
             var status = EnumHelper.GetEnumFromString<EAnimeStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
             if (!status.HasValue)
             {
-                _logger.Emit(ELoggingEvent.AnimeStatusNotInRange, $"Slug {anime.Slug} - Status {anime.Status}");
+                _logger.Emit(ELoggingEvent.AnimeStatusNotInRange, new { AnimeSlug = anime.Slug, AnimeStatus = anime.Status });
                 return false;
             }
 
             // StartDate
             if (!DateTime.TryParseExact(anime.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                _logger.Emit(ELoggingEvent.StartDateNotRecognized, $"Slug {anime.Slug} - StartDate {anime.StartDate}");
+                _logger.Emit(ELoggingEvent.StartDateNotRecognized, new { AnimeSlug = anime.Slug, AnimeStartDate = anime.StartDate });
                 return false;
             }
 
@@ -153,12 +153,12 @@ namespace Jobs.UpdateAnimeTable
             if (_animeService.GetByKitsuID(anime.KitsuID) == null)
             {
                 _animeService.Create(anime);
-                _logger.Emit(ELoggingEvent.AnimeCreated, $"Slug {anime.Slug}");
+                _logger.Emit(ELoggingEvent.AnimeCreated, new { AnimeSlug = anime.Slug });
             }
             else
             {
                 _animeService.Update(anime);
-                _logger.Emit(ELoggingEvent.AnimeUpdated, $"Slug {anime.Slug}");
+                _logger.Emit(ELoggingEvent.AnimeUpdated, new { AnimeSlug = anime.Slug });
             }
         }
     }
