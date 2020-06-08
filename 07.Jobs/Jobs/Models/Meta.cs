@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class Meta
     {
-        [JsonProperty("count")]
+        [JsonPropertyName("count")]
         public int Count { get; set; }
     }
 }

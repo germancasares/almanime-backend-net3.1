@@ -2,7 +2,10 @@
 using AutoMapper;
 using Domain.DTOs;
 using Domain.DTOs.Account;
+using Domain.Enums;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,6 +23,7 @@ namespace Application
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly TokenOptions _tokenOptions;
+        private readonly ILogger<AccountService> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -27,6 +31,7 @@ namespace Application
             IMapper mapper,
             IUserService userService,
             IOptions<TokenOptions> tokenOptions,
+            ILogger<AccountService> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager
             )
@@ -34,6 +39,7 @@ namespace Application
             _mapper = mapper;
             _userService = userService;
             _tokenOptions = tokenOptions.Value;
+            _logger = logger;
 
             _userManager = userManager;
             _signInManager = signInManager;
@@ -51,6 +57,7 @@ namespace Application
 
             if (!result.Succeeded)
             {
+                _logger.Emit(ELoggingEvent.CantCreateAccount, new { result.Errors });
                 return (null, result.Errors);
             }
 

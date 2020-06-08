@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class EpisodeThumbail
     {
-        [JsonProperty("original")]
+        [JsonPropertyName("original")]
         public string Original { get; private set; }
-        [JsonProperty("tiny")]
+        [JsonPropertyName("tiny")]
         public string Tiny { get; private set; }
-        [JsonProperty("small")]
+        [JsonPropertyName("small")]
         public string Small { get; private set; }
-        [JsonProperty("large")]
+        [JsonPropertyName("large")]
         public string Large { get; private set; }
     }
 }

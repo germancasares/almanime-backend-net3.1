@@ -1,16 +1,16 @@
 ﻿using Kitsu.Anime;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class AnimeCollection
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public List<AnimeDataModel> Data { get; private set; }
-        [JsonProperty("meta")]
+        [JsonPropertyName("meta")]
         public Meta Meta { get; private set; }
-        [JsonProperty("links")]
+        [JsonPropertyName("links")]
         public Links Links { get; private set; }
     }
 }

@@ -1,15 +1,17 @@
 using Application.Interfaces;
 using Domain.DTOs;
+using Domain.Enums;
+using Infrastructure.Helpers;
 using Jobs.Models;
 using Jobs.UpdateEpisodeTable.Contracts;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Jobs.UpdateEpisodeTable
@@ -23,20 +25,21 @@ namespace Jobs.UpdateEpisodeTable
         private static readonly string EpisodeURL = $"{{0}}/anime/{{1}}/episodes?page[limit]={{2}}";
         private static readonly HttpClient Client = new HttpClient();
 
-        private static ILogger Log;
         private readonly IEpisodeService _episodeService;
+        private readonly ILogger<UpdateEpisodeTable> _logger;
 
-        public UpdateEpisodeTable(IEpisodeService episodeService)
+        public UpdateEpisodeTable(
+            IEpisodeService episodeService,
+            ILogger<UpdateEpisodeTable> logger
+        )
         {
             _episodeService = episodeService;
+            _logger = logger;
         }
 
         [FunctionName("UpdateEpisodeTable")]
-        public async Task Run([QueueTrigger(UpdateEpisodeTableQueue)]CAnime anime, ILogger log)
+        public async Task Run([QueueTrigger(UpdateEpisodeTableQueue)]CAnime anime)
         {
-            //TODO: Add logging to the functions
-            Log = log;
-
             var episodes = await GetEpisodes(anime.ID);
 
             var episodesDTOs = episodes
@@ -64,10 +67,7 @@ namespace Jobs.UpdateEpisodeTable
         private async Task<(string Next, List<EpisodeDataModel> EpisodeDataModel)> ProcessEpisodePage(string url)
         {
             var response = await Client.GetStringAsync(url);
-            var episodeCollection = JsonConvert.DeserializeObject<EpisodeCollection>(response, new JsonSerializerSettings
-            {
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            });
+            var episodeCollection = JsonSerializer.Deserialize<EpisodeCollection>(response);
             return (episodeCollection.Links.Next, episodeCollection.Data);
         }
 
@@ -92,10 +92,13 @@ namespace Jobs.UpdateEpisodeTable
             if (_episodeService.GetByAnimeSlugAndNumber(episode.AnimeSlug, episode.Number) == null)
             {
                 _episodeService.Create(episode);
+                _logger.Emit(ELoggingEvent.EpisodeCreated, new { episode.AnimeSlug, EpisodeNumber = episode.Number });
+
             }
             else
             {
                 _episodeService.Update(episode);
+                _logger.Emit(ELoggingEvent.EpisodeUpdated, new { episode.AnimeSlug, EpisodeNumber = episode.Number });
             }
         }
     }

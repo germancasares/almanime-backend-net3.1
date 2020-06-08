@@ -4,18 +4,24 @@ using Persistence.Data;
 using System;
 using Domain.DTOs;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Infrastructure.Helpers;
+using Domain.Enums;
 
 namespace Application
 {
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<UserService> _logger;
 
         public UserService(
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            ILogger<UserService> logger
             )
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public User GetByIdentityID(Guid id) => _unitOfWork.Users.GetByIdentityID(id);
@@ -24,7 +30,11 @@ namespace Application
 
         public Task<User> Create(UserDTO userDTO, Guid identityID)
         {
-            if (_unitOfWork.Users.GetByIdentityID(identityID) != null) throw new ArgumentException(nameof(identityID));
+            if (_unitOfWork.Users.GetByIdentityID(identityID) != null)
+            {
+                _logger.Emit(ELoggingEvent.UserAlreadyExists, new { IdentityID = identityID });
+                throw new ArgumentException(nameof(identityID));
+            }
 
             return CreateInternal(userDTO, identityID);
         }
@@ -43,10 +53,17 @@ namespace Application
 
             if (userDTO.Avatar != null)
             {
-                //TODO: What do we do if this fails? We can delete the User but what about the Identity?
-                userEntity.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, user.ID);
-                _unitOfWork.Users.Update(user);
-                _unitOfWork.Save();
+                try
+                {
+                    user.AvatarUrl = await _unitOfWork.Storage.UploadAvatar(userDTO.Avatar, user.ID);
+                    _unitOfWork.Users.Update(user);
+                    _unitOfWork.Save();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Emit(ELoggingEvent.CantUploadAvatar, new { IdentityID = identityID, Exception = ex });
+                    return user;
+                }
             }
 
             return user;
@@ -55,7 +72,11 @@ namespace Application
         public Task Update(UserDTO userDTO, Guid identityID)
         {
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
-            if (user == null) throw new ArgumentException(nameof(identityID));
+            if (user == null)
+            {
+                _logger.Emit(ELoggingEvent.UserDoesntExist, new { UserIdentityID = identityID });
+                throw new ArgumentException(nameof(identityID));
+            }
 
             return UpdateInternal(userDTO, user);
         }

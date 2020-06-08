@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Azure.Storage.Queues;
@@ -15,7 +14,7 @@ using Jobs.UpdateEpisodeTable.Contracts;
 using Kitsu.Anime;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 using static Jobs.UpdateEpisodeTable.UpdateEpisodeTable;
 
 namespace Jobs.UpdateAnimeTable
@@ -27,20 +26,21 @@ namespace Jobs.UpdateAnimeTable
         private static readonly string AnimeURL = $"{{0}}/anime?filter[seasonYear]={{1}}&filter[season]={{2}}&page[limit]={{3}}";
         private static readonly HttpClient Client = new HttpClient();
 
-        private static ILogger Log;
-        private static IAnimeService _animeService;
+        private readonly IAnimeService _animeService;
+        private readonly ILogger<UpdateAnimeTable> _logger;
 
-        public UpdateAnimeTable(IAnimeService animeService)
+        public UpdateAnimeTable(
+            IAnimeService animeService,
+            ILogger<UpdateAnimeTable> logger
+            )
         {
             _animeService = animeService;
+            _logger = logger;
         }
 
         [FunctionName("UpdateAnimeTable")]
-        public async Task Run([TimerTrigger("0 8 * * * *", RunOnStartup = true)]TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 8 * * * *", RunOnStartup = true)]TimerInfo myTimer)
         {
-            //TODO: Add logging to the functions
-            Log = log;
-
             var date = DateTime.Now;
             var year = date.Year;
             var season = EnumHelper.GetSeason(date);
@@ -64,13 +64,7 @@ namespace Jobs.UpdateAnimeTable
             var queue = new QueueClient(connectionString, UpdateEpisodeTableQueue);
             await queue.CreateIfNotExistsAsync();
 
-            var sendTasks = messages.Select(async message =>
-            {
-                var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-                var base64 = Convert.ToBase64String(bytes);
-
-                await queue.SendMessageAsync(base64);
-            });
+            var sendTasks = messages.Select(async message => await queue.SendMessageAsync(message.ToString()));
 
             await Task.WhenAll(sendTasks.ToArray());
         }
@@ -95,11 +89,11 @@ namespace Jobs.UpdateAnimeTable
         private static async Task<(string Next, IEnumerable<AnimeDataModel> AnimeDataModel)> ProcessAnimePage(string url)
         {
             var response = await Client.GetStringAsync(url);
-            var animeCollection = JsonConvert.DeserializeObject<AnimeCollection>(response);
+            var animeCollection = JsonSerializer.Deserialize<AnimeCollection>(response);
             return (animeCollection.Links.Next, animeCollection.Data);
         }
 
-        private static AnimeDTO MapAnime(AnimeDataModel model)
+        private AnimeDTO MapAnime(AnimeDataModel model)
         {
             var anime = model.Attributes;
 
@@ -125,12 +119,12 @@ namespace Jobs.UpdateAnimeTable
             };
         }
 
-        private static bool IsProcessable(string id, AnimeAttributesModel anime)
+        private bool IsProcessable(string id, AnimeAttributesModel anime)
         {
             // Slug
             if (anime.Slug == "delete")
             {
-                Log.LogError($"[UpdateAnimeTable~MapAnime(Slug)] AnimeID {id} - Slug {anime.Slug}");
+                _logger.Emit(ELoggingEvent.SlugIsDelete, new { AnimeID = id });
                 return false;
             }
 
@@ -138,14 +132,14 @@ namespace Jobs.UpdateAnimeTable
             var status = EnumHelper.GetEnumFromString<EAnimeStatus>(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(anime.Status));
             if (!status.HasValue)
             {
-                Log.LogError($"[UpdateAnimeTable~MapAnime(Status)] Anime {anime.Slug} - Status {anime.Status}");
+                _logger.Emit(ELoggingEvent.AnimeStatusNotInRange, new { AnimeSlug = anime.Slug, AnimeStatus = anime.Status });
                 return false;
             }
 
             // StartDate
             if (!DateTime.TryParseExact(anime.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                Log.LogError($"[UpdateAnimeTable~MapAnime(StartDate)] Anime {anime.Slug} - StartDate {anime.StartDate}");
+                _logger.Emit(ELoggingEvent.StartDateNotRecognized, new { AnimeSlug = anime.Slug, AnimeStartDate = anime.StartDate });
                 return false;
             }
 
@@ -154,15 +148,17 @@ namespace Jobs.UpdateAnimeTable
 
         private static string GetBaseUrl(string id, string url) => url?.Substring(0, url.IndexOf(id) + id.Length + 1);
 
-        private static void CreateOrUpdateAnime(AnimeDTO anime)
+        private void CreateOrUpdateAnime(AnimeDTO anime)
         {
             if (_animeService.GetByKitsuID(anime.KitsuID) == null)
             {
                 _animeService.Create(anime);
+                _logger.Emit(ELoggingEvent.AnimeCreated, new { AnimeSlug = anime.Slug });
             }
             else
             {
                 _animeService.Update(anime);
+                _logger.Emit(ELoggingEvent.AnimeUpdated, new { AnimeSlug = anime.Slug });
             }
         }
     }

@@ -1,9 +1,12 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Domain.Constants;
 using Domain.DTOs;
 using Domain.Enums;
 using Domain.Models;
 using Domain.VMs;
+using Infrastructure.Helpers;
+using Microsoft.Extensions.Logging;
 using Persistence.Data;
 using System;
 using System.Collections.Generic;
@@ -15,11 +18,17 @@ namespace Application
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<FansubService> _logger;
 
-        public FansubService(IUnitOfWork unitOfWork, IMapper mapper)
+        public FansubService(
+            IUnitOfWork unitOfWork, 
+            IMapper mapper,
+            ILogger<FansubService> logger
+        )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public bool ExistsFullName(string fullname) => _unitOfWork.Fansubs.GetByFullName(fullname) != null;
@@ -73,7 +82,11 @@ namespace Application
         public Fansub Create(FansubDTO fansubDTO, Guid identityID)
         {
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
-            if (user == null) throw new ArgumentException(nameof(identityID));
+            if (user == null)
+            {
+                _logger.Emit(ELoggingEvent.UserDoesntExist, new { UserIdentityID = identityID });
+                throw new ArgumentException(nameof(identityID));
+            }
 
             var fansub = _unitOfWork.Fansubs.Create(_mapper.Map<Fansub>(fansubDTO));
 
@@ -92,9 +105,24 @@ namespace Application
         public void Delete(Guid fansubID, Guid identityID)
         {
             var user = _unitOfWork.Users.GetByIdentityID(identityID);
-            if (user == null) throw new ArgumentException(nameof(identityID));
+            if (user == null)
+            {
+                _logger.Emit(ELoggingEvent.UserDoesntExist, new { UserIdentityID = identityID });
+                throw new ArgumentException(nameof(identityID));
+            }
 
-            if (!_unitOfWork.Memberships.IsFounder(fansubID, user.ID)) return;
+            var fansub = _unitOfWork.Fansubs.GetByID(fansubID);
+            if (fansub == null)
+            {
+                _logger.Emit(ELoggingEvent.FansubDoesNotExist, new { FansubID = fansubID });
+                throw new ArgumentException(nameof(fansubID));
+            }
+
+            if (!_unitOfWork.Memberships.IsFounder(fansubID, user.ID))
+            {
+                _logger.Emit(ELoggingEvent.UserIsNotFounder, new { UserIdentityID = identityID, FansubID = fansubID });
+                throw new ArgumentException(ExceptionMessage.OnlyFounderCanDeleteFansub);
+            }
 
             _unitOfWork.Fansubs.DeleteMembers(fansubID);
             _unitOfWork.Fansubs.Delete(fansubID);
