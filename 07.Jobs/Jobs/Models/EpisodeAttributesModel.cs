@@ -1,31 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class EpisodeAttributesModel
     {
-        [JsonProperty("canonicalTitle")]
+        [JsonPropertyName("canonicalTitle")]
         public string CanonicalTitle { get; private set; }
 
-        [JsonProperty("seasonNumber")]
+        [JsonPropertyName("seasonNumber")]
         public int? SeasonNumber { get; private set; }
 
-        [JsonProperty("number")]
+        [JsonPropertyName("number")]
         public int? Number { get; private set; }
 
-        [JsonProperty("relativeNumber")]
+        [JsonPropertyName("relativeNumber")]
         public int? RelativeNumber { get; private set; }
 
-        [JsonProperty("synopsis")]
+        [JsonPropertyName("synopsis")]
         public string Synopsis { get; private set; }
 
-        [JsonProperty("airdate")]
+        [JsonPropertyName("airdate")]
         public string Airdate { get; private set; }
 
-        [JsonProperty("length")]
+        [JsonPropertyName("length")]
         public int? Length { get; private set; }
 
-        [JsonProperty("thumbnail")]
+        [JsonPropertyName("thumbnail")]
         public EpisodeThumbail Thumbnail { get; private set; }
     }
 }

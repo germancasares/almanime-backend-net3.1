@@ -14,7 +14,7 @@ using Jobs.UpdateEpisodeTable.Contracts;
 using Kitsu.Anime;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 using static Jobs.UpdateEpisodeTable.UpdateEpisodeTable;
 
 namespace Jobs.UpdateAnimeTable
@@ -89,7 +89,7 @@ namespace Jobs.UpdateAnimeTable
         private static async Task<(string Next, IEnumerable<AnimeDataModel> AnimeDataModel)> ProcessAnimePage(string url)
         {
             var response = await Client.GetStringAsync(url);
-            var animeCollection = JsonConvert.DeserializeObject<AnimeCollection>(response);
+            var animeCollection = JsonSerializer.Deserialize<AnimeCollection>(response);
             return (animeCollection.Links.Next, animeCollection.Data);
         }
 

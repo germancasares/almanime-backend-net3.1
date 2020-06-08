@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class EpisodeCollection
     {
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public List<EpisodeDataModel> Data { get; private set; }
-        [JsonProperty("meta")]
+        [JsonPropertyName("meta")]
         public Meta Meta { get; private set; }
-        [JsonProperty("links")]
+        [JsonPropertyName("links")]
         public Links Links { get; private set; }
     }
 }

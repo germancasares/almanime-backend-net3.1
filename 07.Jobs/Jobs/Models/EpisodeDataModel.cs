@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class EpisodeDataModel
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; private set; }
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; private set; }
-        [JsonProperty("attributes")]
+        [JsonPropertyName("attributes")]
         public EpisodeAttributesModel Attributes { get; private set; }
     }
 }

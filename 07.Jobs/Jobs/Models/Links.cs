@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jobs.Models
 {
     public class Links
     {
-        [JsonProperty("first")]
+        [JsonPropertyName("first")]
         public string First { get; set; }
-        [JsonProperty("next")]
+        [JsonPropertyName("next")]
         public string Next { get; set; }
-        [JsonProperty("last")]
+        [JsonPropertyName("last")]
         public string Last { get; set; }
     }
 }

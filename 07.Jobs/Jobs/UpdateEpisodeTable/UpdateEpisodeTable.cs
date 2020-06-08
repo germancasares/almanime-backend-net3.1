@@ -6,12 +6,12 @@ using Jobs.Models;
 using Jobs.UpdateEpisodeTable.Contracts;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Jobs.UpdateEpisodeTable
@@ -67,10 +67,7 @@ namespace Jobs.UpdateEpisodeTable
         private async Task<(string Next, List<EpisodeDataModel> EpisodeDataModel)> ProcessEpisodePage(string url)
         {
             var response = await Client.GetStringAsync(url);
-            var episodeCollection = JsonConvert.DeserializeObject<EpisodeCollection>(response, new JsonSerializerSettings
-            {
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            });
+            var episodeCollection = JsonSerializer.Deserialize<EpisodeCollection>(response);
             return (episodeCollection.Links.Next, episodeCollection.Data);
         }
 
