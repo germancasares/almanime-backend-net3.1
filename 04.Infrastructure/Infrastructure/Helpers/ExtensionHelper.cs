@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
 {
@@ -16,9 +15,7 @@ namespace Infrastructure.Helpers
         {
             var id = principal.Claims.SingleOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var isGuidValid = Guid.TryParse(id, out _);
-
-            return isGuidValid ? new Guid(id) : Guid.Empty;
+            return Guid.TryParse(id, out var guid) ? guid : Guid.Empty;
         }
 
         public static long MbToBytes(this int mb) => mb * 1024 * 1024;
