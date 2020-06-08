@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Domain.VMs;
 using Domain.Enums;
@@ -18,21 +17,18 @@ namespace Presentation.Controllers
     [Route("api/v1/[controller]")]
     public class AnimeController : ControllerBase
     {
-        private readonly ILogger<AnimeController> _logger;
         private readonly IMapper _mapper;
         private readonly IAnimeService _animeService;
         private readonly IBookmarkService _bookmarkService;
         private readonly IEpisodeService _episodeService;
 
         public AnimeController(
-            ILogger<AnimeController> logger,
             IAnimeService animeService,
             IBookmarkService bookmarkService,
             IEpisodeService episodeService,
             IMapper mapper
         )
         {
-            _logger = logger;
             _animeService = animeService;
             _bookmarkService = bookmarkService;
             _episodeService = episodeService;
