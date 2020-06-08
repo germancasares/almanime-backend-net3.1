@@ -1,5 +1,7 @@
 using Application.Interfaces;
 using Domain.DTOs;
+using Domain.Enums;
+using Infrastructure.Helpers;
 using Jobs.Models;
 using Jobs.UpdateEpisodeTable.Contracts;
 using Microsoft.Azure.WebJobs;
@@ -23,20 +25,21 @@ namespace Jobs.UpdateEpisodeTable
         private static readonly string EpisodeURL = $"{{0}}/anime/{{1}}/episodes?page[limit]={{2}}";
         private static readonly HttpClient Client = new HttpClient();
 
-        private static ILogger Log;
         private readonly IEpisodeService _episodeService;
+        private readonly ILogger<UpdateEpisodeTable> _logger;
 
-        public UpdateEpisodeTable(IEpisodeService episodeService)
+        public UpdateEpisodeTable(
+            IEpisodeService episodeService,
+            ILogger<UpdateEpisodeTable> logger
+        )
         {
             _episodeService = episodeService;
+            _logger = logger;
         }
 
         [FunctionName("UpdateEpisodeTable")]
-        public async Task Run([QueueTrigger(UpdateEpisodeTableQueue)]CAnime anime, ILogger log)
+        public async Task Run([QueueTrigger(UpdateEpisodeTableQueue)]CAnime anime)
         {
-            //TODO: Add logging to the functions
-            Log = log;
-
             var episodes = await GetEpisodes(anime.ID);
 
             var episodesDTOs = episodes
@@ -92,10 +95,13 @@ namespace Jobs.UpdateEpisodeTable
             if (_episodeService.GetByAnimeSlugAndNumber(episode.AnimeSlug, episode.Number) == null)
             {
                 _episodeService.Create(episode);
+                _logger.Emit(ELoggingEvent.EpisodeCreated, $"Slug {episode.AnimeSlug} - Number: {episode.Number}");
+
             }
             else
             {
                 _episodeService.Update(episode);
+                _logger.Emit(ELoggingEvent.EpisodeUpdated, $"Slug {episode.AnimeSlug} - Number: {episode.Number}");
             }
         }
     }
