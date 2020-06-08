@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Domain.Enums
+﻿namespace Domain.Enums
 {
     public enum EValidationCode
     {
