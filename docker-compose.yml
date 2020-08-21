@@ -33,7 +33,7 @@ services:
         container_name: SecurityDB
         image: "mcr.microsoft.com/mssql/server"
         environment:
-            SA_PASSWORD: ${SA_PASSWORD_SECURIRTYDB}
+            SA_PASSWORD: ${SA_PASSWORD_SECURITYDB}
             ACCEPT_EULA: "Y"
         volumes:
             - security_volume:/var/opt/mssql
