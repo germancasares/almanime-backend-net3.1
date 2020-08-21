@@ -90,9 +90,13 @@ Backend of the Almanime website
 
 1. Run the Docker Compose project, so the containers are created.
 2. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Security`
-3. Run the command `Update-Database`
-4. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Data`
-5. Run the command `Update-Database`
+3. Modify the `SecurityConnection` on `appsettings.Development.json` to `Server=localhost,1434;...`
+4. Run the command `Update-Database -Context SecurityContext`
+5. Modify the `SecurityConnection` on `appsettings.Development.json` to `Server=securitydb;...`
+6. Target the `Presentation` project, open the Package Manager Console and set Default Project to `06.Migrations\Migrations.Data`
+7. Modify the `SecurityConnection` on `appsettings.Development.json` to `Server=localhost,1433;...`
+8. Run the command `Update-Database -Context AlmanimeContext`
+9. Modify the `SecurityConnection` on `appsettings.Development.json` to `Server=datadb;...`
 
 
 
