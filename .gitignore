@@ -262,3 +262,5 @@ __pycache__/
 appsettings.*.json
 appsettings.json
 docker-compose.override.yml
+db.env
+jobs.env

@@ -23,18 +23,12 @@ services:
     data_db:
         container_name: DataDB
         image: "mcr.microsoft.com/mssql/server"
-        environment:
-            SA_PASSWORD: ${SA_PASSWORD_DATADB}
-            ACCEPT_EULA: "Y"
         volumes:
             - data_volume:/var/opt/mssql
 
     security_db:
         container_name: SecurityDB
         image: "mcr.microsoft.com/mssql/server"
-        environment:
-            SA_PASSWORD: ${SA_PASSWORD_SECURITYDB}
-            ACCEPT_EULA: "Y"
         volumes:
             - security_volume:/var/opt/mssql
 
