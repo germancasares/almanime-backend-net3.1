@@ -2,7 +2,7 @@ using Application.Interfaces;
 using Domain.DTOs;
 using Domain.Enums;
 using Infrastructure.Helpers;
-using Jobs.Models;
+using Jobs.Models.Episode;
 using Jobs.UpdateEpisodeTable.Contracts;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;

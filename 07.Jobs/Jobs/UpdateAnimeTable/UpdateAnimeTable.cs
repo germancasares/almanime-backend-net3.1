@@ -9,13 +9,12 @@ using Azure.Storage.Queues;
 using Domain.DTOs;
 using Domain.Enums;
 using Infrastructure.Helpers;
-using Jobs.Models;
 using Jobs.UpdateEpisodeTable.Contracts;
-using Kitsu.Anime;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using static Jobs.UpdateEpisodeTable.UpdateEpisodeTable;
+using Jobs.Models.Anime;
 
 namespace Jobs.UpdateAnimeTable
 {
@@ -89,7 +88,7 @@ namespace Jobs.UpdateAnimeTable
         private static async Task<(string Next, IEnumerable<AnimeDataModel> AnimeDataModel)> ProcessAnimePage(string url)
         {
             var response = await Client.GetStringAsync(url);
-            var animeCollection = JsonSerializer.Deserialize<AnimeCollection>(response);
+            var animeCollection = JsonSerializer.Deserialize<AnimeCollection>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true,  });
             return (animeCollection.Links.Next, animeCollection.Data);
         }
 
