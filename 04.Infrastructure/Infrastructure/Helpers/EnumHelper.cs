@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Constants;
+using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -13,15 +14,18 @@ namespace Infrastructure.Helpers
             return isEnum ? type : (T?)null;
         }
 
+        public static ESeason GetSeason(DateTime date) => GetSeason(date.Month);
+
         public static ESeason GetSeason(int month)
         {
             return month switch
             {
-                int n when n == 12 || n <= 2 => ESeason.Winter,
+                int n when n >= 1 && n <= 2 => ESeason.Winter,
                 int n when n >= 3 && n <= 5 => ESeason.Spring,
                 int n when n >= 6 && n <= 8 => ESeason.Summer,
                 int n when n >= 9 && n <= 11 => ESeason.Fall,
-                _ => throw new ArgumentException("Month out of ESeason range."),
+                int n when n == 12 => ESeason.Winter,
+                _ => throw new ArgumentException(ExceptionMessage.ESeasonOutOfRange),
             };
         }
 
@@ -31,7 +35,7 @@ namespace Infrastructure.Helpers
             {
                 ".ass" => ESubtitleFormat.ASS,
                 ".srt" => ESubtitleFormat.SRT,
-                _ => throw new ArgumentException("Extension out of ESubtitleFormat range."),
+                _ => throw new ArgumentException(ExceptionMessage.ESubtitleFormatOutOfRange),
             };
         }
     }

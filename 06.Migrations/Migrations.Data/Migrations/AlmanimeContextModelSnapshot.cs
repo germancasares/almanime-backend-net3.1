@@ -15,7 +15,7 @@ namespace Migrations.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -146,7 +146,7 @@ namespace Migrations.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Acronym")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -154,15 +154,32 @@ namespace Migrations.Data.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LogoUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MainLanguage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MembershipOption")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Webpage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("Acronym")
+                        .IsUnique()
+                        .HasFilter("[Acronym] IS NOT NULL");
+
+                    b.HasIndex("FullName")
+                        .IsUnique()
+                        .HasFilter("[FullName] IS NOT NULL");
 
                     b.ToTable("Fansubs");
                 });

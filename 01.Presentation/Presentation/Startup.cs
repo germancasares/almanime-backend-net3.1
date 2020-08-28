@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
+using Domain.Options;
+using System.Linq;
+using Infrastructure.Helpers;
 
 namespace AlmBackend
 {
@@ -29,76 +34,82 @@ namespace AlmBackend
                 {
                     opt.Filters.Add(typeof(ValidatorActionFilter));
                 })
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
                 .AddFluentValidation();
 
+            services.AddBackendServices(Configuration);
+
+            var swaggerOptions = Configuration
+                .GetSection(SwaggerOptions.Accessor)
+                .Get<SwaggerOptions>();
+
             services
-                .AddConfiguration(Configuration)
-                .AddContext()
-                .AddIdentity()
-                .AddAlmAuthentication()
-                .AddServices()
-                .AddRepositories()
-                .AddValidators()
-                .AddMapper()
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo
+                    var doc = swaggerOptions.Doc;
+                    c.SwaggerDoc(doc.Version, new OpenApiInfo
                     {
-                        Title = "AlmBackend API",
-                        Description = "Backend for the Almanime project.",
-                        Version = "v1",
+                        Title = doc.Title,
+                        Description = doc.Description,
+                        Version = doc.Version,
                         Contact = new OpenApiContact
                         {
-                            Name = "German Casares March",
-                            Url = new Uri("https://www.linkedin.com/in/germancasares/"),
-                            Email = "german.casares@outlook.com",
+                            Name = doc.Name,
+                            Url = new Uri(doc.Url),
+                            Email = doc.Email,
                         },
                     });
 
-                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        Type = SecuritySchemeType.ApiKey,
-                        Description = "Please Enter Authentication Token",
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Flows = new OpenApiOAuthFlows
-                        {
-                            Implicit = new OpenApiOAuthFlow
-                            {
-                                AuthorizationUrl = new Uri("https://authorization.com"),
-                                TokenUrl = new Uri("https://token.com"),
-                                RefreshUrl = new Uri("https://refresh.com"),
-                                Scopes = new Dictionary<string, string>(),
-                            },
-                        },
-                    });
-
+                    var req = swaggerOptions.SecurityRequirement;
                     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                     {
                         {
                             new OpenApiSecurityScheme
                             {
+                                In = EnumHelper.GetEnumFromString<ParameterLocation>(req.In).Value,
+                                Name = req.Name,
+                                Scheme = req.Scheme,
                                 Reference = new OpenApiReference
                                 {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
+                                    Type = EnumHelper.GetEnumFromString<ReferenceType>(req.Type).Value,
+                                    Id = req.Id
                                 },
-                                Scheme = "oauth2",
-                                Name = "Bearer",
-                                In = ParameterLocation.Header,
-
                             },
                             new List<string>()
                         }
                     });
 
-                    //c.DescribeAllEnumsAsStrings();
+                    var def = swaggerOptions.SecurityDefinition;
+                    c.AddSecurityDefinition(def.Scheme, new OpenApiSecurityScheme
+                    {
+                        Type = EnumHelper.GetEnumFromString<SecuritySchemeType>(def.Type).Value,
+                        Description = def.Description,
+                        Name = def.Name,
+                        In = EnumHelper.GetEnumFromString<ParameterLocation>(def.In).Value,
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            Implicit = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri(def.AuthorizationUrl),
+                                TokenUrl = new Uri(def.TokenUrl),
+                                RefreshUrl = new Uri(def.RefreshUrl),
+                                Scopes = new Dictionary<string, string>(),
+                            },
+                        },
+                    });
                 });
- 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            IOptions<FrontendOptions> frontendOptions,
+            IOptions<SwaggerOptions> swaggerOptions
+        )
         {
             if (env.IsDevelopment())
             {
@@ -112,14 +123,16 @@ namespace AlmBackend
             app.UseRouting();
 
             app.UseSwagger();
+
+            var ui = swaggerOptions.Value.UI;
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AlmBackend API V1");
-                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint(ui.EndpointUrl, ui.EndpointName);
+                c.RoutePrefix = ui.RoutePrefix;
             });
             app.UseHttpsRedirection();
 
-            app.UseCors(builder => builder.WithOrigins(Configuration["FrontendUrls"].Split(";")).AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins(frontendOptions.Value.Urls.ToArray()).AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();

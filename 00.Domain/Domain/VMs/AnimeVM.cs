@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 
 namespace Domain.VMs
 {
@@ -9,8 +10,8 @@ namespace Domain.VMs
         public int KitsuID { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
-        public string Season { get; set; }
-        public string Status { get; set; }
+        public ESeason Season { get; set; }
+        public EAnimeStatus Status { get; set; }
         public string Synopsis { get; set; }
         public DateTime StartDate { get; set; }
 

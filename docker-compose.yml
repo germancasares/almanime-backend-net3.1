@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  jobs:
+    container_name: Jobs
+    image: ${DOCKER_REGISTRY-}jobs
+    build:
+      context: .
+      dockerfile: 07.Jobs/Jobs/Docker/Dockerfile
+    depends_on:
+      - backend
+      
+  backend:
+    container_name: Backend
+    image: ${DOCKER_REGISTRY-}backend
+    build:
+      context: .
+      dockerfile: 01.Presentation/Presentation/Dockerfile
+    depends_on:
+      - data_db
+      - security_db
+
+  data_db:
+    container_name: DataDB
+    image: "mcr.microsoft.com/mssql/server"
+    volumes:
+      - data_volume:/var/opt/mssql
+
+  security_db:
+    container_name: SecurityDB
+    image: "mcr.microsoft.com/mssql/server"
+    volumes:
+      - security_volume:/var/opt/mssql
+
+volumes:
+  data_volume:
+  security_volume:

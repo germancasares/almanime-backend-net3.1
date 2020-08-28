@@ -10,6 +10,7 @@ namespace Persistence.Data.Repositories.Interfaces
         IQueryable<Anime> GetByFansub(string acronym);
         Anime GetByKitsuID(int kitsuID);
         Anime GetBySlug(string slug);
+        IQueryable<Anime> GetCompletedByFansub(string acronym);
         IQueryable<Anime> GetSeason(int year, ESeason season);
     }
 }

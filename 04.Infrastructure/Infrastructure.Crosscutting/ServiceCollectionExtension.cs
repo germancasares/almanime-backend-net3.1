@@ -17,113 +17,75 @@ using System.Text;
 using Application;
 using Application.Interfaces;
 using Domain.DTOs.Account;
-using Presentation.Validators;
 using FluentValidation;
-using Domain.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Linq;
-using Domain.Models.Derived;
+using Presentation.Validators.FluentValidation;
+using TokenOptions = Domain.Configurations.TokenOptions;
+using Domain.Options;
 
 namespace Infrastructure.Crosscutting
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddContext(this IServiceCollection services, string connectionString = "Name=AlmanimeConnection") => services.AddDbContext<AlmanimeContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
-
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddBackendServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IBookmarkService, BookmarkService>();
-            services.AddScoped<IAnimeService, AnimeService>();
-            services.AddScoped<IFansubService, FansubService>();
-            services.AddScoped<ISubtitleService, SubtitleService>();
-            services.AddScoped<IUserService, UserService>();
+            var tokenOptions = config
+                .GetSection(TokenOptions.Accessor)
+                .Get<TokenOptions>();
+
+            services
+                .AddConfiguration(config)
+                .AddContext()
+                .AddIdentity()
+                .AddAlmAuthentication(tokenOptions)
+                .AddRepositories()
+                .AddServices()
+                .AddValidators()
+                .AddMapper();
 
             return services;
         }
 
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        public static IServiceCollection AddJobsServices(this IServiceCollection services, string connectionString)
         {
-            services.AddScoped<IAnimeRepository, AnimeRepository>();
-            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
-            services.AddScoped<IEpisodeRepository, EpisodeRepository>();
-            services.AddScoped<IFansubRepository, FansubRepository>();
-            services.AddScoped<IMembershipRepository, MembershipRepository>();
-            services.AddScoped<IStorageRepository, StorageRepository>();
-            services.AddScoped<IBaseRepository<Subtitle>, BaseRepository<Subtitle>>();
-            services.AddScoped<ISubtitlePartialRepository, SubtitlePartialRepository>();
-            services.AddScoped<ISubtitleRepository, SubtitleRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services
+                .AddContext(connectionString)
+                .AddRepositories()
+                .AddServices()
+                .AddMapper();
 
             return services;
         }
 
-        public static IServiceCollection AddMapper(this IServiceCollection services)
+        private static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
         {
-            services.AddAutoMapper(config =>
-            {
-                config.CreateMap<string, string>().ConvertUsing(s => string.IsNullOrWhiteSpace(s) ? null : s);
+            services.AddOptions<FrontendOptions>()
+                .Bind(config.GetSection(FrontendOptions.Accessor))
+                .ValidateDataAnnotations();
 
-                // Accounts
-                config.CreateMap<RegisterDTO, IdentityUser>();
+            services.AddOptions<TokenOptions>()
+                .Bind(config.GetSection(TokenOptions.Accessor))
+                .ValidateDataAnnotations();
 
-                // Anime
-                config.CreateMap<AnimeDTO, Anime>();
-                config.CreateMap<Anime, AnimeVM>()
-                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
-                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
-                config.CreateMap<Anime, AnimeWithEpisodesVM>()
-                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
-                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
-                config.CreateMap<Anime, AnimeWithEpisodesAndSubtitleVM>()
-                    .ForMember(a => a.EpisodesCount, opt => opt.MapFrom(src => src.Episodes.Count))
-                    .ForMember(a => a.Episodes, opt => opt.MapFrom(src => src.Episodes.Where(s => s.Subtitles.Any(s => !string.IsNullOrEmpty(s.Url)))));
-                config.CreateMap<AnimeSeasonPage, AnimeSeasonPageVM>();
-
-                // Bookmarks
-                config.CreateMap<BookmarkDTO, Bookmark>();
-                config.CreateMap<Bookmark, BookmarkVM>()
-                    .ForMember(b => b.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
-                    .ForMember(b => b.UserName, opt => opt.MapFrom(src => src.User.Name));
-
-                // Episodes
-                config.CreateMap<EpisodeDTO, Episode>();
-                config.CreateMap<EpisodeDTO, EpisodeVM>();
-                config.CreateMap<Episode, EpisodeVM>();
-                config.CreateMap<Episode, EpisodeWithSubtitleVM>()
-                    .ForMember(e => e.Subtitle, opt => opt.MapFrom(src => src.Subtitles.SingleOrDefault()));
-
-                // Fansubs
-                config.CreateMap<FansubDTO, Fansub>();
-                config.CreateMap<Fansub, FansubVM>();
-
-                // PaginationMeta
-                config.CreateMap<PaginationMeta, PaginationMetaVM>();
-
-                // Subtitles
-                config.CreateMap<Subtitle, SubtitleVM>()
-                    .ForMember(s => s.ModificationDate, opt => opt.MapFrom(src => src.ModificationDate.HasValue ? src.ModificationDate : src.CreationDate));
-
-                // Users
-                config.CreateMap<UserDTO, User>();
-                config.CreateMap<User, UserVM>()
-                    .ForMember(u => u.Bookmarks, opt => opt.MapFrom(src => src.Bookmarks.Select(b => b.Anime.Slug)));
-
-            }, AppDomain.CurrentDomain.GetAssemblies());
+            services.AddOptions<SwaggerOptions>()
+                .Bind(config.GetSection(SwaggerOptions.Accessor))
+                .ValidateDataAnnotations();
 
             return services;
         }
 
-        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        private static IServiceCollection AddContext(this IServiceCollection services, string connectionString = "Name=AlmanimeConnection") => services.AddDbContext<AlmanimeContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString, b => b.MigrationsAssembly("Migrations.Data")));
+
+        private static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services
                 .AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
                 options.Password.RequiredUniqueChars = 0;
 
@@ -145,10 +107,8 @@ namespace Infrastructure.Crosscutting
             return services;
         }
 
-        public static IServiceCollection AddAlmAuthentication(this IServiceCollection services)
+        private static IServiceCollection AddAlmAuthentication(this IServiceCollection services, TokenOptions tokenOptions)
         {
-            var tokenConfiguration = services.BuildServiceProvider().GetService<TokenConfiguration>();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -160,13 +120,13 @@ namespace Infrastructure.Crosscutting
                 jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfiguration.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.Secret)),
 
                     ValidateIssuer = true,
-                    ValidIssuer = tokenConfiguration.Issuer,
+                    ValidIssuer = tokenOptions.Issuer,
 
                     ValidateAudience = true,
-                    ValidAudience = tokenConfiguration.Audience,
+                    ValidAudience = tokenOptions.Audience,
 
                     ValidateLifetime = true, //validate the expiration and not before values in the token
 
@@ -177,7 +137,38 @@ namespace Infrastructure.Crosscutting
             return services;
         }
 
-        public static IServiceCollection AddValidators(this IServiceCollection services)
+        private static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAnimeService, AnimeService>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
+            services.AddScoped<IFansubService, FansubService>();
+            services.AddScoped<ISubtitleService, SubtitleService>();
+            services.AddScoped<IUserService, UserService>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IAnimeRepository, AnimeRepository>();
+            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
+            services.AddScoped<IEpisodeRepository, EpisodeRepository>();
+            services.AddScoped<IFansubRepository, FansubRepository>();
+            services.AddScoped<IMembershipRepository, MembershipRepository>();
+            services.AddScoped<IStorageRepository, StorageRepository>();
+            services.AddScoped<IBaseRepository<Subtitle>, BaseRepository<Subtitle>>();
+            services.AddScoped<ISubtitlePartialRepository, SubtitlePartialRepository>();
+            services.AddScoped<ISubtitleRepository, SubtitleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
             services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
@@ -187,13 +178,56 @@ namespace Infrastructure.Crosscutting
             return services;
         }
 
-        public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
+        private static IServiceCollection AddMapper(this IServiceCollection services)
         {
-            services.AddOptions();
+            services.AddAutoMapper(config =>
+            {
+                config.CreateMap<string, string>().ConvertUsing(s => string.IsNullOrWhiteSpace(s) ? null : s);
 
-            var tokenConfiguration = new TokenConfiguration();
-            config.Bind("TokenConfiguration", tokenConfiguration);
-            services.AddSingleton(tokenConfiguration);
+                // Accounts
+                config.CreateMap<RegisterDTO, IdentityUser>();
+
+                // Anime
+                config.CreateMap<AnimeDTO, Anime>();
+                config.CreateMap<Anime, AnimeVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
+                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
+                config.CreateMap<Anime, AnimeWithEpisodesVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl))
+                    .ForMember(a => a.PosterImage, opt => opt.MapFrom(src => src.PosterImageUrl));
+                config.CreateMap<Anime, AnimeWithEpisodesAndSubtitleVM>()
+                    .ForMember(a => a.EpisodesCount, opt => opt.MapFrom(src => src.Episodes.Count))
+                    .ForMember(a => a.Episodes, opt => opt.MapFrom(src => src.Episodes.Where(s => s.Subtitles.Any(s => !string.IsNullOrEmpty(s.Url)))));
+                config.CreateMap<Anime, FansubAnimeVM>()
+                    .ForMember(a => a.CoverImage, opt => opt.MapFrom(src => src.CoverImageUrl));
+
+                // Bookmarks
+                config.CreateMap<BookmarkDTO, Bookmark>();
+                config.CreateMap<Bookmark, BookmarkVM>()
+                    .ForMember(b => b.AnimeSlug, opt => opt.MapFrom(src => src.Anime.Slug))
+                    .ForMember(b => b.UserName, opt => opt.MapFrom(src => src.User.Name));
+
+                // Episodes
+                config.CreateMap<EpisodeDTO, Episode>();
+                config.CreateMap<EpisodeDTO, EpisodeVM>();
+                config.CreateMap<Episode, EpisodeVM>();
+                config.CreateMap<Episode, EpisodeWithSubtitleVM>()
+                    .ForMember(e => e.Subtitle, opt => opt.MapFrom(src => src.Subtitles.SingleOrDefault()));
+
+                // Fansubs
+                config.CreateMap<FansubDTO, Fansub>();
+                config.CreateMap<Fansub, FansubVM>();
+
+                // Subtitles
+                config.CreateMap<Subtitle, SubtitleVM>()
+                    .ForMember(s => s.ModificationDate, opt => opt.MapFrom(src => src.ModificationDate.HasValue ? src.ModificationDate : src.CreationDate));
+
+                // Users
+                config.CreateMap<UserDTO, User>();
+                config.CreateMap<User, UserVM>()
+                    .ForMember(u => u.Bookmarks, opt => opt.MapFrom(src => src.Bookmarks.Select(b => b.Anime.Slug)));
+
+            }, AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

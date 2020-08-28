@@ -11,6 +11,7 @@ namespace Persistence.Data.Repositories
 
         public void DeleteMembers(Guid fansubID) => GetByID(fansubID).Memberships.Clear();
 
+        public Fansub GetByFullName(string fullname) => GetAll().SingleOrDefault(f => f.FullName == fullname);
         public Fansub GetByAcronym(string acronym) => GetAll().SingleOrDefault(f => f.Acronym == acronym);
     }
 }

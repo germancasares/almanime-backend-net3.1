@@ -2,14 +2,21 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileFile>Docker/Dockerfile</DockerfileFile>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerfileTag>jobs</DockerfileTag>
+    <DockerfileRunArguments>--name JobsDev</DockerfileRunArguments>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Kitsu" Version="1.4.2" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.4.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.10" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.5" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="4.0.2" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\02.Application\Application\Application.csproj" />
     <ProjectReference Include="..\..\04.Infrastructure\Infrastructure.Crosscutting\Infrastructure.Crosscutting.csproj" />
   </ItemGroup>
   <ItemGroup>

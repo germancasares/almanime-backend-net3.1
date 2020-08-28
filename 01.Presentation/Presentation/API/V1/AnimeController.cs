@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Domain.VMs;
 using Domain.Enums;
@@ -9,7 +8,8 @@ using System.Collections.Generic;
 using Infrastructure.Helpers;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Domain.Models.Derived;
+using Domain.VMs.Derived;
+using Presentation.Validators.DataAnnotations;
 
 namespace Presentation.Controllers
 {
@@ -17,21 +17,21 @@ namespace Presentation.Controllers
     [Route("api/v1/[controller]")]
     public class AnimeController : ControllerBase
     {
-        private readonly ILogger<AnimeController> _logger;
         private readonly IMapper _mapper;
         private readonly IAnimeService _animeService;
         private readonly IBookmarkService _bookmarkService;
+        private readonly IEpisodeService _episodeService;
 
         public AnimeController(
-            ILogger<AnimeController> logger,
             IAnimeService animeService,
             IBookmarkService bookmarkService,
+            IEpisodeService episodeService,
             IMapper mapper
         )
         {
-            _logger = logger;
             _animeService = animeService;
             _bookmarkService = bookmarkService;
+            _episodeService = episodeService;
             _mapper = mapper;
         }
 
@@ -48,7 +48,7 @@ namespace Presentation.Controllers
         [HttpGet("{ID}/episodes")]
         public IActionResult GetEpisodes(Guid ID)
         {
-            var episodes = _animeService.GetEpisodes(ID);
+            var episodes = _episodeService.GetByAnimeID(ID);
 
             return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
@@ -56,7 +56,7 @@ namespace Presentation.Controllers
         [HttpGet("{ID}/episodes/{number}")]
         public IActionResult GetEpisode(Guid ID, int number)
         {
-            var episode = _animeService.GetEpisode(ID, number);
+            var episode = _episodeService.GetByAnimeIDAndNumber(ID, number);
 
             if (episode == null) return NotFound();
 
@@ -76,7 +76,7 @@ namespace Presentation.Controllers
         [HttpGet("slug/{slug}/episodes")]
         public IActionResult GetEpisodesBySlug(string slug)
         {
-            var episodes = _animeService.GetEpisodesBySlug(slug);
+            var episodes = _episodeService.GetByAnimeSlug(slug);
 
             return Ok(_mapper.Map<IEnumerable<EpisodeVM>>(episodes));
         }
@@ -84,7 +84,7 @@ namespace Presentation.Controllers
         [HttpGet("slug/{slug}/episodes/{number}")]
         public IActionResult GetEpisodeBySlug(string slug, int number)
         {
-            var episode = _animeService.GetEpisodeBySlug(slug, number);
+            var episode = _episodeService.GetByAnimeSlugAndNumber(slug, number);
 
             if (episode == null) return NotFound();
 
@@ -94,48 +94,43 @@ namespace Presentation.Controllers
         [HttpGet("year/{year}/season/{season}")]
         public IActionResult GetSeason(
             int year,
-            string season,
+            ESeason season,
             [FromQuery]int page = 1,
-            [FromQuery]int size = 8,
-            [FromQuery]bool includeMeta = false)
+            [FromQuery][Max(25)]int size = 8,
+            [FromQuery]bool includeMeta = false
+        )
         {
-            var seasonEnum = EnumHelper.GetEnumFromString<ESeason>(season);
-
-            if (!seasonEnum.HasValue) return BadRequest("Season not valid.");
-
-            if (size > 25) return BadRequest("Maximun size is 25");
-
             var animesInPage = _animeService
-                .GetSeason(year, seasonEnum.Value)
+                .GetSeason(year, season)
                 .OrderBy(a => string.IsNullOrWhiteSpace(a.CoverImageUrl))
                 .ThenBy(a => a.Name)
                 .Page(page, size)
                 .ToList();
 
-            var animeSeasonPage = new AnimeSeasonPage
+            var animePage = new ModelWithMetaVM<List<AnimeVM>>
             {
-                Animes = animesInPage,
+                Models = _mapper.Map<List<AnimeVM>>(animesInPage)
             };
 
             if (includeMeta)
             {
-                animeSeasonPage.Meta = new PaginationMeta
+                animePage.Meta = new PaginationMetaVM
                 {
                     BaseUrl = Request.GetPath(),
-                    Count = _animeService.GetAnimesInSeason(year, seasonEnum.Value),
+                    Count = _animeService.GetAnimesInSeason(year, season),
                     CurrentPage = page,
                     PageSize = size,
                 };
             }
 
-            return Ok(_mapper.Map<AnimeSeasonPageVM>(animeSeasonPage));
+            return Ok(animePage);
         }
 
         [Authorize]
         [HttpPost("slug/{slug}/bookmark")]
         public IActionResult CreateBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             var bookmark = _bookmarkService.Create(slug, identityID);
 
@@ -146,7 +141,7 @@ namespace Presentation.Controllers
         [HttpDelete("slug/{slug}/bookmark")]
         public void DeleteBoookmark(string slug)
         {
-            var identityID = User.Claims.GetIdentityID();
+            var identityID = User.GetIdentityID();
 
             _bookmarkService.Delete(slug, identityID);
         }
