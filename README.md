@@ -129,7 +129,7 @@
         env_file:
           - jobs.env
 
-      backend:
+      api:
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - ASPNETCORE_URLS=https://+:443;http://+:80

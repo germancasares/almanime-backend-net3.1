@@ -6,8 +6,8 @@
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <DockerfileTag>backend</DockerfileTag>
-    <DockerfileRunArguments>--name Backend</DockerfileRunArguments>
+    <DockerfileTag>api</DockerfileTag>
+    <DockerfileRunArguments>--name API</DockerfileRunArguments>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

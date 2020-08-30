@@ -8,11 +8,11 @@ services:
       context: .
       dockerfile: 07.Jobs/Jobs/Docker/Dockerfile
     depends_on:
-      - backend
+      - api
       
-  backend:
-    container_name: Backend
-    image: ${DOCKER_REGISTRY-}backend
+  api:
+    container_name: API
+    image: ${DOCKER_REGISTRY-}api
     build:
       context: .
       dockerfile: 01.Presentation/Presentation/Dockerfile
