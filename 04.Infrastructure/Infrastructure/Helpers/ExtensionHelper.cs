@@ -22,6 +22,7 @@ namespace Infrastructure.Helpers
         public static long MbToBytes(this int mb) => mb * 1024 * 1024;
 
         public static string GetExtension(this IFormFile file) => Path.GetExtension(file.FileName);
+        public static bool IsUri(this string uri) => Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
         public static IQueryable<TSource> Page<TSource>(this IQueryable<TSource> source, int page, int pageSize) => source.Skip((page - 1) * pageSize).Take(pageSize);
         public static IEnumerable<TSource> Page<TSource>(this IEnumerable<TSource> source, int page, int pageSize) => source.Skip((page - 1) * pageSize).Take(pageSize);
