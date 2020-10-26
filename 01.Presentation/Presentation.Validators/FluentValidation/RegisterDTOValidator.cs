@@ -16,11 +16,11 @@ namespace Presentation.Validators.FluentValidation
                 .NotEmpty()
                 .WithMessage(EValidationCode.NotEmpty.ToString());
             RuleFor(r => r.Password)
-                .Must(p => p.Any(char.IsDigit))
-                .WithMessage(EValidationCode.HasDigit.ToString());
-            RuleFor(r => r.Password)
                 .MinimumLength(6)
                 .WithMessage(EValidationCode.MinimumLength.ToString());
+            RuleFor(r => r.Password)
+                .Must(p => p.Any(char.IsDigit))
+                .WithMessage(EValidationCode.HasDigit.ToString());
             RuleFor(r => r.Password)
                 .Must(p => p.Any(char.IsLower))
                 .WithMessage(EValidationCode.HasLowerCase.ToString());
