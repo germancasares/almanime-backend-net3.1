@@ -10,6 +10,8 @@
         ImageAspectRatio = 6,
         ImageResolution = 7,
         PaginationMaximumExceeded = 8,
+        IsNotInEnum = 9,
+        IsNotUri = 10,
 
         // Account
         ValidEmailAddress = 1001,
@@ -21,5 +23,8 @@
 
         // Anime
         SeasonNotValid = 2001,
+
+        // Fansub
+        AllLetters = 3001,
     }
 }

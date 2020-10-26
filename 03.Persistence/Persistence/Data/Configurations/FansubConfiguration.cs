@@ -10,12 +10,17 @@ namespace Persistence.Data.Configurations
             base.Configure(builder);
 
             builder
-                .HasIndex(i => i.FullName)
+                .HasIndex(f => f.FullName)
                 .IsUnique();
 
             builder
-                .HasIndex(i => i.Acronym)
+                .HasIndex(f => f.Acronym)
                 .IsUnique();
+
+            builder.Property(f => f.FullName).IsRequired();
+            builder.Property(f => f.CreationDate).IsRequired();
+            builder.Property(f => f.MainLanguage).IsRequired();
+            builder.Property(f => f.MembershipOption).IsRequired();
         }
     }
 }

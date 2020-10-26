@@ -170,6 +170,7 @@ namespace Infrastructure.Crosscutting
 
         private static IServiceCollection AddValidators(this IServiceCollection services)
         {
+            services.AddTransient<IValidator<FansubDTO>, FansubDTOValidator>();
             services.AddTransient<IValidator<LoginDTO>, LoginDTOValidator>();
             services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidator>();
             services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
